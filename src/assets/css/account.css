@@ -4,6 +4,16 @@
     white-space: nowrap;
 }
 
+.account i {
+    transform: scale(1.5);
+    margin: 15px 25px 15px 25px;
+}
+
+.account hr {
+    width: 95%;
+    margin: 0 auto;
+}
+
 .account-section {
     text-align: center;
     margin: 15px;
@@ -35,18 +45,9 @@
     top: 11px;
 }
 
-.account i {
-    transform: scale(1.5);
-    margin: 15px 25px 15px 25px;
-}
-
-.account hr {
-    width: 95%;
-    margin: 0 auto;
-}
-
-.input-name,
-.input-name:focus {
+.account .input-name,
+.account .input-name:focus {
     border: none;
     outline: none;
+    color: #1a3b71;
 }
