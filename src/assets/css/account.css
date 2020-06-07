@@ -1,0 +1,52 @@
+.account {
+    height: 600px;
+    max-width: 400px;
+    white-space: nowrap;
+}
+
+.account-section {
+    text-align: center;
+    margin: 15px;
+}
+
+.account-section-title {
+    position: relative;
+    color: gray;
+    font-weight: 300;
+}
+
+.account-section-title:before {
+    position: absolute;
+    content: '';
+    height: 1px;
+    width: 70px;
+    background-color: gray;
+    left: -85px;
+    top: 11px;
+}
+
+.account-section-title:after {
+    position: absolute;
+    content: '';
+    height: 1px;
+    width: 70px;
+    background-color: gray;
+    right: -85px;
+    top: 11px;
+}
+
+.account i {
+    transform: scale(1.5);
+    margin: 15px 25px 15px 25px;
+}
+
+.account hr {
+    width: 95%;
+    margin: 0 auto;
+}
+
+.input-name,
+.input-name:focus {
+    border: none;
+    outline: none;
+}
