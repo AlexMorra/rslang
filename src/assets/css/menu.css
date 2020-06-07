@@ -1,8 +1,45 @@
 .nav-menu {
+    height: 100%;
+    width: 55px;
+    position: fixed;
     list-style: none;
+    background-color: white;
+    box-shadow: 0 0 15px 0 gray;
+    overflow: hidden;
+    white-space: nowrap;
+    user-select: none;
+    transition: width 0.5s ease;
+    z-index: 100;
+}
+
+.open {
+    width: 230px!important;
+}
+
+.nav-menu li {
+    cursor: pointer;
+}
+
+.nav-menu li:hover {
+    background-color: #f8f2ee;
+}
+
+.nav-menu span {
+    background-color: inherit;
 }
 
 .menu-icon {
-    height: 220px;
-    width: 220px;
+    margin: 20px;
+    transform: scale(2);
+    background-color: inherit;
+}
+
+@media  (max-width : 400px) {
+    .nav-menu {
+        width: 0!important;
+    }
+
+    .open {
+        width: 230px!important;
+    }
 }

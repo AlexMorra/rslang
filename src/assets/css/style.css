@@ -1,12 +1,39 @@
 @import "~normalize.css";
 @import "menu.css";
+@import "account.css";
 
 * {
     margin: 0;
     padding: 0;
+    font-family: 'Roboto', sans-serif;
+    color: #1a3b71;
 }
 
 body {
     display: flex;
     flex-direction: row;
+    background-color: #f8f2ee;
+    min-width: 320px;
+}
+
+.main-area {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    min-height: 100vh;
+}
+
+.tab-wrapper {
+    margin: 55px 10px 20px 65px;
+    width: 100%;
+    background-color: white;
+    border-radius: 15px;
+    box-shadow: 0 0 10px 0 gray;
+}
+
+@media  (max-width : 400px) {
+    .tab-wrapper {
+        margin: 55px 10px 20px 10px;
+    }
 }
