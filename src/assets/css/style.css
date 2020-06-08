@@ -3,6 +3,7 @@
 @import "menu.css";
 @import "account.css";
 @import "utils.css";
+@import "comtrol_panel.css";
 
 * {
     margin: 0;

@@ -1,7 +1,7 @@
 import './assets/css/style.css'
 import './assets/js/auth'
 import './assets/js/menu'
-import './assets/js/tab-account'
+import './assets/js/account'
 import {Auth} from "./assets/js/auth";
 
 // INIT

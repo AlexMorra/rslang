@@ -1,0 +1,145 @@
+.control-panel {
+    max-width: 1000px;
+    background-color: inherit!important;
+    box-shadow: none!important;
+    margin: 0 10px;
+}
+
+.cp-header {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    background-color: white;
+    border-radius: 15px;
+    box-shadow: 0 0 10px 0 gray;
+}
+
+.cp-course {
+    display: flex;
+    align-items: center;
+    margin: 10px;
+    padding: 5px 10px;
+    background-color: #f5f5f5;
+    border-radius: 10px;
+}
+
+.cp-language {
+    margin-left: 15px;
+    font-weight: 500;
+    font-size: 1.2em;
+    letter-spacing: 1px;
+}
+
+.cp-start-btn {
+    background-color: #1a3b71;
+    color: white;
+    height: 45px;
+    width: 230px;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    margin: 15px;
+    padding: 5px 35px 5px 10px;
+    font-size: 1.3em;
+    position: relative;
+}
+
+.cp-start-btn:hover {
+    background-color: rgba(26, 59, 113, 0.87);
+}
+
+.cp-start-btn:focus {
+    outline: none;
+}
+
+.cp-start-btn span {
+    position: absolute;
+    top: 13px;
+    right: 15px;
+}
+
+.cp-stats {
+    margin: 30px 0;
+    display: flex;
+    flex-wrap: wrap;
+    background-color: white;
+    border-radius: 15px;
+    box-shadow: 0 0 10px 0 gray;
+}
+
+.cp-stats h2 {
+    margin: 10px 10px 0 10px;
+}
+
+.cp-stats span {
+    color: #4991be;
+}
+
+.cp-stats hr {
+    width: 90%;
+    margin: 10px auto;
+}
+
+.stats-part1 {
+    display: flex;
+}
+
+.word-for-practice {
+    margin: 15px;
+}
+
+.best-series {
+    margin: 15px 15px 15px 0;
+
+}
+
+.word-for-practice,
+.best-series {
+    background-color: #f5f5f5;
+    padding: 10px;
+    border-radius: 10px;
+    width: 33%;
+}
+
+.stats-part2 {
+    display: flex;
+}
+
+.total-word-practice,
+.new-words {
+    margin: 15px;
+    padding: 10px;
+}
+
+.correct-repetitions {
+    margin: 15px 0;
+    padding: 10px;
+}
+
+.cp-words {
+    background-color: white;
+    border-radius: 15px;
+    box-shadow: 0 0 10px 0 gray;
+    padding: 15px;
+}
+
+.cp-words h2 {
+}
+
+.cp-words div {
+    background-color: #f5f5f5;
+    padding: 15px;
+    margin: 10px;
+    font-weight: 500;
+    border-radius: 10px;
+}
+
+@media  (max-width : 550px) {
+    .cp-start-btn {
+        width: 100%;
+    }
+
+    .cp-course {
+        width: 100%;
+    }
+}

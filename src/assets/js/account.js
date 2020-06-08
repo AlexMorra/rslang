@@ -1,10 +1,10 @@
 let body = document.querySelector('body');
 
 
-export class TabAccount {
+export class Account {
     constructor() {
         this.main_area = document.querySelector('.main-area');
-        this.tab_account = document.getElementById('tab-account')
+        this.account = document.getElementById('account')
     }
     night_mode_handler() {
         let btn_night_mode = document.querySelector('#night-mode');
@@ -19,7 +19,7 @@ export class TabAccount {
 
     show() {
         setTimeout(() => {
-            this.main_area.prepend(this.tab_account.content.cloneNode(true));
+            this.main_area.prepend(this.account.content.cloneNode(true));
             this.night_mode_handler();
         }, 400)
     }
