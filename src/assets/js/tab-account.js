@@ -15,6 +15,7 @@ export class TabAccount {
             }
         });
     }
+
     show() {
         let tab = `
         <div class="tab-wrapper account">
