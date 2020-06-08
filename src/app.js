@@ -1,5 +1,5 @@
 import './assets/css/style.css'
-import './assets/js/authorization'
+import './assets/js/auth'
 import './assets/js/menu'
 import './assets/js/tab-account'
 

@@ -1,0 +1,100 @@
+.user-create-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    height: 100vh;
+    width: 100vw;
+    background-color: inherit;
+    z-index: 1000;
+}
+
+.create-wrapper {
+    position: relative;
+    background-color: white;
+    border-radius: 15px;
+    box-shadow: 0 0 10px 0 gray;
+    height: 250px;
+    width: 400px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.create-logo {
+    position: absolute;
+    top: -100px;
+}
+
+.create-title {
+    margin: 10px 0 15px 0;
+}
+
+.input-container {
+    position: relative;
+}
+
+.input-container i:not(.show-password) {
+    position: absolute;
+    left: 5px;
+    top: 13px;
+    font-size: 1.2em;
+}
+
+.input-container svg {
+    position: absolute;
+    left: 5px;
+    top: 10px;
+    font-size: 1.2em;
+}
+
+.show-password {
+    position: absolute;
+    right: 5px;
+    top: 13px;
+    font-size: 1.2em;
+    cursor: pointer;
+}
+
+.auth input:not(.user-create-btn) {
+    height: 35px;
+    width: 250px;
+    border: none;
+    border-bottom: 2px solid gray;
+    transition: border-bottom-color 1s ease;
+    padding-left: 30px;
+    margin: 5px 0;
+    color: inherit;
+}
+
+.auth #create-password {
+    padding-right: 35px;
+    width: 220px;
+}
+
+.auth input:focus:not(.user-create-btn) {
+    outline: none;
+    border-color: #1a3b71;
+}
+
+.btn {
+    cursor: pointer;
+    border: none;
+    height: 30px;
+    width: 120px;border-radius: 5px;
+    color: white;
+    background-color: #1a3b71;
+}
+
+.btn:focus {
+    outline: none;
+}
+
+.user-create-btn {
+    position: absolute;
+    bottom: 10px;
+}
+
+.user-create-btn:hover {
+    box-shadow: 0 0 5px 0 gray;
+}
