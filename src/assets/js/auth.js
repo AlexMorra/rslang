@@ -1,4 +1,4 @@
-let create_password_input = document.querySelector('#create-password');
+let create_password_input = document.querySelector('.user-password');
 let show_password_btn = document.querySelector('.show-password');
 
 

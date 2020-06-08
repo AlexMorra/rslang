@@ -1,4 +1,4 @@
-.user-create-page {
+.auth {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -9,7 +9,7 @@
     z-index: 1000;
 }
 
-.create-wrapper {
+.auth-wrapper {
     position: relative;
     background-color: white;
     border-radius: 15px;
@@ -19,14 +19,15 @@
     display: flex;
     align-items: center;
     flex-direction: column;
+    margin: 150px 10px 20px 10px;
 }
 
-.create-logo {
+.auth-logo {
     position: absolute;
     top: -100px;
 }
 
-.create-title {
+.auth-title {
     margin: 10px 0 15px 0;
 }
 
@@ -56,7 +57,7 @@
     cursor: pointer;
 }
 
-.auth input:not(.user-create-btn) {
+.auth input:not([type="submit"]) {
     height: 35px;
     width: 250px;
     border: none;
@@ -72,7 +73,7 @@
     width: 220px;
 }
 
-.auth input:focus:not(.user-create-btn) {
+.auth input:focus:not([type="submit"]) {
     outline: none;
     border-color: #1a3b71;
 }
@@ -95,6 +96,23 @@
     bottom: 10px;
 }
 
+.user-login-btn {
+    position: absolute;
+    bottom: 25px;
+}
+
 .user-create-btn:hover {
     box-shadow: 0 0 5px 0 gray;
+}
+
+.route-to-user-create {
+    position: absolute;
+    bottom: 5px;
+    font-size: 0.9em;
+    cursor: pointer;
+    font-weight: 300;
+}
+
+.route-to-user-create:hover {
+    font-weight: 500;
 }
