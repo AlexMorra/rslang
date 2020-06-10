@@ -155,11 +155,11 @@
 </template>
 
 <template id="account">
-    <div class="tab-wrapper account">
+    <form class="tab-wrapper account" name="settings">
         <div class="account-section"><span class="account-section-title">Аккаунт</span></div>
         <div class="account-row">
             <i class="far fa-user"></i>
-            <input type="input" class="input-name" name="name" value="Alexandr Kartynnik">
+            <input type="input" class="input-name" id="username" value="Alexandr Kartynnik">
             <hr>
         </div>
         <div class="account-row">
@@ -168,16 +168,61 @@
             <hr>
         </div>
         <div class="account-section"><span class="account-section-title">Настройки</span></div>
-        <div class="account-row">
+        <label>
             <i class="far fa-moon"></i>
             <span>Ночной режим</span>
-            <div class="checkbox-wrapper">
-                <input type="checkbox" name="night-mode" id="night-mode" class="checkbox">
-                <label for="night-mode" class="checkbox-label"></label>
-            </div>
+            <span class="checkbox-wrapper">
+                <input type="checkbox" name="night-mode" id="night_mode" class="checkbox">
+                <span class="checkbox-style"></span>
+            </span>
             <hr>
-        </div>
-    </div>
+        </label>
+        <label class="account-row">
+            <i class="fas fa-language"></i>
+            <span>Перевод слова</span>
+            <span class="checkbox-wrapper">
+                <input type="checkbox" name="night-mode" id="translate_word" class="checkbox">
+                <span class="checkbox-style"></span>
+            </span>
+            <hr>
+        </label>
+        <label class="account-row">
+            <i class="fab fa-rev"></i>
+            <span>Примеры с объяснением</span>
+            <span class="checkbox-wrapper">
+                <input type="checkbox" name="night-mode" id="explanation_examples" class="checkbox">
+                <span class="checkbox-style"></span>
+            </span>
+            <hr>
+        </label>
+        <label class="account-row">
+            <i class="far fa-surprise"></i>
+            <span>Примеры с использованием</span>
+            <span class="checkbox-wrapper">
+                <input type="checkbox" name="night-mode" id="examples_using" class="checkbox">
+                <span class="checkbox-style"></span>
+            </span>
+            <hr>
+        </label>
+        <label class="account-row">
+            <i class="fas fa-dog"></i>
+            <span>Транскрипция слова</span>
+            <span class="checkbox-wrapper">
+                <input type="checkbox" name="night-mode" id="transcription" class="checkbox">
+                <span class="checkbox-style"></span>
+            </span>
+            <hr>
+        </label>
+        <label class="account-row">
+            <i class="far fa-image"></i>
+            <span>Картинки к словам</span>
+            <span class="checkbox-wrapper">
+                <input type="checkbox" name="night-mode" id="pictures_words" class="checkbox">
+                <span class="checkbox-style"></span>
+            </span>
+            <hr>
+        </label>
+    </form>
 </template>
 
 </body>
