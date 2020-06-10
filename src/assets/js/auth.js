@@ -4,6 +4,7 @@ export class Auth {
         this.login_page = document.getElementById('login-template');
         this.create_page = document.getElementById('create-template');
     }
+
     show_login_page() {
         window.current_page = 'auth';
         this.body.prepend(this.login_page.content.cloneNode(true));
@@ -11,18 +12,27 @@ export class Auth {
         let login_user_btn = document.getElementById('login-user');
         password_visibility_btn.addEventListener('click', this.password_visibility);
         login_user_btn.addEventListener('click', this.login_handler.bind(this));
+        let route_to_create = document.querySelector('.route-to-user-create');
+        route_to_create.addEventListener('click', () => this.show_create_page())
     }
 
     show_create_page() {
+        window.current_page = 'auth';
+        let login_page = document.querySelector('.user-login-page');
+        login_page.remove();
         this.body.prepend(this.create_page.content.cloneNode(true))
+        let password_visibility_btn = document.querySelector('.show-password');
+        let create_user_btn = document.getElementById('create-user');
+        password_visibility_btn.addEventListener('click', this.password_visibility);
+        create_user_btn.addEventListener('click', this.create_handler.bind(this))
     }
 
     login_handler(e) {
         console.log('IN');
         e.preventDefault();
-        let input_login = document.getElementById('login-email');
+        let input_email = document.getElementById('login-email');
         let input_password = document.getElementById('login-password');
-        let email = input_login.value;
+        let email = input_email.value;
         let password = input_password.value;
         if (this.email_validator(email) && this.password_validator(password)) {
             console.log('validate true');
@@ -32,6 +42,21 @@ export class Auth {
                 localStorage.setItem('user_id', response.userId);
                 this.login_success();
             })
+        }
+    }
+
+    create_handler(e) {
+        console.log('CREATE');
+        e.preventDefault();
+        let input_username = document.getElementById('create-username');
+        let input_email = document.getElementById('create-email');
+        let input_password = document.getElementById('create-password');
+        let username = input_username.value;
+        let email = input_email.value;
+        let password = input_password.value;
+        if (this.email_validator(email) && this.password_validator(password)) {
+            console.log('validate true');
+            this.create_user(email, password);
         }
     }
 
@@ -53,34 +78,6 @@ export class Auth {
             .catch(error => console.log(error))
     }
 
-    login_success() {
-        window.current_page = null;
-        let user_login_page = document.querySelector('.user-login-page');
-        user_login_page.remove();
-    }
-
-    authorized() {
-        let token = localStorage.getItem('token');
-        let user_id = localStorage.getItem('user_id');
-        if (!token || !user_id) return false;
-        return fetch(`https://afternoon-falls-25894.herokuapp.com/users/${user_id}`, {
-            method: 'GET',
-            headers: {
-                'Authorization': `Bearer ${token}`,
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-        })
-            .then(response => {
-                if (!response.ok) { throw Error(response.statusText) }
-                return response.json()
-            })
-            .then(response_json => {
-                return response_json
-            })
-            .catch(error => console.log(error))
-    }
-
     create_user(email, password) {
         let user = JSON.stringify({'email': email, 'password': password});
         return fetch('https://afternoon-falls-25894.herokuapp.com/users', {
@@ -92,21 +89,61 @@ export class Auth {
             body : user
         })
             .then(response => response.json())
-            .then(response_json => response_json);
+            .then(response_json => {
+                console.log(response_json);
+                this.create_success();
+            });
+    }
+
+    login_success() {
+        window.current_page = null;
+        let user_login_page = document.querySelector('.user-login-page');
+        user_login_page.remove();
+    }
+
+    create_success() {
+        let user_create_page = document.querySelector('.user-create-page');
+        user_create_page.remove();
+        this.show_login_page()
+    }
+
+    authorized() {
+        let token = localStorage.getItem('token');
+        let user_id = localStorage.getItem('user_id');
+        // if (!token || !user_id) return false;
+        return fetch(`https://afternoon-falls-25894.herokuapp.com/users/${user_id}`, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+        })
+            .then(response => {
+                if (response.ok) return response.json();
+                return false
+            })
+            .then(result => {
+                return result;
+            })
+            .catch(error => {
+                console.log(error)
+            })
     }
 
     password_visibility() {
         console.log('PASSWORD VISIBILITY');
         let password_visibility_btn = document.querySelector('.show-password');
-        let login_password_input = document.getElementById('login-password');
+        let password_input = document.getElementById('login-password') ||
+            document.getElementById('create-password');
 
-        let input_type = login_password_input.getAttribute('type');
+        let input_type = password_input.getAttribute('type');
         if (input_type === 'password') {
-            login_password_input.setAttribute('type', 'text');
+            password_input.setAttribute('type', 'text');
             password_visibility_btn.classList.remove('fa-eye-slash');
             password_visibility_btn.classList.add('fa-eye')
         } else if (input_type === 'text') {
-            login_password_input.setAttribute('type', 'password');
+            password_input.setAttribute('type', 'password');
             password_visibility_btn.classList.add('fa-eye-slash');
             password_visibility_btn.classList.remove('fa-eye')
         }
