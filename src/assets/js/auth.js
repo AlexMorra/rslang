@@ -95,6 +95,12 @@ export class Auth {
             });
     }
 
+    logout() {
+        localStorage.removeItem('token');
+        localStorage.removeItem('user_id');
+        this.show_login_page()
+    }
+
     login_success() {
         window.current_page = null;
         let user_login_page = document.querySelector('.user-login-page');

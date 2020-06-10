@@ -1,6 +1,9 @@
 import * as cp from './control_panel'
 import * as acc from './account'
 import * as utils from './utils'
+import {Auth} from './auth'
+
+let auth = new Auth();
 
 let btn_rs_lang = document.querySelector('#rs_lang');
 let nav_menu = document.querySelector('.nav-menu');
@@ -14,19 +17,27 @@ btn_rs_lang.addEventListener('click', () => {
 });
 
 function menu_handler(e) {
-    let btn_nav_header = [...e.target.classList].includes('nav-header') ||
+    // open/close menu
+    let btn_header = [...e.target.classList].includes('nav-header') ||
         [...e.target.parentElement.classList].includes('nav-header');
-    let btn_nav_account = [...e.target.classList].includes('nav-account') ||
+    // account tab
+    let btn_account = [...e.target.classList].includes('nav-account') ||
         [...e.target.parentElement.classList].includes('nav-account');
-    let btn_nav_control_panel = [...e.target.classList].includes('nav-control-panel') ||
+    // control panel tab
+    let btn_control_panel = [...e.target.classList].includes('nav-control-panel') ||
         [...e.target.parentElement.classList].includes('nav-control-panel');
-    if (btn_nav_header) {
+    // logout
+    let logout_btn = [...e.target.classList].includes('nav-logout') ||
+        [...e.target.parentElement.classList].includes('nav-logout');
+    if (btn_header) {
         nav_menu.classList.toggle('open');
-    } else if (btn_nav_account) {
+    } else if (btn_account) {
         utils.destroy();
         tab_account.show();
-    } else if (btn_nav_control_panel) {
+    } else if (btn_control_panel) {
         utils.destroy();
         tab_control_panel.show();
+    } else if (logout_btn) {
+        auth.logout();
     }
 }
