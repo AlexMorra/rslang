@@ -15,6 +15,7 @@
 }
 
 .account label {
+    display: block;
     cursor: pointer;
 }
 

@@ -7,7 +7,7 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 module.exports = {
     // context: path.resolve(__dirname, 'src'),
-    entry: ['@babel/polyfill' ,path.resolve(__dirname, './src/app.js')],
+    entry: ['@babel/polyfill', path.resolve(__dirname, './src/app.js')],
     mode: 'development',
     output: {
         filename: "bundle.js",
@@ -15,7 +15,7 @@ module.exports = {
         path: path.resolve(__dirname, 'dist')
     },
     devServer: {
-        port: 8005
+        port: 8006
     },
     module: {
         rules: [

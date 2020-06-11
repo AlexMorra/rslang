@@ -1,5 +1,12 @@
 export class State {
     constructor() {
+        this.username = null;
+        this.examples_using = null;
+        this.explanation_examples = null;
+        this.night_mode = null;
+        this.pictures_words = null;
+        this.transcription = null;
+        this.translate_word = null;
     }
 
     get_user_settings() {
@@ -18,24 +25,16 @@ export class State {
                     throw Error(response.statusText)
                 }
                 return response.json()
-                // if (response.ok) return response.json();
-                // if (response.status === 401) {
-                //     console.log('Access token is missing or invalid')
-                // } else if (response.status === 404) {
-                //     console.log('Settings not found.')
-                // } else {
-                //     console.log('Something went wrong.')
-                // }
-                // return false
             })
             .then(response_json => {
-                return response_json
+                console.log(response_json.optional, 'GET USER SETTINGS');
+                this.save_settings(response_json);
+                return this.night_mode
             })
             .catch(error => console.log(error))
     }
 
     set_user_settings(settings) {
-        let set = JSON.stringify(settings);
         let token = localStorage.getItem('token');
         let user_id = localStorage.getItem('user_id');
         return fetch(`https://afternoon-falls-25894.herokuapp.com/users/${user_id}/settings`, {
@@ -48,23 +47,28 @@ export class State {
             body: JSON.stringify(settings)
         })
             .then(response => {
-                if (!response.ok) {
-                    throw Error(response.statusText)
-                }
-                // if (response.ok) return response.json();
-                // if (response.status === 401) {
-                //     console.log('Access token is missing or invalid')
-                // } else if (response.status === 400) {
-                //     console.log('Bad request')
-                // } else {
-                //     console.log('Something went wrong.')
+                // if (!response.ok) {
+                //     throw Error(response.statusText)
                 // }
-                // return false
                 return response.json()
             })
             .then(response_json => {
+                console.log(response_json, 'SET USER SETTINGS');
+                this.save_settings(response_json);
                 return response_json
             })
             .catch(error => console.log(error))
+    }
+
+    save_settings(settings) {
+        console.log(settings, 'SAVE');
+        let options = settings.optional;
+        this.username = options['username'];
+        this.night_mode = options['night_mode'];
+        this.translate_word = options['translate_word'];
+        this.explanation_examples = options['explanation_examples'];
+        this.examples_using = options['examples_using'];
+        this.transcription = options['transcription'];
+        this.pictures_words = options['pictures_words'];
     }
 }
