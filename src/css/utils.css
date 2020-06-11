@@ -1,9 +1,7 @@
 /*CHECK BOX STYLE */
 
 .checkbox-wrapper {
-    display: inline-block;
-    float: right;
-    margin: 15px;
+    margin: 0 15px 0 auto;
 }
 
 .checkbox {

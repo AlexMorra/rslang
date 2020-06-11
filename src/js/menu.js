@@ -11,12 +11,13 @@ let nav_menu = document.querySelector('.nav-menu');
 let tab_account = new acc.Account;
 let tab_control_panel = new cp.ControlPanel;
 
-nav_menu.addEventListener('click', menu_handler);
+window.addEventListener('click', menu_handler);
 btn_rs_lang.addEventListener('click', () => {
     nav_menu.classList.toggle('open');
 });
 
 function menu_handler(e) {
+    console.log(e.target);
     // open/close menu
     let btn_header = [...e.target.classList].includes('nav-header') ||
         [...e.target.parentElement.classList].includes('nav-header');

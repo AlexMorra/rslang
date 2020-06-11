@@ -27,7 +27,7 @@ export class Account {
             let account_tab = this.before_created(this.account_template);
             this.main_area.prepend(account_tab);
             this.night_mode_handler();
-            let settings_form = document.forms.settings;
+            let settings_form = document.getElementById('account_settings');
             settings_form.addEventListener('change', this.options_handler.bind(this))
         }, 400)
     }

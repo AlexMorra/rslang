@@ -14,9 +14,10 @@
     margin: 0 auto;
 }
 
-.account label {
-    display: block;
+.account-row {
     cursor: pointer;
+    display: flex;
+    align-items: center;
 }
 
 .account-section {
