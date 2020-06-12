@@ -1,5 +1,7 @@
 export class State {
     constructor() {
+        this.words_per_day = null;
+        this.cards_per_day = null;
         this.username = null;
         this.examples_using = null;
         this.explanation_examples = null;
@@ -63,6 +65,8 @@ export class State {
     save_settings(settings) {
         console.log(settings, 'SAVE');
         let options = settings.optional;
+        this.words_per_day = settings['wordsPerDay'];
+        this.cards_per_day = options['cards_per_day'];
         this.username = options['username'];
         this.night_mode = options['night_mode'];
         this.translate_word = options['translate_word'];

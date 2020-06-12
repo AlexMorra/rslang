@@ -17,7 +17,7 @@ btn_rs_lang.addEventListener('click', () => {
 });
 
 function menu_handler(e) {
-    console.log(e.target);
+    let nav = document.querySelector('nav');
     // open/close menu
     let btn_header = [...e.target.classList].includes('nav-header') ||
         [...e.target.parentElement.classList].includes('nav-header');
@@ -32,6 +32,9 @@ function menu_handler(e) {
         [...e.target.parentElement.classList].includes('nav-logout');
     if (btn_header) {
         nav_menu.classList.toggle('open');
+        // close the menu if a click behind the menu area
+    } else if (!nav.contains(e.target)) {
+        nav_menu.classList.remove('open');
     } else if (btn_account) {
         utils.destroy();
         tab_account.show();

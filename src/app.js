@@ -15,12 +15,7 @@ auth.authorized().then(authorized => {
     if (!authorized && window.current_page !== 'auth') {
         auth.show_login_page();
     } else {
-        users_app_state.get_user_settings().then(night_mode => {
-            if (night_mode) {
-                let body = document.querySelector('body');
-                body.classList.add('night-mode');
-            }
-        });
+        auth.login_success();
     }
 }).finally(() => {
     // set the session check every 10 seconds

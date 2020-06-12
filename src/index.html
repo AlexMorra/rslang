@@ -169,10 +169,30 @@
         <hr>
         <div class="account-section"><span class="account-section-title">Настройки</span></div>
         <label class="account-row">
+            <i class="far fa-comment-dots"></i>
+            <span>Cлов в день</span>
+            <span class="input-text-wrapper">
+                <i class="fas fa-minus" data-type="minus"></i>
+                <input type="text" id="words_per_day" value="1" readonly>
+                <i class="fas fa-plus" data-type="plus"></i>
+            </span>
+        </label>
+        <hr>
+        <label class="account-row">
+            <i class="far fa-file-word"></i>
+            <span>Карточек в день</span>
+            <span class="input-text-wrapper">
+                <i class="fas fa-minus" data-type="minus"></i>
+                <input type="text" id="cards_per_day" value="1" readonly>
+                <i class="fas fa-plus" data-type="plus"></i>
+            </span>
+        </label>
+        <hr>
+        <label class="account-row">
             <i class="far fa-moon"></i>
             <span>Ночной режим</span>
             <span class="checkbox-wrapper">
-                <input type="checkbox" name="night-mode" id="night_mode" class="checkbox">
+                <input type="checkbox" id="night_mode" class="checkbox">
                 <span class="checkbox-style"></span>
             </span>
         </label>

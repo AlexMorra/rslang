@@ -1,3 +1,5 @@
+import {users_app_state} from "../app";
+
 export class Auth {
     constructor() {
         this.body = document.querySelector('body');
@@ -7,10 +9,11 @@ export class Auth {
 
     show_login_page() {
         window.current_page = 'auth';
+        this.body.classList.remove('night-mode');
         this.body.prepend(this.login_page.content.cloneNode(true));
         let password_visibility_btn = document.querySelector('.show-password');
-        let login_user_btn = document.getElementById('login-user');
         password_visibility_btn.addEventListener('click', this.password_visibility);
+        let login_user_btn = document.getElementById('login-user');
         login_user_btn.addEventListener('click', this.login_handler.bind(this));
         let route_to_create = document.querySelector('.route-to-user-create');
         route_to_create.addEventListener('click', () => this.show_create_page())
@@ -104,7 +107,14 @@ export class Auth {
     login_success() {
         window.current_page = null;
         let user_login_page = document.querySelector('.user-login-page');
-        user_login_page.remove();
+        if (user_login_page) user_login_page.remove();
+        users_app_state.get_user_settings().then(night_mode => {
+            if (night_mode) {
+                console.log('AUTH - GET USER SETTINGS');
+                let body = document.querySelector('body');
+                body.classList.add('night-mode');
+            }
+        });
     }
 
     create_success() {
