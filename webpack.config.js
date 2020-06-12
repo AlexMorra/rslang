@@ -3,34 +3,33 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
-// const isDev = process.env.NODE_ENV === 'development';
-
 module.exports = {
-    // context: path.resolve(__dirname, 'src'),
     entry: ['@babel/polyfill', path.resolve(__dirname, './src/app.js')],
     mode: 'development',
     output: {
         filename: "bundle.js",
-        // filename: "[name].[contenthash].js",
         path: path.resolve(__dirname, 'dist')
     },
     devServer: {
-        port: 8007
+        contentBase: path.join(__dirname, 'build'),
+        publicPath: 'http://localhost:8080/',
+        compress: true,
+        watchContentBase: true
     },
     module: {
         rules: [
             { test: /\.css$/, use: ['style-loader' ,'css-loader'] },
             { test: /\.(png|jpg|svg|gif)$/, use: 'file-loader' },
             { test: /\.(woff(2)?|ttf)(\?v=\d+\.\d+\.\d+)?$/, use: 'file-loader' },
-            { test: /\.js$/, exclude: /node_modules/,
-                loader: {
-                    loader: 'babel-loader',
-                    options: {
-                        presets: [
-                            '@babel/preset-env'
-                        ]
-                    }
-                } },
+            { test: /\.js$/, 
+                exclude: /node_modules/,
+                loader: 'babel-loader',
+                options: {
+                    presets: [
+                        '@babel/preset-env'
+                    ]
+                }
+            },
         ]
     },
     plugins: [
