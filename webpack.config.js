@@ -11,7 +11,7 @@ module.exports = {
         path: path.resolve(__dirname, 'dist')
     },
     devServer: {
-        contentBase: path.join(__dirname, 'build'),
+        contentBase: path.join(__dirname, 'dist'),
         publicPath: 'http://localhost:8080/',
         compress: true,
         watchContentBase: true
@@ -21,7 +21,17 @@ module.exports = {
             { test: /\.css$/, use: ['style-loader' ,'css-loader'] },
             { test: /\.(png|jpg|svg|gif)$/, use: 'file-loader' },
             { test: /\.(woff(2)?|ttf)(\?v=\d+\.\d+\.\d+)?$/, use: 'file-loader' },
-            { test: /\.js$/, 
+            {
+                enforce: 'pre',
+                test: /\.js$/,
+                exclude: /node_modules/,
+                loader: 'eslint-loader',
+                options: {
+                    fix: true,
+                },
+            },
+            { 
+                test: /\.js$/, 
                 exclude: /node_modules/,
                 loader: 'babel-loader',
                 options: {
