@@ -92,6 +92,7 @@
         </li>
     </ul>
 </nav>
+
 <main class="main-area">
     <div class="tab-wrapper">
     </div>
@@ -142,14 +143,38 @@
                 <h2 class="stats-title">Прогресс</h2>
             </div>
         </div>
-        <div class="cp-words">
+        <div class="cp-cards">
             <h2>Карточки слов</h2>
-            <div>Карточка 1</div>
-            <div>Карточка 2</div>
-            <div>Карточка 3</div>
-            <div>Карточка 4</div>
-            <div>Карточка 5</div>
-            <div>Карточка 6</div>
+            <div class="cp-card">
+                <div class="card-title">Карточка 1</div>
+                <div class="card-progress"> 1</div>
+                <div class="card-control">1</div>
+            </div>
+            <div class="cp-card">
+                <div class="card-title">Карточка 2</div>
+                <div class="card-progress">2</div>
+                <div class="card-control">2</div>
+            </div>
+            <div class="cp-card">
+                <div class="card-title">Карточка 3</div>
+                <div class="card-progress">3</div>
+                <div class="card-control">3</div>
+            </div >
+            <div class="cp-card">
+                <div class="card-title">Карточка 4</div>
+                <div class="card-progress">4</div>
+                <div class="card-control">4</div>
+            </div>
+            <div class="cp-card">
+                <div class="card-title">Карточка 5</div>
+                <div class="card-progress">5</div>
+                <div class="card-control">5</div>
+            </div>
+            <div class="cp-card">
+                <div class="card-title">Карточка 6</div>
+                <div class="card-progress">6</div>
+                <div class="card-control">6</div>
+            </div>
         </div>
     </div>
 </template>
@@ -173,7 +198,7 @@
             <span>Cлов в день</span>
             <span class="input-text-wrapper">
                 <i class="fas fa-minus" data-type="minus"></i>
-                <input type="text" id="words_per_day" value="1" readonly>
+                <input type="text" id="wordsPerDay" value="1" readonly>
                 <i class="fas fa-plus" data-type="plus"></i>
             </span>
         </label>
@@ -183,7 +208,7 @@
             <span>Карточек в день</span>
             <span class="input-text-wrapper">
                 <i class="fas fa-minus" data-type="minus"></i>
-                <input type="text" id="cards_per_day" value="1" readonly>
+                <input type="text" id="cardsPerDay" value="1" readonly>
                 <i class="fas fa-plus" data-type="plus"></i>
             </span>
         </label>
@@ -192,7 +217,7 @@
             <i class="far fa-moon"></i>
             <span>Ночной режим</span>
             <span class="checkbox-wrapper">
-                <input type="checkbox" id="night_mode" class="checkbox">
+                <input type="checkbox" id="nightMode" class="checkbox">
                 <span class="checkbox-style"></span>
             </span>
         </label>
@@ -201,7 +226,7 @@
             <i class="fas fa-language"></i>
             <span>Перевод слова</span>
             <span class="checkbox-wrapper">
-                <input type="checkbox" name="night-mode" id="translate_word" class="checkbox">
+                <input type="checkbox" id="translateWord" class="checkbox">
                 <span class="checkbox-style"></span>
             </span>
         </label>
@@ -210,7 +235,7 @@
             <i class="fab fa-rev"></i>
             <span>Примеры с объяснением</span>
             <span class="checkbox-wrapper">
-                <input type="checkbox" name="night-mode" id="explanation_examples" class="checkbox">
+                <input type="checkbox" id="explanationExamples" class="checkbox">
                 <span class="checkbox-style"></span>
             </span>
         </label>
@@ -219,7 +244,7 @@
             <i class="far fa-surprise"></i>
             <span>Примеры с использованием</span>
             <span class="checkbox-wrapper">
-                <input type="checkbox" name="night-mode" id="examples_using" class="checkbox">
+                <input type="checkbox" id="examplesUsing" class="checkbox">
                 <span class="checkbox-style"></span>
             </span>
         </label>
@@ -228,7 +253,7 @@
             <i class="fas fa-dog"></i>
             <span>Транскрипция слова</span>
             <span class="checkbox-wrapper">
-                <input type="checkbox" name="night-mode" id="transcription" class="checkbox">
+                <input type="checkbox" id="transcription" class="checkbox">
                 <span class="checkbox-style"></span>
             </span>
         </label>
@@ -237,7 +262,7 @@
             <i class="far fa-image"></i>
             <span>Картинки к словам</span>
             <span class="checkbox-wrapper">
-                <input type="checkbox" name="night-mode" id="pictures_words" class="checkbox">
+                <input type="checkbox" id="picturesWords" class="checkbox">
                 <span class="checkbox-style"></span>
             </span>
         </label>

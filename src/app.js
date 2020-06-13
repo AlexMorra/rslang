@@ -1,28 +1,31 @@
-import './css/style.css'
-import './js/users_app_state'
-import './js/menu'
-import './js/account'
-import {Auth} from "./js/auth";
-import {State} from "./js/users_app_state";
+import './css/style.css';
+import './js/usersAppState';
+import './js/menu';
+import './js/account';
+import { Auth } from './js/auth';
+import { State } from './js/usersAppState';
 
 // INIT
-window.current_page = null;
+window.currentPage = null;
 let auth = new Auth();
-export let users_app_state = new State();
+export let usersAppState = new State();
 
 // check if user has session and load settings if has
 auth.authorized().then(authorized => {
-    if (!authorized && window.current_page !== 'auth') {
-        auth.show_login_page();
-    } else {
-        auth.login_success();
-    }
+  if (!authorized && window.currentPage !== 'auth') {
+    auth.showLoginPage();
+  } else {
+    auth.loginSuccess();
+  }
 }).finally(() => {
-    // set the session check every 10 seconds
-    setInterval(() => {
-        if (window.current_page !== 'auth') auth.authorized().then(authorized => {
-            if (!authorized) {
-                auth.show_login_page();
-            }
-        })}, 10000);
+  // set the session check every 10 seconds
+  setInterval(() => {
+    if (window.currentPage !== 'auth') {
+      auth.authorized().then(authorized => {
+        if (!authorized) {
+          auth.showLoginPage();
+        }
+      });
+    }
+  }, 10000);
 });

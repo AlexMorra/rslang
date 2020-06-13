@@ -16,6 +16,11 @@ module.exports = {
     sourceType: "module",
   },
   rules: {
-    "class-methods-use-this": "off"
+    "class-methods-use-this": "off",
+    "no-console": "off",
+    "no-return-assign": "off",
+    "no-use-before-define": "off",
+    "no-plusplus" : "off",
+    "no-useless-escape": "off",
   }
 };
