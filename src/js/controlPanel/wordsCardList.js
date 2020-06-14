@@ -35,9 +35,7 @@ export default class WordsCardList {
       }
     } else if (e.target.dataset.audio) {
       this.audio.src = `./assets/${e.target.dataset.src}`;
-      this.audio.play().then(play => {
-        return play;
-      }).catch(e => console.log(e));
+      this.audio.play();
     }
   }
 

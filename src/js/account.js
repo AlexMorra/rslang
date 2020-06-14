@@ -5,7 +5,7 @@ let body = document.querySelector('body');
 export default class Account {
   constructor() {
     this.mainArea = document.querySelector('.main-area');
-    this.accountTemplate = document.getElementById('account');
+    this.accountTemplate = this.getTemplate();
     this.idCheckboxOptions = [
       'nightMode', 'translateWord', 'explanationExamples',
       'examplesUsing', 'transcription', 'picturesWords'
@@ -14,7 +14,7 @@ export default class Account {
 
   show() {
     setTimeout(() => {
-      let accountTab = this.beforeCreated(this.accountTemplate);
+      let accountTab = this.beforeCreated(this.accountTemplate.cloneNode(true));
       this.mainArea.append(accountTab);
       let settings = document.getElementById('account_settings');
       settings.addEventListener('change', this.optionsHandler.bind(this));
@@ -72,16 +72,15 @@ export default class Account {
 
   beforeCreated(template) {
     // update options before append the template
-    let accountTab = template.content.cloneNode(true);
-    let wordsPerDay = accountTab.getElementById('wordsPerDay');
-    let cardsPerDay = accountTab.getElementById('cardsPerDay');
-    let username = accountTab.getElementById('username');
-    let nightMode = accountTab.getElementById('nightMode');
-    let translateWord = accountTab.getElementById('translateWord');
-    let explanationExamples = accountTab.getElementById('explanationExamples');
-    let examplesUsing = accountTab.getElementById('examplesUsing');
-    let transcription = accountTab.getElementById('transcription');
-    let picturesWords = accountTab.getElementById('picturesWords');
+    let wordsPerDay = template.getElementById('wordsPerDay');
+    let cardsPerDay = template.getElementById('cardsPerDay');
+    let username = template.getElementById('username');
+    let nightMode = template.getElementById('nightMode');
+    let translateWord = template.getElementById('translateWord');
+    let explanationExamples = template.getElementById('explanationExamples');
+    let examplesUsing = template.getElementById('examplesUsing');
+    let transcription = template.getElementById('transcription');
+    let picturesWords = template.getElementById('picturesWords');
     username.value = usersAppState.username || ' ';
     nightMode.checked = usersAppState.nightMode;
     translateWord.checked = usersAppState.translateWord;
@@ -91,6 +90,101 @@ export default class Account {
     picturesWords.checked = usersAppState.picturesWords;
     wordsPerDay.value = usersAppState.wordsPerDay || 1;
     cardsPerDay.value = usersAppState.cardsPerDay || 1;
-    return accountTab;
+    return template;
+  }
+
+  getTemplate() {
+    let template = document.createElement('template');
+    template.innerHTML = `
+    <div class="tab-wrapper account" id="account_settings">
+        <div class="account-section"><span class="account-section-title">Аккаунт</span></div>
+        <div class="account-row">
+            <i class="far fa-user"></i>
+            <input type="input" class="input-name" id="username">
+        </div>
+        <hr>
+        <div class="account-row">
+            <i class="far fa-envelope"></i>
+            <span>k77.wolf@gmail.com</span>
+        </div>
+        <hr>
+        <div class="account-section"><span class="account-section-title">Настройки</span></div>
+        <label class="account-row">
+            <i class="far fa-comment-dots"></i>
+            <span>Cлов в день</span>
+            <span class="input-text-wrapper">
+                <i class="fas fa-minus" data-type="minus"></i>
+                <input type="text" id="wordsPerDay" value="1" readonly>
+                <i class="fas fa-plus" data-type="plus"></i>
+            </span>
+        </label>
+        <hr>
+        <label class="account-row">
+            <i class="far fa-file-word"></i>
+            <span>Карточек в день</span>
+            <span class="input-text-wrapper">
+                <i class="fas fa-minus" data-type="minus"></i>
+                <input type="text" id="cardsPerDay" value="1" readonly>
+                <i class="fas fa-plus" data-type="plus"></i>
+            </span>
+        </label>
+        <hr>
+        <label class="account-row">
+            <i class="far fa-moon"></i>
+            <span>Ночной режим</span>
+            <span class="checkbox-wrapper">
+                <input type="checkbox" id="nightMode" class="checkbox">
+                <span class="checkbox-style"></span>
+            </span>
+        </label>
+        <hr>
+        <label class="account-row">
+            <i class="fas fa-language"></i>
+            <span>Перевод слова</span>
+            <span class="checkbox-wrapper">
+                <input type="checkbox" id="translateWord" class="checkbox">
+                <span class="checkbox-style"></span>
+            </span>
+        </label>
+        <hr>
+        <label class="account-row">
+            <i class="fab fa-rev"></i>
+            <span>Примеры с объяснением</span>
+            <span class="checkbox-wrapper">
+                <input type="checkbox" id="explanationExamples" class="checkbox">
+                <span class="checkbox-style"></span>
+            </span>
+        </label>
+        <hr>
+        <label class="account-row">
+            <i class="far fa-surprise"></i>
+            <span>Примеры с использованием</span>
+            <span class="checkbox-wrapper">
+                <input type="checkbox" id="examplesUsing" class="checkbox">
+                <span class="checkbox-style"></span>
+            </span>
+        </label>
+        <hr>
+        <label class="account-row">
+            <i class="fas fa-dog"></i>
+            <span>Транскрипция слова</span>
+            <span class="checkbox-wrapper">
+                <input type="checkbox" id="transcription" class="checkbox">
+                <span class="checkbox-style"></span>
+            </span>
+        </label>
+        <hr>
+        <label class="account-row">
+            <i class="far fa-image"></i>
+            <span>Картинки к словам</span>
+            <span class="checkbox-wrapper">
+                <input type="checkbox" id="picturesWords" class="checkbox">
+                <span class="checkbox-style"></span>
+            </span>
+        </label>
+        <hr>
+    </div>
+    `;
+    return template.content;
   }
 }
