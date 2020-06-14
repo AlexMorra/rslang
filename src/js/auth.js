@@ -3,14 +3,14 @@ import { usersAppState } from '../app';
 export class Auth {
   constructor() {
     this.body = document.querySelector('body');
-    this.loginPage = document.getElementById('login-template');
-    this.createPage = document.getElementById('create-template');
+    this.loginPageTemplate = this.getLoginTemplate();
+    this.createPageTemplate = this.getCreateTemplate();
   }
 
   showLoginPage() {
     window.currentPage = 'auth';
     this.body.classList.remove('night-mode');
-    this.body.prepend(this.loginPage.content.cloneNode(true));
+    this.body.prepend(this.loginPageTemplate.cloneNode(true));
     let passwordVisibilityBtn = document.querySelector('.show-password');
     passwordVisibilityBtn.addEventListener('click', this.passwordVisibility);
     let loginUserBtn = document.getElementById('login-user');
@@ -23,7 +23,7 @@ export class Auth {
     window.currentPage = 'auth';
     let loginPage = document.querySelector('.user-login-page');
     loginPage.remove();
-    this.body.prepend(this.createPage.content.cloneNode(true));
+    this.body.prepend(this.createPageTemplate.cloneNode(true));
     let passwordVisibilityBtn = document.querySelector('.show-password');
     let createUserBtn = document.getElementById('create-user');
     passwordVisibilityBtn.addEventListener('click', this.passwordVisibility);
@@ -151,7 +151,7 @@ export class Auth {
     console.log('PASSWORD VISIBILITY');
     let passwordVisibilityBtn = document.querySelector('.show-password');
     let passwordInput = document.getElementById('login-password')
-            || document.getElementById('create-password');
+      || document.getElementById('create-password');
 
     let inputType = passwordInput.getAttribute('type');
     if (inputType === 'password') {
@@ -197,5 +197,62 @@ export class Auth {
       setTimeout(() => emailIcon.classList.remove('shake'), 500);
     }
     return re.test(String(email).toLowerCase());
+  }
+
+  getLoginTemplate() {
+    let template = document.createElement('template');
+    template.innerHTML = `
+        <div class="user-login-page auth">
+          <form action="">
+              <div class="auth-wrapper">
+                  <h1 class="auth-logo">RS Lang</h1>
+                  <h3 class="auth-title" style="margin-bottom: 25px">Добро пожаловать!</h3>
+                  <div class="input-container">
+                      <i class="far fa-envelope"></i>
+                      <input type="email" id="login-email" placeholder="Адрес электронной почты" autocomplete="on">
+                  </div>
+                  <div class="input-container">
+                      <svg width="17" height="21" viewBox="0 0 17 21" xmlns="http://www.w3.org/2000/svg"><g fill-rule="nonzero" fill="#1A3B71"><path d="M8.006 0C5.032 0 2.62 2.35 2.62 5.25v3.577c0 .55.456.993 1.02.993.562 0 1.018-.444 1.018-.993V5.25c0-1.802 1.5-3.264 3.348-3.264 1.85 0 3.348 1.462 3.348 3.264 0 .55.457.993 1.02.993.562 0 1.018-.444 1.018-.993 0-2.9-2.41-5.25-5.386-5.25z"></path><path d="M2.038 10.93v8.078c0 .01-.004.006-.01.006h11.957c-.01 0-.01 0-.01-.006V10.93c0-.008.003-.004.01-.004H2.028c.008 0 .01-.002.01.005zM0 10.93c0-1.1.907-1.99 2.028-1.99h11.957c1.12 0 2.028.886 2.028 1.99v8.078c0 1.1-.907 1.992-2.028 1.992H2.028C.908 21 0 20.113 0 19.008V10.93z"></path></g></svg>
+                      <input type="password" class="user-password" id="login-password" placeholder="Пароль" autocomplete="on">
+                      <i class="far fa-eye-slash show-password"></i>
+                  </div>
+                  <ul class="error-message"></ul>
+                  <input type="submit" value="Войти" class="btn user-login-btn" id="login-user">
+                  <p class="route-to-user-create">зарегистрироваться</p>
+              </div>
+          </form>
+        </div>
+    `;
+    return template.content;
+  }
+
+  getCreateTemplate() {
+    let template = document.createElement('template');
+    template.innerHTML = `
+        <div class="user-create-page auth">
+          <form action="">
+              <div class="auth-wrapper" style="height: 280px">
+                  <h1 class="auth-logo">RS Lang</h1>
+                  <h3 class="auth-title">Добро пожаловать!</h3>
+                  <div class="input-container">
+                      <i class="far fa-user"></i>
+                      <input type="text" id="create-username" placeholder="Ваше имя">
+                  </div>
+                  <div class="input-container">
+                      <i class="far fa-envelope"></i>
+                      <input type="email" id="create-email" placeholder="Адрес электронной почты" autocomplete="on">
+                  </div>
+                  <div class="input-container">
+                      <svg width="17" height="21" viewBox="0 0 17 21" xmlns="http://www.w3.org/2000/svg"><g fill-rule="nonzero" fill="#1A3B71"><path d="M8.006 0C5.032 0 2.62 2.35 2.62 5.25v3.577c0 .55.456.993 1.02.993.562 0 1.018-.444 1.018-.993V5.25c0-1.802 1.5-3.264 3.348-3.264 1.85 0 3.348 1.462 3.348 3.264 0 .55.457.993 1.02.993.562 0 1.018-.444 1.018-.993 0-2.9-2.41-5.25-5.386-5.25z"></path><path d="M2.038 10.93v8.078c0 .01-.004.006-.01.006h11.957c-.01 0-.01 0-.01-.006V10.93c0-.008.003-.004.01-.004H2.028c.008 0 .01-.002.01.005zM0 10.93c0-1.1.907-1.99 2.028-1.99h11.957c1.12 0 2.028.886 2.028 1.99v8.078c0 1.1-.907 1.992-2.028 1.992H2.028C.908 21 0 20.113 0 19.008V10.93z"></path></g></svg>
+                      <input type="password" class="user-password" id="create-password" placeholder="Пароль" autocomplete="on">
+                      <i class="far fa-eye-slash show-password"></i>
+                  </div>
+                  <ul class="error-message"></ul>
+                  <input type="submit" value="Создать" class="btn user-create-btn" id="create-user">
+              </div>
+          </form>
+        </div>
+    `;
+    return template.content;
   }
 }
