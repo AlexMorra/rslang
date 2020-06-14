@@ -14,8 +14,9 @@ export default class WordsCardList {
 
   showWordList(wordListTab) {
     setTimeout(() => {
+      let wordList = wordListTab.querySelector('.word-list');
       this.mainArea.append(wordListTab);
-      this.mainArea.addEventListener('click', this.wordListHandler.bind(this));
+      wordList.addEventListener('click', this.wordListHandler.bind(this));
       this.inputWordSearch.addEventListener('input', this.wordSearchHandler.bind(this));
     }, 400);
   }
@@ -26,6 +27,7 @@ export default class WordsCardList {
       let checkedCheckboxes = [...this.wordListWrapper.querySelectorAll('.word-checkbox')]
         .filter(checkbox => checkbox.checked)
         .map(checkbox=> checkbox.getAttribute('id'));
+      console.log(checkedCheckboxes, 'CHECKED WORDS');
       if (checkedCheckboxes.length) {
         this.inputWordSearch.style.display = 'none';
         this.addToDictionaryBtn.removeAttribute('style');

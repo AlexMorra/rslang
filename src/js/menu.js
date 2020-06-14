@@ -1,7 +1,4 @@
 import * as utils from './utils';
-import Auth from './auth';
-
-let auth = new Auth();
 
 export default class Menu {
   constructor(controlPanel, account, auth) {
@@ -42,7 +39,6 @@ export default class Menu {
     } else if (btnAccount) {
       utils.destroy();
       this.account.show();
-      console.log(this);
     } else if (btnControlPanel) {
       utils.destroy();
       this.controlPanel.show();
@@ -70,9 +66,9 @@ export default class Menu {
               <i class="fab fa-leanpub menu-icon"></i>
               <span>Учи слова</span>
           </li>
-          <li>
+          <li class="nav-dictionary">
               <i class="fas fa-book menu-icon"></i>
-              <span>Грамматика</span>
+              <span>Словарь</span>
           </li>
           <li class="nav-account">
               <i class="fas fa-user-circle menu-icon" title="Аккаунт"></i>
