@@ -1,6 +1,4 @@
-import { usersAppState } from '../app';
-
-export class State {
+export default class State {
   constructor() {
     this.wordsPerDay = null;
     this.cardsPerDay = null;

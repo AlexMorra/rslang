@@ -1,6 +1,6 @@
-import { usersAppState } from '../app';
+import { menu, usersAppState } from '../app';
 
-export class Auth {
+export default class Auth {
   constructor() {
     this.body = document.querySelector('body');
     this.loginPageTemplate = this.getLoginTemplate();
@@ -105,6 +105,7 @@ export class Auth {
   }
 
   loginSuccess() {
+    menu.show();
     window.currentPage = null;
     let userLoginPage = document.querySelector('.user-login-page');
     if (userLoginPage) userLoginPage.remove();
