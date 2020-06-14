@@ -121,6 +121,7 @@
     border-radius: 15px;
     box-shadow: 0 0 10px 0 gray;
     padding: 15px;
+    cursor: pointer;
 }
 
 .cp-cards h2 {

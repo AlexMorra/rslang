@@ -1,5 +1,5 @@
-import * as cp from './controlPanel';
-import * as acc from './account';
+import ControlPanel from './controlPanel/controlPanel';
+import Account from './account';
 import * as utils from './utils';
 import { Auth } from './auth';
 
@@ -8,8 +8,8 @@ let auth = new Auth();
 let btnRsLang = document.querySelector('#rs_lang');
 let navMenu = document.querySelector('.nav-menu');
 
-let tabAccount = new acc.Account();
-let tabControlPanel = new cp.ControlPanel();
+let tabAccount = new Account();
+let tabControlPanel = new ControlPanel();
 
 window.addEventListener('click', menuHandler);
 btnRsLang.addEventListener('click', () => {
@@ -45,3 +45,6 @@ function menuHandler(e) {
     auth.logout();
   }
 }
+
+let init = document.querySelector('.nav-control-panel');
+init.click();

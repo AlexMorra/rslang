@@ -1,4 +1,4 @@
-const words = {
+const wordCards = {
   1: [
     {
       word: 'agree',
@@ -50413,4 +50413,4 @@ const words = {
   ]
 };
 
-export default words;
+export default wordCards;

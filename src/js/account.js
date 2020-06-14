@@ -2,7 +2,7 @@ import { usersAppState } from '../app';
 
 let body = document.querySelector('body');
 
-export class Account {
+export default class Account {
   constructor() {
     this.mainArea = document.querySelector('.main-area');
     this.accountTemplate = document.getElementById('account');
