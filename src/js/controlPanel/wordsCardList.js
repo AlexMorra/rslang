@@ -20,6 +20,51 @@ export default class WordsCardList {
     }, 400);
   }
 
+  wordListHandler(e) {
+    if (e.target.getAttribute('type') === 'checkbox') {
+      if (e.target === this.chooseToggleBtn) this.chooseToggle(e);
+      let checkedCheckboxes = [...this.wordListWrapper.querySelectorAll('.word-checkbox')]
+        .filter(checkbox => checkbox.checked)
+        .map(checkbox=> checkbox.getAttribute('id'));
+      if (checkedCheckboxes.length) {
+        this.inputWordSearch.style.display = 'none';
+        this.addToDictionaryBtn.removeAttribute('style');
+      } else {
+        this.inputWordSearch.removeAttribute('style');
+        this.addToDictionaryBtn.style.display = 'none';
+      }
+    } else if (e.target.dataset.audio) {
+      this.audio.src = `./assets/${e.target.dataset.src}`;
+      this.audio.play().then(play => {
+        return play;
+      }).catch(e => console.log(e));
+    }
+  }
+
+  chooseToggle(e) {
+    let wordCheckboxes = [...document.querySelectorAll('.word-checkbox')];
+    if (e.target.checked) {
+      wordCheckboxes.forEach(checkbox => checkbox.checked = true);
+    } else {
+      wordCheckboxes.forEach(checkbox => checkbox.checked = false);
+    }
+  }
+
+  wordSearchHandler() {
+    let searchValue = this.inputWordSearch.value.toLowerCase();
+    let englishSearch = /^[a-z]+$/i.test(searchValue);
+    let filteredWords = null;
+    if (englishSearch) {
+      filteredWords = this.currentCard.filter(word => word.word.includes(searchValue));
+    } else {
+      filteredWords = this.currentCard.filter(word => word.wordTranslate.includes(searchValue));
+    }
+    this.wordListWrapper.innerHTML = '';
+    filteredWords.forEach(word => {
+      this.wordListWrapper.append(this.createWordElement(word));
+    });
+  }
+
   createWordList(card) {
     this.currentCard = card;
 
@@ -80,50 +125,5 @@ export default class WordsCardList {
       <hr>
       `;
     return wordTemplate.content;
-  }
-
-  wordListHandler(e) {
-    if (e.target === this.chooseToggleBtn && e.target.tagName === 'INPUT') {
-      this.chooseToggle(e);
-      let checkedCheckboxes = [...this.wordListWrapper.querySelectorAll('.word-checkbox')]
-        .filter(checkbox => checkbox.checked)
-        .map(checkbox=> checkbox.getAttribute('id'));
-      if (checkedCheckboxes.length) {
-        this.inputWordSearch.style.display = 'none';
-        this.addToDictionaryBtn.removeAttribute('style');
-      } else {
-        this.inputWordSearch.removeAttribute('style');
-        this.addToDictionaryBtn.style.display = 'none';
-      }
-    } else if (e.target.dataset.audio) {
-      this.audio.src = `./assets/${e.target.dataset.src}`;
-      this.audio.play().then(play => {
-        return play;
-      }).catch(e => console.log(e));
-    }
-  }
-
-  chooseToggle(e) {
-    let wordCheckboxes = [...document.querySelectorAll('.word-checkbox')];
-    if (e.target.checked) {
-      wordCheckboxes.forEach(checkbox => checkbox.checked = true);
-    } else {
-      wordCheckboxes.forEach(checkbox => checkbox.checked = false);
-    }
-  }
-
-  wordSearchHandler() {
-    let searchValue = this.inputWordSearch.value.toLowerCase();
-    let englishSearch = /^[a-z]+$/i.test(searchValue);
-    let filteredWords = null;
-    if (englishSearch) {
-      filteredWords = this.currentCard.filter(word => word.word.includes(searchValue));
-    } else {
-      filteredWords = this.currentCard.filter(word => word.wordTranslate.includes(searchValue));
-    }
-    this.wordListWrapper.innerHTML = '';
-    filteredWords.forEach(word => {
-      this.wordListWrapper.append(this.createWordElement(word));
-    });
   }
 }
