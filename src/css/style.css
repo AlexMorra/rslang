@@ -5,6 +5,7 @@
 @import "utils.css";
 @import "comtrol_panel.css";
 @import "wordList.css";
+@import "games_page.css";
 
 * {
     margin: 0;
