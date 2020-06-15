@@ -19,7 +19,7 @@
 .word-list-wrapper {
     display: flex;
     flex-direction: column;
-    height: 90vh;
+    height: 80vh;
     overflow-y: auto;
 }
 

@@ -1,7 +1,4 @@
 import * as utils from './utils';
-import Auth from './auth';
-
-let auth = new Auth();
 
 export default class Menu {
   constructor(controlPanel, account, auth, games) {

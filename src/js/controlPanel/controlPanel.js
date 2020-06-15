@@ -12,8 +12,9 @@ export default class ControlPanel extends wordsCardList {
   show() {
     setTimeout(() => {
       let controlPanelTab = this.beforeCreate(this.controlPanelTemplate.cloneNode(true));
+      let controlPanel = controlPanelTab.querySelector('.control-panel');
       this.mainArea.append(controlPanelTab);
-      this.mainArea.addEventListener('click', this.controlPanelHandler.bind(this));
+      controlPanel.addEventListener('click', this.controlPanelHandler.bind(this));
     }, 400);
   }
 
@@ -21,7 +22,7 @@ export default class ControlPanel extends wordsCardList {
     let cardsWrapper = template.querySelector('.cp-cards');
     let cardTemplate = document.createElement('template');
 
-    for (let card in wordCards) {
+    Object.keys(wordCards).forEach(card => {
       cardTemplate.innerHTML = `
              <div class="cp-card" data-card="${card}">
                 <div class="card-title">Карточка ${card}</div>
@@ -29,7 +30,7 @@ export default class ControlPanel extends wordsCardList {
                 <div class="card-control">1</div>
             </div>`;
       cardsWrapper.append(cardTemplate.content);
-    }
+    });
     return template;
   }
 
