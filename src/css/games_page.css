@@ -73,6 +73,13 @@
     padding-top: 17px;
 }
 
+.card__top-part,
+.card__image-wrapper,
+.card__image,
+.card__title {
+    pointer-events: none;
+}
+
 @media  (max-width: 1000px) {
     .card-list {
         padding: 10px 20px 10px 10px;
