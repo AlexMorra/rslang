@@ -3,9 +3,9 @@
 @import "menu.css";
 @import "account.css";
 @import "utils.css";
-@import "comtrol_panel.css";
-@import "wordList.css";
-@import "games_page.css";
+@import "controlPanel/controlPanel.css";
+@import "controlPanel/wordList.css";
+@import "games/games_page.css";
 @import "dictionary.css";
 
 
@@ -40,9 +40,6 @@ hr {
 .tab-wrapper {
     margin: 55px 10px 20px 65px;
     width: 100%;
-    background-color: white;
-    border-radius: 15px;
-    box-shadow: 0 0 10px 0 gray;
 }
 
 @media  (max-width : 400px) {

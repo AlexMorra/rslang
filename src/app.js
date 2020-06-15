@@ -8,7 +8,7 @@ import Menu from './js/menu';
 import ControlPanel from './js/controlPanel/controlPanel';
 import Dictionary from './js/dictionary';
 import Account from './js/account';
-import GamesPage from './js/gamesPage';
+import GamesPage from './js/games/gamesPage';
 
 // INIT
 window.currentPage = null;
