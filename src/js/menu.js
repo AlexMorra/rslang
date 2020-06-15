@@ -72,7 +72,7 @@ export default class Menu {
           </li>
           <li>
               <i class="fas fa-book menu-icon"></i>
-              <span>Грамматика</span>
+              <span>Коллекция игр</span>
           </li>
           <li class="nav-account">
               <i class="fas fa-user-circle menu-icon" title="Аккаунт"></i>
