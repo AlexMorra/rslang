@@ -34,8 +34,8 @@ export default class Menu {
         this.controlPanel.show();
         break;
       case 'nav-games':
-        // utils.destroy();
-        console.log('games');
+        utils.destroy();
+        this.games.show();
         break;
       case 'nav-dictionary':
         // utils.destroy();
