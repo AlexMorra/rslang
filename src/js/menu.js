@@ -35,7 +35,11 @@ export default class Menu {
         break;
       case 'nav-games':
         // utils.destroy();
-        //
+        console.log('games');
+        break;
+      case 'nav-dictionary':
+        // utils.destroy();
+        console.log('dictionary');
         break;
       case 'nav-account':
         utils.destroy();
@@ -66,10 +70,14 @@ export default class Menu {
           <li>
               <i class="fab fa-leanpub menu-icon"></i>
               <span class="nav-name">Учи слова</span>
+          </li>         
+          <li id="nav-dictionary" class="nav-dictionary">
+              <i class="fas fa-book menu-icon"></i>
+              <span>Словарь</span>
           </li>
           <li id="nav-games" class="nav-games">
-              <i class="fas fa-book menu-icon"></i>
-              <span class="nav-name">Коллекция игр</span>
+            <i class="fas fa-chess-knight menu-icon"></i>
+            <span class="nav-name">Коллекция игр</span>
           </li>
           <li id="nav-account" class="nav-account">
               <i class="fas fa-user-circle menu-icon" title="Аккаунт"></i>
