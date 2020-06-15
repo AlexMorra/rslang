@@ -5,7 +5,9 @@
 @import "utils.css";
 @import "comtrol_panel.css";
 @import "wordList.css";
+@import "games_page.css";
 @import "dictionary.css";
+
 
 * {
     margin: 0;
@@ -14,7 +16,7 @@
 
 body {
     display: flex;
-    flex-direction: row;
+    flex-direction: row;>>>>>>> dev
     background-color: #f8f2ee;
     min-width: 320px;
     font-family: 'Roboto', sans-serif;

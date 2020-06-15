@@ -1,10 +1,11 @@
 import * as utils from './utils';
 
 export default class Menu {
-  constructor(controlPanel, account, auth) {
+  constructor(controlPanel, account, auth, games) {
     this.controlPanel = controlPanel;
     this.account = account;
     this.auth = auth;
+    this.games = games;
     this.body = document.querySelector('body');
     this.menuTemplate = this.getTemplate();
     this.menuNav = null;
@@ -19,31 +20,32 @@ export default class Menu {
   }
 
   menuHandler(e) {
-    // open/close menu
-    let btnHeader = [...e.target.classList].includes('nav-header')
-      || [...e.target.parentElement.classList].includes('nav-header');
-    // account tab
-    let btnAccount = [...e.target.classList].includes('nav-account')
-      || [...e.target.parentElement.classList].includes('nav-account');
-    // control panel tab
-    let btnControlPanel = [...e.target.classList].includes('nav-control-panel')
-      || [...e.target.parentElement.classList].includes('nav-control-panel');
-    // logout
-    let logoutBtn = [...e.target.classList].includes('nav-logout')
-      || [...e.target.parentElement.classList].includes('nav-logout');
-    if (btnHeader) {
-      this.menuNav.classList.toggle('open');
-      // close the menu if a click behind the menu area
-    } else if (!this.menuNav.contains(e.target)) {
-      this.menuNav.classList.remove('open');
-    } else if (btnAccount) {
-      utils.destroy();
-      this.account.show();
-    } else if (btnControlPanel) {
-      utils.destroy();
-      this.controlPanel.show();
-    } else if (logoutBtn) {
-      this.auth.logout();
+    const navId = e.target.id;
+
+    switch (navId) {
+      case 'nav-header':
+        this.menuNav.classList.toggle('open');
+        break;
+      case 'nav-control-panel':
+        utils.destroy();
+        this.controlPanel.show();
+        break;
+      case 'nav-games':
+        utils.destroy();
+        this.games.show();
+        break;
+      case 'nav-dictionary':
+        // utils.destroy();
+        console.log('dictionary');
+        break;
+      case 'nav-account':
+        utils.destroy();
+        this.account.show();
+        break;
+      case 'nav-logout':
+        this.auth.logout();
+        break;
+      default:
     }
   }
 
@@ -53,30 +55,34 @@ export default class Menu {
     <nav class="nav">
       <i class="fas fa-rocket menu-icon" id="rs_lang" style="position: absolute" title="RS Lang"></i>
       <ul class="nav-menu">
-          <li class="nav-header nav-sm">
+          <li id="nav-header" class="nav-header nav-sm">
               <i class="fas fa-rocket menu-icon" title="RS Lang"></i>
-              <span style="margin-left: 35px; font-weight: bold">RS Lang</span>
+              <span class="nav-name" style="margin-left: 35px; font-weight: bold">RS Lang</span>
               <hr style="width: 80%; margin: 0 auto">
           </li>
-          <li class="nav-control-panel">
+          <li id="nav-control-panel" class="nav-control-panel">
               <i class="fab fa-elementor menu-icon" title="Панель управления"></i>
-              <span>Панель управления</span>
+              <span class="nav-name">Панель управления</span>
           </li>
           <li>
               <i class="fab fa-leanpub menu-icon"></i>
-              <span>Учи слова</span>
-          </li>
-          <li class="nav-dictionary">
+              <span class="nav-name">Учи слова</span>
+          </li>         
+          <li id="nav-dictionary" class="nav-dictionary">
               <i class="fas fa-book menu-icon"></i>
               <span>Словарь</span>
           </li>
-          <li class="nav-account">
-              <i class="fas fa-user-circle menu-icon" title="Аккаунт"></i>
-              <span>Аккаунт</span>
+          <li id="nav-games" class="nav-games">
+            <i class="fas fa-chess-knight menu-icon"></i>
+            <span class="nav-name">Коллекция игр</span>
           </li>
-          <li class="nav-logout">
+          <li id="nav-account" class="nav-account">
+              <i class="fas fa-user-circle menu-icon" title="Аккаунт"></i>
+              <span class="nav-name">Аккаунт</span>
+          </li>
+          <li id="nav-logout" class="nav-logout">
               <i class="fas fa-sign-out-alt menu-icon" title="Выход"></i>
-              <span>Выход</span>
+              <span class="nav-name">Выход</span>
           </li>
       </ul>
     </nav>

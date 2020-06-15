@@ -7,12 +7,13 @@ import State from './js/usersAppState';
 import Menu from './js/menu';
 import ControlPanel from './js/controlPanel/controlPanel';
 import Account from './js/account';
+import GamesPage from './js/gamesPage';
 
 // INIT
 window.currentPage = null;
 let auth = new Auth();
 
-export let menu = new Menu(new ControlPanel(), new Account(), new Auth());
+export let menu = new Menu(new ControlPanel(), new Account(), new Auth(), new GamesPage());
 export let usersAppState = new State();
 
 // check if user has session and load settings if has
