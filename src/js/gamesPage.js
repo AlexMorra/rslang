@@ -3,6 +3,18 @@ import GAMES from './gamesConstants';
 export default class GamesPage {
   constructor() {
     this.element = null;
+    this.mainArea = document.querySelector('.main-area');
+    this.cardList = null;
+  }
+
+  show() {
+    setTimeout(() => {
+      this.mainArea.append(this.getElement());
+    }, 400);
+  }
+
+  cardClickHandler(e) {
+    console.log(e.target.id);
   }
 
   getCardListTemplate() {
@@ -17,7 +29,7 @@ export default class GamesPage {
   getCardTemplate(game) {
     const template = document.createElement('template');
     template.innerHTML = `
-      <li class="card">
+      <li id="${game.name}" class="card">
           <div class="card__top-part">
               <div class="card__image-wrapper">
                   <img class="card__image" src="../assets/icons/${game.icon}">
@@ -45,7 +57,9 @@ export default class GamesPage {
     });
 
     this.cardsWrapper.append(fragment);
+    this.cardList = this.element.querySelector('.card-list');
 
+    this.cardList.addEventListener('click', this.cardClickHandler.bind(this));
     return this.element;
   }
 }
