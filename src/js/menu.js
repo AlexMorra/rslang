@@ -1,8 +1,9 @@
 import * as utils from './utils';
 
 export default class Menu {
-  constructor(controlPanel, account, auth, games) {
+  constructor(controlPanel, account, auth, dictionary, games) {
     this.controlPanel = controlPanel;
+    this.dictionary = dictionary;
     this.account = account;
     this.auth = auth;
     this.games = games;
@@ -14,15 +15,19 @@ export default class Menu {
   show() {
     let menuTemplate = this.menuTemplate.cloneNode(true);
     this.menuNav = menuTemplate.querySelector('.nav-menu');
-    this.logoBtn = menuTemplate.querySelector('#rs_lang');
     this.body.prepend(menuTemplate);
     window.addEventListener('click', this.menuHandler.bind(this));
   }
 
   menuHandler(e) {
     const navId = e.target.id;
+    const touchedMenu = this.menuNav.contains(e.target);
+    if (!touchedMenu) this.menuNav.classList.remove('open');
 
     switch (navId) {
+      case 'header-nav-icon':
+        this.menuNav.classList.add('open');
+        break;
       case 'nav-header':
         this.menuNav.classList.toggle('open');
         break;
@@ -53,7 +58,7 @@ export default class Menu {
     let template = document.createElement('template');
     template.innerHTML = `
     <nav class="nav">
-      <i class="fas fa-rocket menu-icon" id="rs_lang" style="position: absolute" title="RS Lang"></i>
+      <i class="fas fa-rocket menu-logo" id="header-nav-icon" style="position: absolute" title="RS Lang"></i>
       <ul class="nav-menu">
           <li id="nav-header" class="nav-header nav-sm">
               <i class="fas fa-rocket menu-icon" title="RS Lang"></i>

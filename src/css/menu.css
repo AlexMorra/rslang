@@ -28,7 +28,8 @@
     background-color: inherit;
 }
 
-.menu-icon {
+.menu-icon,
+.menu-logo {
     margin: 20px;
     transform: scale(2);
     background-color: inherit;

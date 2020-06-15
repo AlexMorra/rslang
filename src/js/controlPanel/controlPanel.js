@@ -2,6 +2,7 @@ import wordCards from '../wordCards';
 import * as utils from '../utils';
 // import { usersAppState } from '../../app';
 import wordsCardList from './wordsCardList';
+import { usersAppState } from '../../app';
 
 export default class ControlPanel extends wordsCardList {
   constructor() {
@@ -21,12 +22,12 @@ export default class ControlPanel extends wordsCardList {
   beforeCreate(template) {
     let cardsWrapper = template.querySelector('.cp-cards');
     let cardTemplate = document.createElement('template');
-
     Object.keys(wordCards).forEach(card => {
+      let userWordsInCard = usersAppState.userWords.filter(obj => obj.difficulty === card).length;
       cardTemplate.innerHTML = `
              <div class="cp-card" data-card="${card}">
                 <div class="card-title">Карточка ${card}</div>
-                <div class="card-progress"> 0 из ${wordCards[card].length} </div>
+                <div class="card-progress"> ${userWordsInCard} из ${wordCards[card].length} </div>
                 <div class="card-control">1</div>
             </div>`;
       cardsWrapper.append(cardTemplate.content);
@@ -40,7 +41,7 @@ export default class ControlPanel extends wordsCardList {
         : false;
     if (cardKey) {
       utils.destroy();
-      this.createWordList(wordCards[cardKey]);
+      this.createWordList(wordCards[cardKey], cardKey);
     }
   }
 

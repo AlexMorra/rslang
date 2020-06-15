@@ -9,7 +9,9 @@ export default class WordsCardList {
     this.chooseToggleBtn = null;
     this.addToDictionaryBtn = null;
     this.currentCard = null;
+    this.checkedCheckboxes = null;
     this.audio = null;
+    this.difficulty = null;
   }
 
   showWordList(wordListTab) {
@@ -18,17 +20,18 @@ export default class WordsCardList {
       this.mainArea.append(wordListTab);
       wordList.addEventListener('click', this.wordListHandler.bind(this));
       this.inputWordSearch.addEventListener('input', this.wordSearchHandler.bind(this));
+      this.addToDictionaryBtn.addEventListener('click', this.addToDictionary.bind(this));
     }, 400);
   }
 
   wordListHandler(e) {
     if (e.target.getAttribute('type') === 'checkbox') {
       if (e.target === this.chooseToggleBtn) this.chooseToggle(e);
-      let checkedCheckboxes = [...this.wordListWrapper.querySelectorAll('.word-checkbox')]
+      this.checkedCheckboxes = [...this.wordListWrapper.querySelectorAll('.word-checkbox')]
         .filter(checkbox => checkbox.checked)
         .map(checkbox=> checkbox.getAttribute('id'));
-      console.log(checkedCheckboxes, 'CHECKED WORDS');
-      if (checkedCheckboxes.length) {
+      console.log(this.checkedCheckboxes, 'CHECKED WORDS');
+      if (this.checkedCheckboxes.length) {
         this.inputWordSearch.style.display = 'none';
         this.addToDictionaryBtn.removeAttribute('style');
       } else {
@@ -65,8 +68,18 @@ export default class WordsCardList {
     });
   }
 
-  createWordList(card) {
+  addToDictionary(e) {
+    e.preventDefault();
+    console.log(this.checkedCheckboxes);
+    this.checkedCheckboxes.forEach(wordId => {
+      let word = { difficulty: `${this.difficulty}`, optional: { testString: 'trololo', isTrololo: true } };
+      usersAppState.createUserWord(wordId, word);
+    });
+  }
+
+  createWordList(card, cardKey) {
     this.currentCard = card;
+    this.difficulty = cardKey;
 
     let tabWrapperTemplate = document.createElement('template');
     tabWrapperTemplate.innerHTML = `
@@ -103,10 +116,13 @@ export default class WordsCardList {
   }
 
   createWordElement(word) {
+    // TODO: fix in the future !!!!!!!!
+    let saved = usersAppState.userWords.some(obj => obj.wordId === word.id);
+
     let wordTemplate = document.createElement('template');
     wordTemplate.innerHTML = `
       <div class="word-list-row">
-        <input class="word-checkbox" type="checkbox" name="word" id="${word.id}">
+        <input class="word-checkbox" type="checkbox" name="word" id="${word.id}" ${saved ? 'checked' : ''}>
         <i class="fas fa-volume-up" data-audio="play" data-src="${word.audio}"></i>
         <div class="word">
             ${word.word}
