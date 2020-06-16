@@ -36,3 +36,5 @@ auth.authorized().then(authorized => {
     }
   }, 10000);
 });
+
+console.log(usersAppState);
