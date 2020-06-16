@@ -58,7 +58,7 @@ export default class Dictionary {
   deleteWords(e) {
     e.preventDefault();
     this.checkedWordsId.forEach(wordId => {
-      let wordRow = document.getElementById(`[data-word-id="${wordId}"]`);
+      let wordRow = document.querySelector(`[data-word-id="${wordId}"]`);
       usersAppState.deleteUserWord(wordId).then(() => {
         wordRow.nextElementSibling.remove();
         wordRow.remove();
