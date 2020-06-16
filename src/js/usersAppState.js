@@ -85,7 +85,7 @@ export default class State {
       });
   }
 
-  getUserWords() {
+  getUserWord() {
     let token = localStorage.getItem('token');
     let userId = localStorage.getItem('user_id');
     return fetch(`https://afternoon-falls-25894.herokuapp.com/users/${userId}/words`, {
@@ -101,6 +101,24 @@ export default class State {
       .then(responseJson => {
         console.log(responseJson, 'GET USER WORDS');
         this.userWords = responseJson;
+      });
+  }
+
+  deleteUserWord(wordId) {
+    let token = localStorage.getItem('token');
+    let userId = localStorage.getItem('user_id');
+    return fetch(`https://afternoon-falls-25894.herokuapp.com/users/${userId}/words/${wordId}`, {
+      method: 'DELETE',
+      withCredentials: true,
+      headers: {
+        Authorization: `Bearer ${token}`,
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      }
+    })
+      .then(response => {
+        if (response.ok) console.log('DELETED');
+        return response;
       });
   }
 
