@@ -80,6 +80,8 @@ export default class WordsCardList {
         wordCheckbox.setAttribute('disabled', true);
       });
     });
+    this.inputWordSearch.removeAttribute('style');
+    this.addToDictionaryBtn.style.display = 'none';
   }
 
   createWordList(card, cardKey) {
