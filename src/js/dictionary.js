@@ -58,10 +58,10 @@ export default class Dictionary {
   deleteWords(e) {
     e.preventDefault();
     this.checkedWordsId.forEach(wordId => {
-      let wordElement = document.querySelector(`[data-word-id="${wordId}"]`);
+      let wordRow = document.getElementById(`[data-word-id="${wordId}"]`);
       usersAppState.deleteUserWord(wordId).then(() => {
-        wordElement.nextElementSibling.remove();
-        wordElement.remove();
+        wordRow.nextElementSibling.remove();
+        wordRow.remove();
         let word = usersAppState.userWords.find(word => word.wordId === wordId);
         usersAppState.userWords.pop(word);
       });
