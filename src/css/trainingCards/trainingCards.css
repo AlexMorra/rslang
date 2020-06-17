@@ -1,0 +1,9 @@
+.training {
+    height: 600px;
+    max-width: 400px;
+    white-space: nowrap;
+    background-color: white;
+    border-radius: 15px;
+    box-shadow: 0 0 10px 0 gray;
+}
+

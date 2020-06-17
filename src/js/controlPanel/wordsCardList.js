@@ -82,6 +82,7 @@ export default class WordsCardList {
     });
     this.inputWordSearch.removeAttribute('style');
     this.addToDictionaryBtn.style.display = 'none';
+    this.chooseToggleBtn.click();
   }
 
   createWordList(card, cardKey) {

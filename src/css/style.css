@@ -7,6 +7,7 @@
 @import "controlPanel/wordList.css";
 @import "games/games_page.css";
 @import "dictionary.css";
+@import "trainingCards/trainingCards.css";
 
 
 * {
