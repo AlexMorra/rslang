@@ -9,6 +9,8 @@
 @import "dictionary.css";
 @import "trainingCards/trainingCards.css";
 @import "../js/games/skinWalkers/skinwalkerStyle.css";
+@import "games/sprint.css";
+
 
 * {
     margin: 0;
