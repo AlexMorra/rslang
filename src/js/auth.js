@@ -109,7 +109,7 @@ export default class Auth {
     window.currentPage = null;
     let userLoginPage = document.querySelector('.user-login-page');
     if (userLoginPage) userLoginPage.remove();
-    usersAppState.getUserWord();
+    usersAppState.getUserWords();
     usersAppState.getUserSettings().then(nightMode => {
       if (nightMode) {
         console.log('AUTH - GET USER SETTINGS');
