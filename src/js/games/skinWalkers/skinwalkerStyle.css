@@ -1,0 +1,19 @@
+.skinwalker__title {
+    border: 1px solid blue;
+    width: 250px;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+.skinwalker__buttons__block button {
+    background-color: #1a3b71;
+    color: white;
+    height: 45px;
+    width: 30%;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    margin: 15px;
+    padding: 5px;
+    font-size: 0.9em;
+}
