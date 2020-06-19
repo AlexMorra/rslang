@@ -40,8 +40,8 @@ export default class Menu {
         this.games.show();
         break;
       case 'nav-dictionary':
-        // utils.destroy();
-        console.log('dictionary');
+        utils.destroy();
+        this.dictionary.show();
         break;
       case 'nav-account':
         utils.destroy();

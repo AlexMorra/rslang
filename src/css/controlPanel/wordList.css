@@ -11,53 +11,49 @@
     cursor: pointer;
 }
 
-.word-list-header input[type='checkbox'] {
+.word-list .word-list-header input[type='checkbox'] {
     margin-right: 10px;
 }
 
-.word-list-header {
+.word-list .word-list-header {
     margin: 10px;
 }
 
-.word-list-wrapper {
+.word-list .word-list-wrapper {
     display: flex;
     flex-direction: column;
     height: 80vh;
     overflow-y: auto;
 }
 
-.word-list-header {
-    margin-bottom: 10px;
-}
-
-.word-search {
+.word-list .word-search {
     padding: 8px 10px;
     color: #37383c;
     transition: all 0.2s ease-in;
     caret-color: #37383c;
 }
 
-.word-search:focus {
+.word-list .word-search:focus {
     outline-color: #2b95ee;
 }
 
 
-.add-to-dictionary {
+.word-list .add-to-dictionary {
     padding: 8px 14px;
     cursor: pointer;
     color: gray;
 }
 
-.word-list-row {
+.word-list .word-list-row {
     display: flex;
     margin: 10px;
 }
 
-.word-list-row i {
+.word-list .word-list-row i {
     margin: 0 15px;
     cursor: pointer;
 }
 
-.word-list-row .dash {
+.word-list .word-list-row .dash {
     margin: 0 10px;
 }
