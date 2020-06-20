@@ -20,6 +20,7 @@
     padding: 5px 10px;
     border: none;
     border-radius: 5px;
+    color: #7f9399;
     /*position: absolute;*/
 }
 
@@ -29,15 +30,25 @@
 
 .training-card .word-container {
     position: absolute;
-    top: -2px;
+    top: 0;
     left: 0;
     pointer-events: none;
     padding: 5px 10px;
+    opacity: 0;
+}
+
+@keyframes hide {
+    from {opacity: 1;}
+    to {opacity:0;}
+}
+
+.show-result {
+    animation: hide 1.5s;
 }
 
 
 .training-card .input-container {
-    color: #859699;
+    color: #338c9c;
     font-size: 2em;
     top: -15px;
     /*position: relative;*/
