@@ -176,10 +176,6 @@ export default class Auth {
       message.textContent = 'Используйте не менее 8 символов.';
       errorMessages.push(message);
     }
-    console.log(!/[a-z]/gi.test(password));
-    console.log(!/\d/g.test(password));
-    console.log(!/а-яё/gi.test(password));
-    console.log(!/[+-_@$!%*?&#.,:[\]{}]/g.test(password));
     if (!/[a-z]/gi.test(password) || !/\d/g.test(password) || /а-яё/gi.test(password)) {
       let message = document.createElement('li');
       message.textContent = 'Используйте строчные и прописные латинские буквы (a-z, A-Z) и цифры.';

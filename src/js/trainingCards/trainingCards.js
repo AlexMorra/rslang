@@ -5,72 +5,78 @@ export default class TrainingCards {
   constructor() {
     this.mainArea = document.querySelector('.main-area');
     this.trainingArea = null;
-    this.userInput = null;
+    this.answerInput = null;
     this.trainingWords = [];
     this.init = true;
   }
 
   show() {
+    this.getTrainingWords();
     setTimeout(() => {
-      let wordFromDictionary = usersAppState.userWords.slice().sort((prev, next) => 0.5 - Math.random()).slice(0, 10);
-      wordFromDictionary.forEach(word => {
-        usersAppState.getWordById(word.wordId).then(word => {
-          if (this.init) {
-            this.init = false;
-            this.mainArea.append(this.getTemplate(word));
-          } else {
-            this.trainingWords.push(word);
-          }
-        });
-      });
-      this.init = true;
+      this.mainArea.append(this.getTemplate());
+      this.answerInput.addEventListener('keypress', this.answerHandler.bind(this));
+
+      let width = document.querySelector('.word-container').offsetWidth;
+      this.answerInput.style.width = `${width - 20}px`;
     }, 400);
   }
 
-  // async getTrainingWords() {
-  //   let randomWords = usersAppState.userWords.slice().sort((prev, next) => 0.5 - Math.random()).slice(0, 10);
-  //   for await (let obj of randomWords) {
-  //     await usersAppState.getUserWord(obj.wordId).then(word_data => {
-  //       wordCards[word_data.difficulty].find(word => word.id === word_data.wordId);
-  //     });
-  //   }
-  // }
+  answerHandler(e) {
+    if (e.keyCode === 13 && this.answerInput.value.length) {
+      console.log('CHECK ANSWER');
+    }
+  }
+
+  getTrainingWords() {
+    // get 10 random user words from the dictionary
+    this.trainingWords = usersAppState.userWords.slice().sort((prev, next) => 0.5 - Math.random()).slice(0, 10)
+      .map(obj => {
+        return wordCards[obj.difficulty].find(word => word.id === obj.wordId);
+      });
+    console.log(this.trainingWords, 'training words');
+  }
 
   getTrainingArea(word) {
+    console.log(word);
     const template = document.createElement('template');
     template.innerHTML = `
-    ${this.createInputContainer(word.word)}
-    <input type="text" class="expected-word" maxlength="50" autocomplete="off" style="width: ${word.word.length * 10}px">
-    <hr>
-    <p class="russian-word">${word.wordTranslate}</p>
-    `;
-    this.userInput = template.content.querySelector('.expected-word');
+      <span class="input-container">
+        <input type="text" class="answer-input" maxlength="50" autocomplete="off" autofocus>
+      </span>
+      <hr>
+      <p class="translation">${word.wordTranslate}</p>
+      `;
+    this.answerInput = template.content.querySelector('.answer-input');
     return template.content;
   }
 
-  createInputContainer(word) {
+  createWordContainer(word) {
     const container = document.createElement('span');
-    container.classList.add('input-container');
-    container.setAttribute('data-word', word);
-    console.log(word.word);
-    word.split('').forEach(letter => {
-      console.log(letter);
+    container.classList.add('word-container');
+    container.setAttribute('data-word', word.word);
+    word.word.split('').forEach(letter => {
       const letterContainer = document.createElement('span');
       letterContainer.textContent = letter;
       container.append(letterContainer);
     });
-    console.log(container);
     return container;
   }
 
-  getTemplate(word) {
+  getTemplate() {
+    const currentWord = this.trainingWords.pop();
     let template = document.createElement('template');
     template.innerHTML = `
-      <div class="tab-wrapper training">
+      <div class="tab-wrapper training-card">
+        <div class="card-header"></div>
+        <div class="card-body"></div>
+        <div class="card-footer">
+            <i class="fas fa-volume-up" data-audio="play" data-src="${currentWord.audio}"></i>        
+        </div>
       </div>
     `;
-    this.trainingArea = template.content.querySelector('.training');
-    this.trainingArea.append(this.getTrainingArea(word));
+    this.trainingArea = template.content.querySelector('.card-body');
+    this.trainingArea.append(this.getTrainingArea(currentWord));
+    this.trainingArea.querySelector('.input-container').append(this.createWordContainer(currentWord));
     return template.content;
   }
 }

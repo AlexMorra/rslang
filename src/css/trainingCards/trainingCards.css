@@ -1,13 +1,64 @@
-.training {
+.training-card {
     height: 300px;
     max-width: 500px;
     white-space: nowrap;
     background-color: white;
     border-radius: 15px;
     box-shadow: 0 0 10px 0 gray;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 20px;
 }
 
-.training input {
-    /*width: 30px;*/
+.training-card hr {
+    width: 90%;
+}
+
+.training-card .answer-input {
+    background-color: #e0ebef;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    /*position: absolute;*/
+}
+
+.training-card .answer-input:focus {
+    outline: none;
+}
+
+.training-card .word-container {
+    position: absolute;
+    top: -2px;
+    left: 0;
+    pointer-events: none;
+    padding: 5px 10px;
+}
+
+
+.training-card .input-container {
+    color: #859699;
+    font-size: 2em;
+    top: -15px;
+    /*position: relative;*/
+}
+
+.training-card .translation {
+    font-size: 1.2em;
+    margin-top: 5px;
+}
+
+.training-card .card-footer {
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+.training-card .card-footer i {
+    font-size: 1.5em;
+    cursor: pointer;
+}
+
+.training-card .card-footer i:hover {
+    filter: invert(70%);
 }
 
