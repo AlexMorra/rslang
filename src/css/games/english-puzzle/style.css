@@ -22,19 +22,72 @@
 .english-puzzle-main__active-hints {
   display: flex;
   justify-content: center;
+  margin-top: 100px;
 }
 
 .english-puzzle-main__result-block {
   display: flex;
   justify-content: center;
+  flex-wrap: wrap;
+
+  width: 50vw;
+  margin: 0 auto;
+  margin-top: 100px;
 }
 
 .english-puzzle-main__active-phrase {
   display: flex;
   justify-content: center;
+  margin: 0 auto;
+  width: auto;
+  margin-top: 100px;
+  max-width: 50vw;
+  flex-wrap: wrap;
 }
 
 .english-puzzle-main__btn-block {
   display: flex;
   justify-content: center;
+  margin-top: 100px;
+}
+
+.english-puzzle-main__active-phrase__wrapper {
+  height: 70px;
+  background-color: #eee5d8;
+  border-radius: 5px;
+  min-width: 50px;
+  margin-right: 5px;
+  margin-left: 5px;
+
+  display: flex;
+  
+}
+
+.english-puzzle-main__active-phrase__wrapper__element {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 50px;
+  margin: 10px;
+  padding-left: 15px;
+  padding-right: 15px;
+  border-radius: 5px;
+  background-color: #f7cd92;
+  transition-duration: .5s;
+}
+
+.english-puzzle-main__result-block__element {
+  min-width: 50px;
+  height: 70px;
+  background-color: #eee5d8;
+  margin: 5px;
+  border-radius: 5px;
+}
+
+.hide {
+  opacity: 0;
+}
+
+.hovered {
+  background-color: #193b6e;
 }

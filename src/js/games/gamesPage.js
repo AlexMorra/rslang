@@ -1,5 +1,5 @@
 import GAMES from './gamesConstants';
-import EnglishPuzzle from './english-puzzle/index';
+import EnglishPuzzle from './english-puzzle/english-puzzle';
 
 export default class GamesPage {
   constructor() {

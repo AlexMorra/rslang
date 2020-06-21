@@ -1,11 +1,14 @@
 import State from '../../usersAppState';
 import * as utils from '../../utils';
 import '../../../css/games/english-puzzle/style.css';
+import './drag-and-drop';
+import dragAndDrop from './drag-and-drop';
 
 export default class EnglishPuzzle {
   constructor() {
     this.mainArea = document.querySelector('.main-area');
     this.state = new State();
+    this.currentStage = 0;
   }
 
   /* showStartPage() {
@@ -56,8 +59,8 @@ export default class EnglishPuzzle {
         </div>
       </div>
       <div class="english-puzzle-main__active-hints">translate</div>
-      <div class="english-puzzle-main__result-block">result</div>
-      <div class="english-puzzle-main__active-phrase">active phrase</div>
+      <div class="english-puzzle-main__result-block"></div>
+      <div class="english-puzzle-main__active-phrase"></div>
       <div class="english-puzzle-main__btn-block">
         <button class="english-puzzle-main__btn-block__check">check</button>
         <button class="english-puzzle-main__btn-block__dnt-know">i don't know</button>          
@@ -70,20 +73,18 @@ export default class EnglishPuzzle {
 
   showMainPage() {
     utils.destroy();
-    setTimeout(() => {
+    setTimeout(async () => {
       this.mainArea.append(this.getMainPage());
-      this.renderPhrase();
+      await this.renderPhrase();
+      await this.renderResultBlock();
+      dragAndDrop();
     }, 400);
   }
 
   async getNewWord() {
     let token = localStorage.getItem('token');
-    let userId = localStorage.getItem('user_id');
-    await this.state.getUserWords();
-    let wordId = await this.state.userWords[0].wordId;
-    console.log(wordId);
-    console.log(userId);
-    console.log(token);
+    await this.state.getUserWord();
+    let wordId = await this.state.userWords[3].wordId;
     const rawResponse = await fetch(`https://afternoon-falls-25894.herokuapp.com/words/${wordId}`, {
       method: 'GET',
       withCredentials: true,
@@ -93,11 +94,37 @@ export default class EnglishPuzzle {
       }
     });
     const content = await rawResponse.json();
-
-    return [content.word, content.Example, content.ExampleTranslte, content.audioExample];
+    const exampleFiltered = content.textExample.split(' ').map(el => el.replace(/<b>/gm, '').replace(/<\/b>/gm, ''));
+    return {
+      word: content.word,
+      phrase: exampleFiltered,
+      translate: content.textExampleTranslate,
+      audioSrc: content.audioExample
+    };
   }
 
-  /* async renderPhrase() {
-    this;
-  } */
+  async renderPhrase() {
+    const data = await this.getNewWord();
+    const activePhrase = document.querySelector('.english-puzzle-main__active-phrase');
+    for (let i = 0; i < data.phrase.length; i += 1) {
+      const phraseElement = document.createElement('div');
+      phraseElement.className = 'english-puzzle-main__active-phrase__wrapper';
+      const word = document.createElement('div');
+      word.className = 'english-puzzle-main__active-phrase__wrapper__element';
+      word.innerText = data.phrase[i];
+      phraseElement.append(word);
+      word.setAttribute('draggable', 'true');
+      activePhrase.insertAdjacentElement('beforeend', phraseElement);
+    }
+  }
+
+  async renderResultBlock() {
+    const data = await this.getNewWord();
+    const resultBlock = document.querySelector('.english-puzzle-main__result-block');
+    for (let i = 0; i < data.phrase.length; i += 1) {
+      const resultElement = document.createElement('div');
+      resultElement.className = 'english-puzzle-main__result-block__element';
+      resultBlock.insertAdjacentElement('beforeend', resultElement);
+    }
+  }
 }
