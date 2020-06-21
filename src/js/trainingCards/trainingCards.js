@@ -1,5 +1,6 @@
 import { usersAppState } from '../../app';
 import wordCards from '../wordCards';
+import * as utils from '../utils';
 
 export default class TrainingCards {
   constructor() {
@@ -9,11 +10,21 @@ export default class TrainingCards {
     this.wordContainer = null;
     this.answerInput = null;
     this.trainingWords = [];
+    this.currentWord = null;
     this.audio = null;
+    // word parameters for statistics
+    this.wordsStatistic = [];
+    this.incorrect = 0;
   }
 
   show() {
+    this.wordsStatistic = [];
+    this.incorrect = 0;
     this.getTrainingWords();
+    this.initCard();
+  }
+
+  initCard() {
     setTimeout(() => {
       this.mainArea.append(this.getTemplate());
       this.answerInput.addEventListener('keypress', this.answerHandler.bind(this));
@@ -25,9 +36,33 @@ export default class TrainingCards {
   }
 
   cardHandler(e) {
+    const btn = e.target.id;
     if (e.target.dataset.audio) {
       this.audio.src = `./assets/${e.target.dataset.src}`;
       this.audio.play();
+    }
+    switch (btn) {
+      case 'dont-know-btn':
+        console.log('dont know');
+        const audio_btn = document.querySelector('[data-audio="play"]');
+        this.wordContainer.classList.remove('show-result');
+        setTimeout(() => this.wordContainer.classList.add('show-result'));
+        audio_btn.click();
+        break;
+      case 'next-btn':
+        if (this.trainingWords.length) {
+          this.incorrect = 0;
+          utils.destroy();
+          this.initCard();
+        } else {
+          console.log('END!!!!');
+          utils.destroy();
+          setTimeout(() => {
+            this.mainArea.append(this.getTrainingStatistic());
+          }, 400);
+        }
+
+        break;
     }
   }
 
@@ -41,6 +76,7 @@ export default class TrainingCards {
       let value = this.answerInput.value.split('').filter(letter => word.includes(letter)).join('').toLowerCase();
 
       if (word !== value) {
+        this.setIncorrect();
         if (word.includes(value) && value.length > 1) {
           let start_index = word.indexOf(value);
           let end_index = start_index + value.length;
@@ -87,6 +123,11 @@ export default class TrainingCards {
     console.log(this.trainingWords, 'training words');
   }
 
+  setIncorrect() {
+    this.incorrect += 1;
+    this.wordsStatistic[this.wordsStatistic.length - 1].incorrect = this.incorrect;
+  }
+
   getTrainingArea(word) {
     const template = document.createElement('template');
     let wordImg = usersAppState.picturesWords ? `<img class="card-img" src="./assets/${word.image}" alt="">` : '';
@@ -131,14 +172,18 @@ export default class TrainingCards {
   }
 
   getTemplate() {
-    const currentWord = this.trainingWords.pop();
+    this.currentWord = this.trainingWords.pop();
+    this.wordsStatistic.push(this.currentWord);
+
     let template = document.createElement('template');
     template.innerHTML = `
       <div class="tab-wrapper training-card">
         <div class="card-header"></div>
         <div class="card-body"></div>
         <div class="card-footer">
-            <i class="fas fa-volume-up" data-audio="play" data-src="${currentWord.audio}"></i>        
+            <input class="dontKnowBtn" id="dont-know-btn" type="button" value="Не знаю">
+            <input class="nextBtn" id="next-btn" type="button" value="Дальше">
+            <i class="fas fa-volume-up" data-audio="play" data-src="${this.currentWord.audio}"></i>        
             <audio id="audio"></audio>
         </div>
       </div>
@@ -146,9 +191,54 @@ export default class TrainingCards {
     this.trainingCard = template.content.querySelector('.training-card');
     this.cardBody = template.content.querySelector('.card-body');
     this.audio = template.content.getElementById('audio');
-    this.cardBody.append(this.getTrainingArea(currentWord));
-    this.cardBody.querySelector('.input-container').append(this.createWordContainer(currentWord));
+    this.cardBody.append(this.getTrainingArea(this.currentWord));
+    this.cardBody.querySelector('.input-container').append(this.createWordContainer(this.currentWord));
     this.wordContainer = this.cardBody.querySelector('.word-container');
     return template.content;
+  }
+
+  createWordStats(word) {
+    let tr = document.createElement('tr');
+    tr.classList.add('stats-row');
+    if (word.incorrect) {
+      tr.style.backgroundColor = '#ff00001a';
+    } else {
+      tr.style.backgroundColor = '#0080001a';
+    }
+    tr.innerHTML = `
+       <td>${word.word}</td>
+       <td>${word.wordTranslate}</td>
+       <td>${word.incorrect ? word.incorrect : ''}</td>
+    `;
+
+    return tr;
+  }
+
+  getTrainingStatistic() {
+    let template = document.createElement('template');
+    template.innerHTML = `
+    <div class="tab-wrapper training-card-statistic">
+        <div class="statistic-header">
+            <i class="fas fa-times"></i>
+        </div>
+        <table>
+            <tr>
+                <th>Слово</th>
+                <th>Перевод</th>
+                <th>Попыток</th>
+            </tr>
+        </table>
+    </div>
+    `;
+    this.wordsStatistic.forEach(word => {
+      template.content.querySelector('table').append(this.createWordStats(word));
+    });
+    const closeBtn = template.content.querySelector('.statistic-header i');
+    closeBtn.addEventListener('click', this.closeStatistic);
+    return template.content;
+  }
+
+  closeStatistic() {
+    document.getElementById('nav-control-panel').click();
   }
 }
