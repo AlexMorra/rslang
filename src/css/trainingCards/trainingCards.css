@@ -1,5 +1,5 @@
 .training-card {
-    height: 300px;
+    min-height: 300px;
     max-width: 500px;
     white-space: nowrap;
     background-color: white;
@@ -7,12 +7,28 @@
     box-shadow: 0 0 10px 0 gray;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: space-around;
     padding: 20px;
 }
 
-.training-card hr {
+.training-card .card-body {
+    display: flex;
+    flex-direction: column;
+    max-width: 500px;
+}
+
+.training-card .card-body .card-img {
+    margin: 10px auto 30px auto;
+    height: 150px;
+    width: 250px;
+}
+
+.training-card .card-body hr {
     width: 90%;
+}
+
+.training-card .card-body i {
+    font-weight: bold;
 }
 
 .training-card .answer-input {
@@ -42,8 +58,13 @@
     to {opacity:0;}
 }
 
-.show-result {
-    animation: hide 1.5s;
+.training-card .show-result {
+    animation: hide 2s;
+}
+
+.training-card .show {
+    opacity: 1!important;
+    transition: opacity 2s ease;
 }
 
 
@@ -56,7 +77,41 @@
 
 .training-card .translation {
     font-size: 1.2em;
-    margin-top: 5px;
+    margin: 10px 0;
+    font-weight: 600;
+}
+
+.training-card .word-meaning-container,
+.training-card .word-example-container {
+    position: relative;
+    opacity: 0;
+}
+
+.training-card .word-meaning-container > i,
+.training-card .word-example-container > i {
+    position: absolute;
+    top: 27px;
+    left: 10px;
+    cursor: pointer;
+    font-size: 1.3em;
+}
+
+.training-card .word-example-container {
+    margin-top: 10px;
+}
+
+.training-card .word-meaning-container > i:active,
+.training-card .word-example-container > i:active {
+    transform: scale(0.9);
+}
+
+.training-card .word-meaning,
+.training-card .word-example,
+.training-card .word-meaning-translate,
+.training-card .word-example-translate {
+    white-space: pre-line;
+    margin-left: 50px;
+    color: darkslategray;
 }
 
 .training-card .card-footer {
@@ -69,7 +124,7 @@
     cursor: pointer;
 }
 
-.training-card .card-footer i:hover {
-    filter: invert(70%);
+.training-card .card-footer i:active {
+    transform: scale(0.9);
 }
 

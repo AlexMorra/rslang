@@ -69,6 +69,11 @@ export default class TrainingCards {
         console.log('CORRECT');
         this.audio.src = `./assets/${this.wordContainer.dataset.src}`;
         this.audio.play();
+        // settings
+        const wordMeaining = document.querySelector('.word-meaning-container');
+        const wordExample = document.querySelector('.word-example-container');
+        if (wordMeaining) wordMeaining.classList.add('show');
+        if (wordExample) wordExample.classList.add('show');
       }
     }
   }
@@ -83,14 +88,29 @@ export default class TrainingCards {
   }
 
   getTrainingArea(word) {
-    console.log(word);
     const template = document.createElement('template');
+    let wordImg = usersAppState.picturesWords ? `<img class="card-img" src="./assets/${word.image}" alt="">` : '';
+    let wordMeaning = usersAppState.examplesUsing ? `<div class="word-meaning-container">
+                                                       <i class="fas fa-volume-up" data-audio="play-meaning" data-src="${word.audioMeaning}"></i> 
+                                                       <p>Значение:</p>
+                                                       <p class="word-meaning">${word.textMeaning}</p>
+                                                       <p class="word-meaning-translate">${word.textExampleTranslate}</p>
+                                                    </div> ` : '';
+    let wordExample = usersAppState.explanationExamples ? `<div class="word-example-container">
+                                                              <i class="fas fa-volume-up" data-audio="play-example" data-src="${word.audioExample}"></i> 
+                                                              <p>Пример:</p>
+                                                              <p class="word-example">${word.textExample}</p>
+                                                              <p class="word-example-translate">${word.textExampleTranslate}</p>
+                                                           </div>` : '';
     template.innerHTML = `
+      ${wordImg}
       <span class="input-container">
         <input type="text" class="answer-input" maxlength="50" autocomplete="off" autofocus>
       </span>
       <hr>
       <p class="translation">${word.wordTranslate}</p>
+      ${wordMeaning}
+      ${wordExample}
       `;
     this.answerInput = template.content.querySelector('.answer-input');
     return template.content;
