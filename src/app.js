@@ -9,6 +9,7 @@ import ControlPanel from './js/controlPanel/controlPanel';
 import Dictionary from './js/dictionary';
 import Account from './js/account';
 import GamesPage from './js/games/gamesPage';
+import Audiocall from './js/games/Audiocall';
 
 // INIT
 window.currentPage = null;
