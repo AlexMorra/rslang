@@ -1,10 +1,12 @@
 import GAMES from './gamesConstants';
+import EnglishPuzzle from './english-puzzle/index';
 
 export default class GamesPage {
   constructor() {
     this.element = null;
     this.mainArea = document.querySelector('.main-area');
     this.cardList = null;
+    this.englishPuzzle = new EnglishPuzzle();
   }
 
   show() {
@@ -15,6 +17,10 @@ export default class GamesPage {
 
   cardClickHandler(e) {
     console.log(e.target.id);
+    switch (e.target.id) {
+      case 'English Puzzle':
+        this.englishPuzzle.showMainPage();
+    }
   }
 
   getCardListTemplate() {
