@@ -64,6 +64,7 @@
 
 .training-card .show {
     opacity: 1!important;
+    visibility: visible!important;
     transition: opacity 2s ease;
 }
 
@@ -85,6 +86,7 @@
 .training-card .word-example-container {
     position: relative;
     opacity: 0;
+    visibility: hidden;
 }
 
 .training-card .word-meaning-container > i,
@@ -145,6 +147,9 @@
 
 .training-card .nextBtn {
     color: #338c9c;
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 2s ease;
 }
 
 .training-card .nextBtn:hover {

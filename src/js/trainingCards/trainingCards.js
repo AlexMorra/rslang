@@ -12,9 +12,12 @@ export default class TrainingCards {
     this.trainingWords = [];
     this.currentWord = null;
     this.audio = null;
+    this.dontKnowBtn = null;
+    this.nextBtn = null;
     // word parameters for statistics
     this.wordsStatistic = [];
     this.incorrect = 0;
+    this.answered = false;
   }
 
   show() {
@@ -26,12 +29,14 @@ export default class TrainingCards {
 
   initCard() {
     setTimeout(() => {
+      this.answered = false;
       this.mainArea.append(this.getTemplate());
-      this.answerInput.addEventListener('keypress', this.answerHandler.bind(this));
+      this.answerInput.addEventListener('keyup', this.answerHandler.bind(this));
       this.trainingCard.addEventListener('click', this.cardHandler.bind(this));
 
       let width = document.querySelector('.word-container').offsetWidth;
       this.answerInput.style.width = `${width - 20}px`;
+      this.answerInput.focus();
     }, 400);
   }
 
@@ -44,6 +49,7 @@ export default class TrainingCards {
     switch (btn) {
       case 'dont-know-btn':
         console.log('dont know');
+        this.setIncorrect();
         const audio_btn = document.querySelector('[data-audio="play"]');
         this.wordContainer.classList.remove('show-result');
         setTimeout(() => this.wordContainer.classList.add('show-result'));
@@ -61,13 +67,17 @@ export default class TrainingCards {
             this.mainArea.append(this.getTrainingStatistic());
           }, 400);
         }
-
         break;
     }
   }
 
   answerHandler(e) {
-    if (e.keyCode === 13 && this.answerInput.value.length) {
+    if (e.keyCode === 13 && this.answered) {
+      this.nextBtn.click();
+    } else if (e.keyCode === 18) {
+      console.log('DON"T KNOW');
+      this.dontKnowBtn.click();
+    } else if (e.keyCode === 13 && this.answerInput.value.length) {
       // init
       this.wordContainer.classList.remove('show-result');
       [...this.wordContainer.children].forEach(el => el.removeAttribute('style'));
@@ -103,9 +113,11 @@ export default class TrainingCards {
         this.wordContainer.classList.add('show-result');
       } else if (word === value) {
         console.log('CORRECT');
+        this.answered = true;
         this.audio.src = `./assets/${this.wordContainer.dataset.src}`;
         this.audio.play();
-        // settings
+        this.nextBtn.classList.add('show');
+        // settings params
         const wordMeaining = document.querySelector('.word-meaning-container');
         const wordExample = document.querySelector('.word-example-container');
         if (wordMeaining) wordMeaining.classList.add('show');
@@ -146,7 +158,7 @@ export default class TrainingCards {
     template.innerHTML = `
       ${wordImg}
       <span class="input-container">
-        <input type="text" class="answer-input" maxlength="50" autocomplete="off" autofocus>
+        <input type="text" class="answer-input" maxlength="50" autocomplete="off">
       </span>
       <hr>
       <p class="translation">${word.wordTranslate}</p>
@@ -189,6 +201,8 @@ export default class TrainingCards {
       </div>
     `;
     this.trainingCard = template.content.querySelector('.training-card');
+    this.nextBtn = template.content.querySelector('.nextBtn');
+    this.dontKnowBtn = template.content.querySelector('.dontKnowBtn');
     this.cardBody = template.content.querySelector('.card-body');
     this.audio = template.content.getElementById('audio');
     this.cardBody.append(this.getTrainingArea(this.currentWord));
