@@ -3,6 +3,7 @@ import * as utils from '../../utils';
 import '../../../css/games/english-puzzle/style.css';
 import './drag-and-drop';
 import dragAndDrop from './drag-and-drop';
+import wordClick from './word-click-handler';
 
 export default class EnglishPuzzle {
   constructor() {
@@ -58,12 +59,14 @@ export default class EnglishPuzzle {
           <button class="english-puzzle-main__control-block__hints__audio-repeat">repeat</button>
         </div>
       </div>
-      <div class="english-puzzle-main__active-hints">translate</div>
+      <div class="english-puzzle-main__stage">1/10</div>
+      <div class="english-puzzle-main__active-hints"></div>
       <div class="english-puzzle-main__result-block"></div>
       <div class="english-puzzle-main__active-phrase"></div>
       <div class="english-puzzle-main__btn-block">
-        <button class="english-puzzle-main__btn-block__check">check</button>
-        <button class="english-puzzle-main__btn-block__dnt-know">i don't know</button>          
+        <button class="english-puzzle-main__btn-block__check">Проверить</button>
+        <button class="english-puzzle-main__btn-block__dnt-know">Не знаю :(</button>
+        <button class="english-puzzle-main__btn-block__next">Продолжить</button>           
       </div>
     </div>
 </div>
@@ -78,12 +81,14 @@ export default class EnglishPuzzle {
       await this.renderPhrase();
       await this.renderResultBlock();
       dragAndDrop();
+      wordClick();
+      this.renderTranslate();
     }, 400);
   }
 
   async getNewWord() {
     let token = localStorage.getItem('token');
-    await this.state.getUserWord();
+    await this.state.getUserWords();
     let wordId = await this.state.userWords[3].wordId;
     const rawResponse = await fetch(`https://afternoon-falls-25894.herokuapp.com/words/${wordId}`, {
       method: 'GET',
@@ -124,7 +129,17 @@ export default class EnglishPuzzle {
     for (let i = 0; i < data.phrase.length; i += 1) {
       const resultElement = document.createElement('div');
       resultElement.className = 'english-puzzle-main__result-block__element';
+      resultElement.setAttribute('isFree', 'true');
       resultBlock.insertAdjacentElement('beforeend', resultElement);
+    }
+  }
+
+  async renderTranslate() {
+    const translateHintNode = document.querySelector('.english-puzzle-main__active-hints');
+    const data = await this.getNewWord();
+    await this.state.getUserSettings();
+    if (this.state.translateWord) {
+      translateHintNode.innerHTML = data.translate;
     }
   }
 }
