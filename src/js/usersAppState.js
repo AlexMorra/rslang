@@ -85,7 +85,7 @@ export default class State {
       });
   }
 
-  getUserWord() {
+  getUserWords() {
     let token = localStorage.getItem('token');
     let userId = localStorage.getItem('user_id');
     return fetch(`https://afternoon-falls-25894.herokuapp.com/users/${userId}/words`, {
@@ -101,6 +101,46 @@ export default class State {
       .then(responseJson => {
         console.log(responseJson, 'GET USER WORDS');
         this.userWords = responseJson;
+      });
+  }
+
+  getUserWord(wordId) {
+    let token = localStorage.getItem('token');
+    let userId = localStorage.getItem('user_id');
+    return fetch(`https://afternoon-falls-25894.herokuapp.com/users/${userId}/words/${wordId}`, {
+      method: 'GET',
+      withCredentials: true,
+      headers: {
+        Authorization: `Bearer ${token}`,
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      }
+    })
+      .then(response => response.json())
+      .then(responseJson => {
+        console.log('WORD');
+        // console.log(responseJson, 'GET USER WORDDDD');
+        return responseJson;
+      });
+  }
+
+  getWordById(wordId) {
+    let token = localStorage.getItem('token');
+    let userId = localStorage.getItem('user_id');
+    return fetch(`https://afternoon-falls-25894.herokuapp.com/words/${wordId}`, {
+      method: 'GET',
+      withCredentials: true,
+      headers: {
+        Authorization: `Bearer ${token}`,
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      }
+    })
+      .then(response => response.json())
+      .then(responseJson => {
+        console.log('WORD');
+        // console.log(responseJson, 'GET USER WORDDDD');
+        return responseJson;
       });
   }
 
