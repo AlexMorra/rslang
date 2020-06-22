@@ -25,6 +25,9 @@
     flex-direction: column;
     height: 80vh;
     overflow-y: auto;
+    transform: rotateY(0deg);
+    transform-origin: left;
+    background-color: inherit;
 }
 
 .dictionary .word-search {

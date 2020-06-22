@@ -9,7 +9,9 @@ export default class State {
     this.picturesWords = null;
     this.transcription = null;
     this.translateWord = null;
-    this.userWords = [];
+    this.learningWords = [];
+    this.difficultWords = [];
+    this.deletedWords = [];
   }
 
   getUserSettings() {
@@ -80,7 +82,28 @@ export default class State {
       .then(response => response.json())
       .then(responseJson => {
         console.log(responseJson, 'CREATE USER WORD');
-        this.userWords.push(responseJson);
+        this.learningWords.push(responseJson);
+        return responseJson;
+      });
+  }
+
+  updateUserWord(wordId, word) {
+    // { "difficulty": "weak", "optional": {testFieldString: 'test', testFieldBoolean: true} }
+    let token = localStorage.getItem('token');
+    let userId = localStorage.getItem('user_id');
+    return fetch(`https://afternoon-falls-25894.herokuapp.com/users/${userId}/words/${wordId}`, {
+      method: 'PUT',
+      withCredentials: true,
+      headers: {
+        Authorization: `Bearer ${token}`,
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(word)
+    })
+      .then(response => response.json())
+      .then(responseJson => {
+        console.log(responseJson, 'UPDATE USER WORD');
         return responseJson;
       });
   }
@@ -100,7 +123,15 @@ export default class State {
       .then(response => response.json())
       .then(responseJson => {
         console.log(responseJson, 'GET USER WORDS');
-        this.userWords = responseJson;
+        responseJson.forEach(word => {
+          if (word.optional.deletedWord) {
+            this.deletedWords.push(word);
+          } else if (word.optional.difficultWord) {
+            this.difficultWords.push(word);
+          } else {
+            this.learningWords.push(word);
+          }
+        });
       });
   }
 

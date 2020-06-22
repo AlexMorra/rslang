@@ -76,6 +76,7 @@ export default class WordsCardList {
         difficulty: `${this.difficulty}`,
         optional: {
           difficultWord: false,
+          deletedWord: false,
           learned: false,
           progress: 0
         }
@@ -132,7 +133,7 @@ export default class WordsCardList {
 
   createWordElement(word) {
     // TODO: fix in the future !!!!!!!!
-    let userHasWord = usersAppState.userWords.some(obj => obj.wordId === word.id);
+    let userHasWord = usersAppState.learningWords.some(obj => obj.wordId === word.id);
 
     let wordCheckbox = null;
     if (userHasWord) {

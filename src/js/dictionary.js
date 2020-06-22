@@ -45,7 +45,6 @@ export default class Dictionary {
         activeToggle();
         break;
       case 'nav-deleted-words':
-        console.log('deleted');
         activeToggle();
         break;
     }
@@ -84,11 +83,17 @@ export default class Dictionary {
     e.preventDefault();
     this.checkedWordsId.forEach(wordId => {
       let wordRow = document.querySelector(`[data-word-id="${wordId}"]`);
-      usersAppState.deleteUserWord(wordId).then(() => {
+      let userWord = usersAppState.learningWords.find(word => word.wordId === wordId);
+      userWord.optional.deletedWord = true;
+      let word_data = {
+        difficulty: userWord.difficulty,
+        optional: userWord.optional
+      };
+      usersAppState.updateUserWord(wordId, word_data).then(() => {
         wordRow.nextElementSibling.remove();
         wordRow.remove();
-        let word = usersAppState.userWords.find(word => word.wordId === wordId);
-        usersAppState.userWords.pop(word);
+        let word = usersAppState.learningWords.find(word => word.wordId === wordId);
+        usersAppState.learningWords.pop(word);
       });
     });
     this.inputWordSearch.removeAttribute('style');
@@ -122,7 +127,7 @@ export default class Dictionary {
     let dictionaryTemplate = tabWrapperTemplate.content.querySelector('.dictionary');
     this.wordListWrapper = tabWrapperTemplate.content.querySelector('.word-list-wrapper');
     this.audio = tabWrapperTemplate.content.querySelector('#audio');
-    usersAppState.userWords.forEach(obj => {
+    usersAppState.learningWords.forEach(obj => {
       const word = wordCards[obj.difficulty].find(word => word.id === obj.wordId);
       this.currentWords.push(word);
       this.wordListWrapper.append(this.createWordElement(word));
