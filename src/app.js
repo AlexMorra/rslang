@@ -15,7 +15,15 @@ import Audiocall from './js/games/Audiocall';
 window.currentPage = null;
 let auth = new Auth();
 
-export let menu = new Menu(new ControlPanel(), new Account(), new Auth(), new Dictionary(), new GamesPage());
+export let menu = new Menu(
+  new ControlPanel(),
+  new Account(),
+  new Auth(),
+  new Dictionary(),
+  new GamesPage(),
+  new TrainingCards()
+);
+
 export let usersAppState = new State();
 
 // check if user has session and load settings if has
