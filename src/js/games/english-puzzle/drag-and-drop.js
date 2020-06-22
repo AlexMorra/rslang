@@ -8,6 +8,7 @@ export default function dragAndDrop() {
       this.classList.add('hide');
     }, 0);
     this.style.left = '0';
+    this.parentNode.setAttribute('isFree', 'true');
   };
 
   const dragEnd = function () {
@@ -40,11 +41,20 @@ export default function dragAndDrop() {
     if (this.children.length !== 0) {
       if (event.target === draggingItem) return;
       this.children[0].style.marginTop = '10px';
+      draggingItem.parentNode.setAttribute('isFree', 'false');
       draggingItem.parentNode.append(this.children[0]);
       this.append(draggingItem);
+      this.setAttribute('isFree', false);
+      console.log(this);
     } else {
       this.append(draggingItem);
       this.classList.remove('hovered');
+      this.setAttribute('isFree', false);
+    }
+    const checkBtn = document.querySelector('.english-puzzle-main__btn-block__check');
+    const resultBlock = document.querySelector('.english-puzzle-main__result-block');
+    if (resultBlock.querySelectorAll('.english-puzzle-main__active-phrase__wrapper__element').length === cells.length) {
+      checkBtn.classList.remove('blocked');
     }
   };
 

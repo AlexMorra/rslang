@@ -59,7 +59,7 @@
   margin-top: 100px;
 }
 
-.english-puzzle-main__btn-block__check, .english-puzzle-main__btn-block__dnt-know, .english-puzzle-main__btn-block__next {
+.english-puzzle-main__btn-block__check, .english-puzzle-main__btn-block__dnt-know, .english-puzzle-main__btn-block__continued {
   width: 150px;
   height: 50px;
   margin-right: 50px;
@@ -81,11 +81,15 @@
   background-color: #eee5d8;
   border-radius: 5px;
   min-width: 50px;
-  margin-right: 5px;
-  margin-left: 5px;
+  margin: 5px;
   cursor: pointer;
   display: flex;
+  transition-duration: .5s;
   
+}
+
+button {
+  cursor: pointer;
 }
 
 .english-puzzle-main__active-phrase__wrapper__element {
@@ -112,6 +116,11 @@
 
 .hide {
   opacity: 0;
+}
+
+.blocked {
+  opacity: 0.5;
+  pointer-events: none;
 }
 
 .hovered {

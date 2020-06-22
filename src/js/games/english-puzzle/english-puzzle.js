@@ -3,13 +3,15 @@ import * as utils from '../../utils';
 import '../../../css/games/english-puzzle/style.css';
 import './drag-and-drop';
 import dragAndDrop from './drag-and-drop';
-import wordClick from './word-click-handler';
+import {
+  wordClick, checkBtnHandler, /* continuedBtnHandler */ dntKnowBtnHandler
+} from './event-handlers';
 
 export default class EnglishPuzzle {
   constructor() {
     this.mainArea = document.querySelector('.main-area');
     this.state = new State();
-    this.currentStage = 0;
+    this.currentStage = 1;
   }
 
   /* showStartPage() {
@@ -59,14 +61,14 @@ export default class EnglishPuzzle {
           <button class="english-puzzle-main__control-block__hints__audio-repeat">repeat</button>
         </div>
       </div>
-      <div class="english-puzzle-main__stage">1/10</div>
+      <div class="english-puzzle-main__stage">${this.currentStage}/10</div>
       <div class="english-puzzle-main__active-hints"></div>
       <div class="english-puzzle-main__result-block"></div>
       <div class="english-puzzle-main__active-phrase"></div>
       <div class="english-puzzle-main__btn-block">
-        <button class="english-puzzle-main__btn-block__check">Проверить</button>
+        <button class="english-puzzle-main__btn-block__check blocked">Проверить</button>
         <button class="english-puzzle-main__btn-block__dnt-know">Не знаю :(</button>
-        <button class="english-puzzle-main__btn-block__next">Продолжить</button>           
+        <button class="english-puzzle-main__btn-block__continued blocked">Продолжить</button>           
       </div>
     </div>
 </div>
@@ -80,16 +82,17 @@ export default class EnglishPuzzle {
       this.mainArea.append(this.getMainPage());
       await this.renderPhrase();
       await this.renderResultBlock();
+      await this.renderTranslate();
+      this.addEventHandlers();
       dragAndDrop();
       wordClick();
-      this.renderTranslate();
     }, 400);
   }
 
   async getNewWord() {
     let token = localStorage.getItem('token');
     await this.state.getUserWords();
-    let wordId = await this.state.userWords[3].wordId;
+    let wordId = await this.state.userWords[this.currentStage - 1].wordId;
     const rawResponse = await fetch(`https://afternoon-falls-25894.herokuapp.com/words/${wordId}`, {
       method: 'GET',
       withCredentials: true,
@@ -117,10 +120,17 @@ export default class EnglishPuzzle {
       const word = document.createElement('div');
       word.className = 'english-puzzle-main__active-phrase__wrapper__element';
       word.innerText = data.phrase[i];
-      phraseElement.append(word);
+      word.setAttribute('index', `${i}`);
       word.setAttribute('draggable', 'true');
+      phraseElement.append(word);
+      console.log(data.phrase.length);
       activePhrase.insertAdjacentElement('beforeend', phraseElement);
     }
+    const words = document.querySelectorAll('.english-puzzle-main__active-phrase__wrapper');
+    const wordsParentNode = document.querySelector('.english-puzzle-main__active-phrase');
+    const randomSequenceWords = [...words].sort(() => Math.random() - 0.5);
+    wordsParentNode.innerHTML = '';
+    wordsParentNode.append(...randomSequenceWords);
   }
 
   async renderResultBlock() {
@@ -141,5 +151,34 @@ export default class EnglishPuzzle {
     if (this.state.translateWord) {
       translateHintNode.innerHTML = data.translate;
     }
+  }
+
+  addEventHandlers() {
+    const checkBtn = document.querySelector('.english-puzzle-main__btn-block__check');
+    const continuedBtn = document.querySelector('.english-puzzle-main__btn-block__continued');
+    const dntKnowBtn = document.querySelector('.english-puzzle-main__btn-block__dnt-know');
+    checkBtn.addEventListener('click', checkBtnHandler);
+    continuedBtn.addEventListener('click', this.continuedBtnHandler.bind(this));
+    dntKnowBtn.addEventListener('click', dntKnowBtnHandler);
+  }
+
+  async continuedBtnHandler() {
+    if (this.currentStage === 10) alert('end');
+    const continuedBtn = document.querySelector('.english-puzzle-main__btn-block__continued');
+    const checkBtn = document.querySelector('.english-puzzle-main__btn-block__check');
+    checkBtn.classList.add('blocked');
+    continuedBtn.classList.add('blocked');
+    const resultBlock = document.querySelector('.english-puzzle-main__result-block');
+    const activePhrase = document.querySelector('.english-puzzle-main__active-phrase');
+    const stage = document.querySelector('.english-puzzle-main__stage');
+    this.currentStage += 1;
+    stage.innerHTML = `${this.currentStage}/10`;
+    resultBlock.innerHTML = '';
+    this.renderTranslate();
+    activePhrase.innerHTML = '';
+    await this.renderResultBlock();
+    await this.renderPhrase();
+    dragAndDrop();
+    wordClick();
   }
 }
