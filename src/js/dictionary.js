@@ -1,9 +1,11 @@
 import { usersAppState } from '../app';
 import wordCards from './wordCards';
+import * as utils from './utils';
 
 export default class Dictionary {
   constructor() {
     this.mainArea = document.querySelector('.main-area');
+    this.dictionary = null;
     this.dictionaryNav = null;
     this.checkedWordsId = null;
     this.chekedWords = null;
@@ -19,7 +21,7 @@ export default class Dictionary {
   show() {
     setTimeout(() => {
       let wordList = this.createWordList();
-      this.mainArea.append(wordList);
+      this.mainArea.append(this.createWordList());
       wordList.addEventListener('click', this.wordListHandler.bind(this));
       this.inputWordSearch.addEventListener('input', this.wordSearchHandler.bind(this));
       this.chooseToggleBtn.addEventListener('change', this.chooseToggle);
@@ -34,17 +36,21 @@ export default class Dictionary {
       [...this.dictionaryNav.children].forEach(nav => nav.classList.remove('active-dict'));
       this.dictionaryNav.querySelector(`#${navId}`).classList.add('active-dict');
     };
-
+    let test = 'ss';
     switch (navId) {
       case 'nav-learning-words':
         console.log('learning');
+        this.getWordsList(usersAppState.learningWords);
         activeToggle();
         break;
       case 'nav-difficult-words':
         console.log('difficult');
+        this.getWordsList(usersAppState.difficultWords);
         activeToggle();
         break;
       case 'nav-deleted-words':
+        console.log('deleted-words');
+        this.getWordsList(usersAppState.deletedWords);
         activeToggle();
         break;
     }
@@ -116,25 +122,31 @@ export default class Dictionary {
   }
 
   createWordList() {
-    let tabWrapperTemplate = document.createElement('template');
-    tabWrapperTemplate.innerHTML = `
+    let template = document.createElement('template');
+    template.innerHTML = `
       <div class="tab-wrapper dictionary">
         <div class="word-list-wrapper">
         </div>
         <audio id="audio"></audio>
       </div>
     `;
-    let dictionaryTemplate = tabWrapperTemplate.content.querySelector('.dictionary');
-    this.wordListWrapper = tabWrapperTemplate.content.querySelector('.word-list-wrapper');
-    this.audio = tabWrapperTemplate.content.querySelector('#audio');
-    usersAppState.learningWords.forEach(obj => {
+    this.dictionary = template.content.querySelector('.dictionary');
+    this.wordListWrapper = template.content.querySelector('.word-list-wrapper');
+    this.audio = template.content.querySelector('#audio');
+    this.getWordsList(usersAppState.learningWords);
+    this.dictionary.prepend(this.createWordListHeader());
+    this.dictionary.prepend(this.creteDictionaryNav());
+    return template.content;
+  }
+
+  getWordsList(wordCategory) {
+    this.currentWords = [];
+    this.wordListWrapper.innerHTML = '';
+    wordCategory.forEach(obj => {
       const word = wordCards[obj.difficulty].find(word => word.id === obj.wordId);
       this.currentWords.push(word);
       this.wordListWrapper.append(this.createWordElement(word));
     });
-    dictionaryTemplate.prepend(this.createWordListHeader());
-    dictionaryTemplate.prepend(this.creteDictionaryNav());
-    return dictionaryTemplate;
   }
 
   creteDictionaryNav() {
