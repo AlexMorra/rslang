@@ -1,4 +1,5 @@
 .dictionary {
+    position: relative;
     max-width: 800px;
     padding: 10px;
     background-color: white;
@@ -57,5 +58,54 @@
 .dictionary .word-list-row .dash {
     margin: 0 10px;
 }
+
+/* DICTIONARY NAVIGATION */
+.active-dict {
+    transform: scale(1.1) translateY(-2px);
+    font-weight: 500;
+}
+.dictionary .dictionary-nav {
+    display: flex;
+    list-style: none;
+    position: absolute;
+    top: -28px;
+    left: 22px;
+}
+
+.dictionary-learning-words,
+.dictionary-difficult-words,
+.dictionary-deleted-words {
+    padding: 5px 10px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    cursor: pointer;
+    transition: transform .2s ease;
+    z-index: 5;
+    color: #605a56;
+}
+
+.dictionary-learning-words {
+    background-color: #30a5005e;
+    margin-right: 10px;
+}
+
+.dictionary-difficult-words {
+    background-color: #eace0099;
+    margin-right: 10px;
+}
+
+.dictionary-deleted-words {
+    background-color: #ff000066;
+    margin-right: 20px;
+}
+
+@media  (max-width : 590px) {
+    .dictionary .dictionary-nav {
+        top: -38px;
+        font-size: 0.8em;
+        max-width: 400px;
+    }
+}
+
 
 

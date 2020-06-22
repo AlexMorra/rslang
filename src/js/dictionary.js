@@ -4,6 +4,7 @@ import wordCards from './wordCards';
 export default class Dictionary {
   constructor() {
     this.mainArea = document.querySelector('.main-area');
+    this.dictionaryNav = null;
     this.checkedWordsId = null;
     this.chekedWords = null;
     this.wordListWrapper = null;
@@ -23,7 +24,31 @@ export default class Dictionary {
       this.inputWordSearch.addEventListener('input', this.wordSearchHandler.bind(this));
       this.chooseToggleBtn.addEventListener('change', this.chooseToggle);
       this.deleteWordsBtn.addEventListener('click', this.deleteWords.bind(this));
+      this.dictionaryNav.addEventListener('click', this.navHandler.bind(this));
     }, 400);
+  }
+
+  navHandler(e) {
+    const navId = e.target.id;
+    const activeToggle = () => {
+      [...this.dictionaryNav.children].forEach(nav => nav.classList.remove('active-dict'));
+      this.dictionaryNav.querySelector(`#${navId}`).classList.add('active-dict');
+    };
+
+    switch (navId) {
+      case 'nav-learning-words':
+        console.log('learning');
+        activeToggle();
+        break;
+      case 'nav-difficult-words':
+        console.log('difficult');
+        activeToggle();
+        break;
+      case 'nav-deleted-words':
+        console.log('deleted');
+        activeToggle();
+        break;
+    }
   }
 
   wordListHandler(e) {
@@ -103,7 +128,21 @@ export default class Dictionary {
       this.wordListWrapper.append(this.createWordElement(word));
     });
     dictionaryTemplate.prepend(this.createWordListHeader());
+    dictionaryTemplate.prepend(this.creteDictionaryNav());
     return dictionaryTemplate;
+  }
+
+  creteDictionaryNav() {
+    let template = document.createElement('template');
+    template.innerHTML = `
+      <ul class="dictionary-nav">
+        <li id="nav-learning-words" class="dictionary-learning-words active-dict">Изучаемые слова</li>
+        <li id="nav-difficult-words" class="dictionary-difficult-words">Сложные слова</li>
+        <li id="nav-deleted-words" class="dictionary-deleted-words">Удаленные слова</li>
+      </ul>
+    `;
+    this.dictionaryNav = template.content.querySelector('.dictionary-nav');
+    return template.content;
   }
 
   createWordListHeader() {
