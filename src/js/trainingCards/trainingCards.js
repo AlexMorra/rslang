@@ -128,7 +128,7 @@ export default class TrainingCards {
 
   getTrainingWords() {
     // get 10 random user words from the dictionary
-    this.trainingWords = usersAppState.userWords.slice().sort((prev, next) => 0.5 - Math.random()).slice(0, 10)
+    this.trainingWords = usersAppState.learningWords.slice().sort((prev, next) => 0.5 - Math.random()).slice(0, 10)
       .map(obj => {
         return wordCards[obj.difficulty].find(word => word.id === obj.wordId);
       });
