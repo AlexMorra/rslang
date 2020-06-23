@@ -14,18 +14,21 @@ export default class Dictionary {
     this.chooseToggleBtn = null;
     this.inputWordSearch = null;
     this.deleteWordsBtn = null;
+    this.returnToDictionaryBtn = null;
     this.audio = null;
     this.currentWords = [];
+    this.currentTab = 'learning';
   }
 
   show() {
     setTimeout(() => {
       this.mainArea.append(this.createWordList());
-      this.wordListWrapper.addEventListener('click', this.wordListHandler.bind(this));
+      this.dictionary.addEventListener('click', this.wordListHandler.bind(this));
       this.inputWordSearch.addEventListener('input', this.wordSearchHandler.bind(this));
-      this.chooseToggleBtn.addEventListener('change', this.chooseToggle);
+      this.chooseToggleBtn.addEventListener('change', this.chooseToggle.bind(this));
       this.deleteWordsBtn.addEventListener('click', this.deleteWords.bind(this));
       this.dictionaryNav.addEventListener('click', this.navHandler.bind(this));
+      this.returnToDictionaryBtn.addEventListener('click', this.returnWords.bind(this));
     }, 400);
   }
 
@@ -35,28 +38,49 @@ export default class Dictionary {
       [...this.dictionaryNav.children].forEach(nav => nav.classList.remove('active-dict'));
       this.dictionaryNav.querySelector(`#${navId}`).classList.add('active-dict');
     };
-    let test = 'ss';
     switch (navId) {
       case 'nav-learning-words':
         console.log('learning');
+        this.currentTab = 'learning';
         this.getWordsList(usersAppState.learningWords);
         activeToggle();
         break;
       case 'nav-difficult-words':
         console.log('difficult');
+        this.currentTab = 'difficult';
         this.getWordsList(usersAppState.difficultWords);
         activeToggle();
         break;
       case 'nav-deleted-words':
         console.log('deleted-words');
+        this.currentTab = 'deleted';
         this.getWordsList(usersAppState.deletedWords);
         activeToggle();
         break;
       case 'nav-learned-words':
         console.log('learned-words');
+        this.currentTab = 'learned';
         this.getWordsList(usersAppState.learnedWords);
         activeToggle();
         break;
+    }
+  }
+
+  btnVisible() {
+    this.inputWordSearch.style.display = 'none';
+    if (this.currentTab === 'learning') {
+      this.deleteWordsBtn.removeAttribute('style');
+    } else if (this.currentTab === 'deleted') {
+      this.returnToDictionaryBtn.removeAttribute('style');
+    }
+  }
+
+  btnHidden() {
+    this.inputWordSearch.removeAttribute('style');
+    if (this.currentTab === 'learning') {
+      this.deleteWordsBtn.style.display = 'none';
+    } else if (this.currentTab === 'deleted') {
+      this.returnToDictionaryBtn.style.display = 'none';
     }
   }
 
@@ -68,11 +92,9 @@ export default class Dictionary {
         .map(checkbox=> checkbox.getAttribute('id'));
       console.log(this.checkedWordsId, 'CHECKED WORDS');
       if (this.checkedWordsId.length) {
-        this.inputWordSearch.style.display = 'none';
-        this.deleteWordsBtn.removeAttribute('style');
+        this.btnVisible();
       } else {
-        this.inputWordSearch.removeAttribute('style');
-        this.deleteWordsBtn.style.display = 'none';
+        this.btnHidden();
       }
     } else if (e.target.dataset.audio) {
       this.audio.src = `./assets/${e.target.dataset.src}`;
@@ -81,16 +103,20 @@ export default class Dictionary {
   }
 
   chooseToggle(e) {
+    console.log('choose toggle');
     this.chekedWords = [...document.querySelectorAll('.word-checkbox-delete')];
     if (e.target.checked) {
       this.chekedWords.forEach(checkbox => checkbox.checked = true);
+      this.btnVisible();
     } else {
       this.chekedWords.forEach(checkbox => checkbox.checked = false);
+      this.btnHidden();
     }
   }
 
   deleteWords(e) {
     e.preventDefault();
+    console.log(this.checkedWordsId);
     this.checkedWordsId.forEach(wordId => {
       let wordRow = document.querySelector(`[data-word-id="${wordId}"]`);
       let userWord = usersAppState.learningWords.find(word => word.wordId === wordId);
@@ -102,12 +128,27 @@ export default class Dictionary {
       usersAppState.updateUserWord(wordId, word_data).then(() => {
         wordRow.nextElementSibling.remove();
         wordRow.remove();
-        let word = usersAppState.learningWords.find(word => word.wordId === wordId);
+        // let word = usersAppState.learningWords.find(word => word.wordId === wordId);
         usersAppState.learningWords.pop(word);
       });
     });
     this.inputWordSearch.removeAttribute('style');
     this.deleteWordsBtn.style.display = 'none';
+    this.chooseToggleBtn.checked = false;
+  }
+
+  returnWords(e) {
+    console.log(this.checkedWordsId);
+    this.checkedWordsId.forEach(wordId => {
+      let wordRow = document.querySelector(`[data-word-id="${wordId}"]`);
+      usersAppState.returnWordToDictionary(wordId).then(() => {
+        wordRow.nextElementSibling.remove();
+        wordRow.remove();
+      });
+    });
+    this.inputWordSearch.removeAttribute('style');
+    this.returnToDictionaryBtn.style.display = 'none';
+    this.chooseToggleBtn.checked = false;
   }
 
   wordSearchHandler() {
@@ -174,12 +215,14 @@ export default class Dictionary {
         <input type="checkbox" class="chooseToggle">
         <input type="text" class="word-search" placeholder="Найти">
         <input type="submit" class="delete-words" value="Удалить из словаря" style="display: none">
+        <input type="submit" class="return-words" value="Вернуть на изучение" style="display: none">
       </div>
     `;
     this.header = this.header.content.querySelector('.word-list-header');
     this.chooseToggleBtn = this.header.querySelector('.chooseToggle');
     this.inputWordSearch = this.header.querySelector('.word-search');
     this.deleteWordsBtn = this.header.querySelector('.delete-words');
+    this.returnToDictionaryBtn = this.header.querySelector('.return-words');
     return this.header;
   }
 

@@ -41,6 +41,7 @@
     outline-color: transparent;
 }
 
+/* DELETE BTN */
 .dictionary .delete-words {
     padding: 8px 14px;
     cursor: pointer;
@@ -56,6 +57,25 @@
 
 .dictionary .delete-words:hover {
     background-color: rgba(255, 0, 0, 0.65);
+}
+
+/* RETURN BTN */
+
+.dictionary .return-words {
+    padding: 8px 14px;
+    cursor: pointer;
+    color: #605a56;
+    background-color: #0089ff8a;
+    border: none;
+    border-radius: 5px;
+}
+
+.dictionary .return-words:focus {
+    outline: none;
+}
+
+.dictionary .return-word:hover {
+    background-color: rgba(0, 137, 255, 0.66);
 }
 
 .dictionary .word-transcription {

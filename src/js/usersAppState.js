@@ -1,3 +1,6 @@
+import { usersAppState } from '../app';
+import wordCards from './wordCards';
+
 export default class State {
   constructor() {
     this.wordsPerDay = 1;
@@ -89,7 +92,7 @@ export default class State {
       });
   }
 
-  updateUserWord(wordId, word) {
+  updateUserWord(wordId, word_data) {
     // { "difficulty": "weak", "optional": {testFieldString: 'test', testFieldBoolean: true} }
     let token = localStorage.getItem('token');
     let userId = localStorage.getItem('user_id');
@@ -101,7 +104,7 @@ export default class State {
         Accept: 'application/json',
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(word)
+      body: JSON.stringify(word_data)
     })
       .then(response => response.json())
       .then(responseJson => {
@@ -193,6 +196,21 @@ export default class State {
         if (response.ok) console.log('DELETED');
         return response;
       });
+  }
+
+  returnWordToDictionary(wordId) {
+    let userWord = this.deletedWords.find(word => word.wordId === wordId);
+    userWord.optional.deletedWord = false;
+    let word_data = {
+      difficulty: userWord.difficulty,
+      optional: userWord.optional
+    };
+    return this.updateUserWord(wordId, word_data).then(response => {
+      console.log(response);
+      let word = this.deletedWords.pop(userWord);
+      usersAppState.learningWords.push(word);
+      return response;
+    });
   }
 
   saveSettings(settings) {
