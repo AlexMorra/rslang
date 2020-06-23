@@ -37,6 +37,7 @@ export default class Dictionary {
     const activeToggle = () => {
       [...this.dictionaryNav.children].forEach(nav => nav.classList.remove('active-dict'));
       this.dictionaryNav.querySelector(`#${navId}`).classList.add('active-dict');
+      this.chooseToggleBtn.checked = false;
     };
     switch (navId) {
       case 'nav-learning-words':
@@ -63,24 +64,6 @@ export default class Dictionary {
         this.getWordsList(usersAppState.learnedWords);
         activeToggle();
         break;
-    }
-  }
-
-  btnVisible() {
-    this.inputWordSearch.style.display = 'none';
-    if (this.currentTab === 'learning') {
-      this.deleteWordsBtn.removeAttribute('style');
-    } else if (this.currentTab === 'deleted') {
-      this.returnToDictionaryBtn.removeAttribute('style');
-    }
-  }
-
-  btnHidden() {
-    this.inputWordSearch.removeAttribute('style');
-    if (this.currentTab === 'learning') {
-      this.deleteWordsBtn.style.display = 'none';
-    } else if (this.currentTab === 'deleted') {
-      this.returnToDictionaryBtn.style.display = 'none';
     }
   }
 
@@ -115,21 +98,12 @@ export default class Dictionary {
   }
 
   deleteWords(e) {
-    e.preventDefault();
     console.log(this.checkedWordsId);
     this.checkedWordsId.forEach(wordId => {
       let wordRow = document.querySelector(`[data-word-id="${wordId}"]`);
-      let userWord = usersAppState.learningWords.find(word => word.wordId === wordId);
-      userWord.optional.deletedWord = true;
-      let word_data = {
-        difficulty: userWord.difficulty,
-        optional: userWord.optional
-      };
-      usersAppState.updateUserWord(wordId, word_data).then(() => {
+      usersAppState.updateDeletedWord(wordId, true).then(() => {
         wordRow.nextElementSibling.remove();
         wordRow.remove();
-        // let word = usersAppState.learningWords.find(word => word.wordId === wordId);
-        usersAppState.learningWords.pop(word);
       });
     });
     this.inputWordSearch.removeAttribute('style');
@@ -141,7 +115,7 @@ export default class Dictionary {
     console.log(this.checkedWordsId);
     this.checkedWordsId.forEach(wordId => {
       let wordRow = document.querySelector(`[data-word-id="${wordId}"]`);
-      usersAppState.returnWordToDictionary(wordId).then(() => {
+      usersAppState.updateDeletedWord(wordId, false).then(() => {
         wordRow.nextElementSibling.remove();
         wordRow.remove();
       });
@@ -227,9 +201,6 @@ export default class Dictionary {
   }
 
   createWordElement(word) {
-    // TODO: fix in the future !!!!!!!!
-    // let saved = usersAppState.userWords.some(obj => obj.wordId === word.id);
-
     let wordTemplate = document.createElement('template');
     wordTemplate.innerHTML = `
       <div class="word-list-row" data-word-id="${word.id}">
@@ -252,5 +223,23 @@ export default class Dictionary {
       <hr>
       `;
     return wordTemplate.content;
+  }
+
+  btnVisible() {
+    this.inputWordSearch.style.display = 'none';
+    if (this.currentTab === 'learning') {
+      this.deleteWordsBtn.removeAttribute('style');
+    } else if (this.currentTab === 'deleted') {
+      this.returnToDictionaryBtn.removeAttribute('style');
+    }
+  }
+
+  btnHidden() {
+    this.inputWordSearch.removeAttribute('style');
+    if (this.currentTab === 'learning') {
+      this.deleteWordsBtn.style.display = 'none';
+    } else if (this.currentTab === 'deleted') {
+      this.returnToDictionaryBtn.style.display = 'none';
+    }
   }
 }
