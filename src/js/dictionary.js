@@ -20,9 +20,8 @@ export default class Dictionary {
 
   show() {
     setTimeout(() => {
-      let wordList = this.createWordList();
       this.mainArea.append(this.createWordList());
-      wordList.addEventListener('click', this.wordListHandler.bind(this));
+      this.wordListWrapper.addEventListener('click', this.wordListHandler.bind(this));
       this.inputWordSearch.addEventListener('input', this.wordSearchHandler.bind(this));
       this.chooseToggleBtn.addEventListener('change', this.chooseToggle);
       this.deleteWordsBtn.addEventListener('click', this.deleteWords.bind(this));
@@ -51,6 +50,11 @@ export default class Dictionary {
       case 'nav-deleted-words':
         console.log('deleted-words');
         this.getWordsList(usersAppState.deletedWords);
+        activeToggle();
+        break;
+      case 'nav-learned-words':
+        console.log('learned-words');
+        this.getWordsList(usersAppState.learnedWords);
         activeToggle();
         break;
     }
@@ -156,6 +160,7 @@ export default class Dictionary {
         <li id="nav-learning-words" class="dictionary-learning-words active-dict">Изучаемые слова</li>
         <li id="nav-difficult-words" class="dictionary-difficult-words">Сложные слова</li>
         <li id="nav-deleted-words" class="dictionary-deleted-words">Удаленные слова</li>
+        <li id="nav-learned-words" class="dictionary-learned-words">Выученные слова</li>
       </ul>
     `;
     this.dictionaryNav = template.content.querySelector('.dictionary-nav');

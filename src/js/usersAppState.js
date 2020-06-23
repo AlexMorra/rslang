@@ -1,17 +1,19 @@
 export default class State {
   constructor() {
-    this.wordsPerDay = null;
-    this.cardsPerDay = null;
-    this.username = null;
-    this.examplesUsing = null;
-    this.explanationExamples = null;
-    this.nightMode = null;
-    this.picturesWords = null;
-    this.transcription = null;
-    this.translateWord = null;
+    this.wordsPerDay = 1;
+    this.cardsPerDay = 1;
+    this.username = '';
+    this.examplesUsing = false;
+    this.explanationExamples = false;
+    this.nightMode = false;
+    this.picturesWords = false;
+    this.transcription = false;
+    this.translateWord = false;
+    this.playAudio = false;
     this.learningWords = [];
     this.difficultWords = [];
     this.deletedWords = [];
+    this.learnedWords = [];
   }
 
   getUserSettings() {

@@ -44,9 +44,25 @@
 .dictionary .delete-words {
     padding: 8px 14px;
     cursor: pointer;
-    color: white;
-    background-color: crimson;
+    color: #605a56;
+    background-color: rgba(255, 0, 0, 0.53);
+    border: none;
+    border-radius: 5px;
 }
+
+.dictionary .delete-words:focus {
+    outline: none;
+}
+
+.dictionary .delete-words:hover {
+    background-color: rgba(255, 0, 0, 0.65);
+}
+
+.dictionary .word-transcription {
+    color: #605a56;
+    letter-spacing: 1px;
+}
+
 
 .dictionary .word-list-row {
     display: flex;
@@ -77,7 +93,8 @@
 
 .dictionary-learning-words,
 .dictionary-difficult-words,
-.dictionary-deleted-words {
+.dictionary-deleted-words,
+.dictionary-learned-words {
     padding: 5px 10px;
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
@@ -88,7 +105,7 @@
 }
 
 .dictionary-learning-words {
-    background-color: #30a5005e;
+    background-color: #0089ff8a;
     margin-right: 10px;
 }
 
@@ -99,14 +116,43 @@
 
 .dictionary-deleted-words {
     background-color: #ff000066;
+    margin-right: 10px;
+}
+
+.dictionary-learned-words {
+    background-color: #30a5005e;
     margin-right: 20px;
 }
 
-@media  (max-width : 590px) {
+
+@media  (max-width : 750px) {
+    .dictionary .dictionary-nav {
+        top: -24px;
+        font-size: 0.8em;
+        max-width: 600px;
+    }
+}
+
+@media  (max-width : 650px) {
     .dictionary .dictionary-nav {
         top: -38px;
         font-size: 0.8em;
-        max-width: 400px;
+        max-width: 500px;
+    }
+}
+
+@media  (max-width : 550px) {
+    .dictionary .dictionary-nav {
+        top: -28px;
+        font-size: 0.5em;
+        max-width: 350px;
+    }
+    .dictionary .word-list-wrapper {
+        font-size: 0.7em;
+    }
+
+    .dictionary .word-list-row .dash {
+        margin: 0 5px;
     }
 }
 
