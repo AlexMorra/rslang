@@ -226,6 +226,7 @@ export default class State {
       this.examplesUsing = options.examplesUsing;
       this.transcription = options.transcription;
       this.picturesWords = options.picturesWords;
+      this.playAudio = options.playAudio;
     }
   }
 }

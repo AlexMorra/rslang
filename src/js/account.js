@@ -8,7 +8,7 @@ export default class Account {
     this.accountTemplate = this.getTemplate();
     this.idCheckboxOptions = [
       'nightMode', 'translateWord', 'explanationExamples',
-      'examplesUsing', 'transcription', 'picturesWords'
+      'examplesUsing', 'transcription', 'picturesWords', 'playAudio'
     ];
   }
 
@@ -81,6 +81,7 @@ export default class Account {
     let examplesUsing = template.getElementById('examplesUsing');
     let transcription = template.getElementById('transcription');
     let picturesWords = template.getElementById('picturesWords');
+    let playAudio = template.getElementById('playAudio');
     username.value = usersAppState.username || ' ';
     nightMode.checked = usersAppState.nightMode;
     translateWord.checked = usersAppState.translateWord;
@@ -88,6 +89,7 @@ export default class Account {
     examplesUsing.checked = usersAppState.examplesUsing;
     transcription.checked = usersAppState.transcription;
     picturesWords.checked = usersAppState.picturesWords;
+    playAudio.checked = usersAppState.playAudio;
     wordsPerDay.value = usersAppState.wordsPerDay || 1;
     cardsPerDay.value = usersAppState.cardsPerDay || 1;
     return template;
@@ -183,6 +185,14 @@ export default class Account {
             </span>
         </label>
         <hr>
+         <label class="account-row">
+            <i class="fas fa-volume-up"></i>
+            <span>Аудио слов</span>
+            <span class="checkbox-wrapper">
+                <input type="checkbox" id="playAudio" class="checkbox">
+                <span class="checkbox-style"></span>
+            </span>
+        </label>
     </div>
     `;
     return template.content;
