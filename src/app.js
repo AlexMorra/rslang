@@ -10,6 +10,7 @@ import Dictionary from './js/dictionary';
 import Account from './js/account';
 import GamesPage from './js/games/gamesPage';
 import TrainingCards from './js/trainingCards/trainingCards';
+import SpeakIt from './js/games/speakit/index-speakit';
 
 // INIT
 window.currentPage = null;
@@ -20,7 +21,7 @@ export let menu = new Menu(
   new Account(),
   new Auth(),
   new Dictionary(),
-  new GamesPage(),
+  new GamesPage(new SpeakIt()),
   new TrainingCards()
 );
 

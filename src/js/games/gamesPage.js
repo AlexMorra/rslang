@@ -1,10 +1,12 @@
 import GAMES from './gamesConstants';
+import * as utils from './../utils';
 
 export default class GamesPage {
-  constructor() {
+  constructor(SpeakIt) {
     this.element = null;
     this.mainArea = document.querySelector('.main-area');
     this.cardList = null;
+    this.SpeakIt = SpeakIt;
   }
 
   show() {
@@ -15,6 +17,8 @@ export default class GamesPage {
 
   cardClickHandler(e) {
     console.log(e.target.id);
+    utils.destroy();
+    this.SpeakIt.show();
   }
 
   getCardListTemplate() {

@@ -1,0 +1,200 @@
+.speakit{
+    height: 100vh;
+    max-width: 1440px;
+    margin: 0 auto;
+}
+
+
+/* LEVELS */
+
+
+.speakit__level-block{
+    width: 300px;
+    height: 70px;
+    margin-top: -2rem;
+}
+
+.speakit__level-block--name{
+    font-size: 2rem;
+    font-weight: 300;
+    text-transform: uppercase;
+    text-align: center;
+    margin-left: -2rem;
+}
+
+.speakit__levels{
+    margin-left: 2.8rem;
+}
+
+
+.level{
+    width: 20px;
+    height: 20px;
+    background-color: teal;
+    display: inline-block;
+    border-radius: 50px;
+    margin-right: 5px;
+    cursor: pointer;
+    transition: all .3s;
+}
+
+.level:hover{
+    transform: scale(1.1);
+    box-shadow: 0 3px 7px grey; 
+    background-color: rgb(1, 162, 162);
+}
+
+.level:active{
+    transform: scale(1.05);
+    box-shadow: 0 1px 4px grey; 
+}
+
+.active-level{
+    border: 3px solid rgb(0, 52, 52);
+}
+
+
+/* MAIN BLOCK WITH IMAGE */
+
+.speakit__image-block{
+    max-width: 380px;
+    height: 300px;
+    margin: 0 auto;
+}
+
+.speakit__image{
+    width: 100%;
+    border-radius: 7px;
+    box-shadow: 0 10px 15px grey;
+}
+
+.speakit__image-name{
+    font-size: 2.2rem;
+    text-transform: lowercase;
+    font-weight: 300;
+    color: black;
+    opacity: .6;
+    text-align: center;
+    margin-top: .5rem;
+}
+
+
+/* WORDS BLOCK */
+
+.speakit__words{
+    width: 85%;
+    margin: 1.5rem auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.word{
+    border: 1px solid rgba(128, 128, 128, 0.544);
+    border-radius: 7px;
+    height: 50px;
+    width: 160px;
+    padding: .3rem 1rem 1.1rem;
+    margin: .5rem 1rem;
+    position: relative;
+    cursor: pointer;
+    transition: all .3s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.word:hover{
+    transform: translateY(-3px);
+    box-shadow: 0 3px 10px grey;
+}
+.word:active{
+    transform: translateY(-1px);
+    box-shadow: 0 1px 4px grey;
+}
+
+.word:hover .word-speaker{
+    transform: scale(1.08);
+    opacity: 1;
+}
+
+.word:active .word-speaker{
+    transform: scale(1.03);
+    opacity: .8;
+}
+
+.active-word{
+    background-color: rgba(0, 155, 155, 0.229);
+    border: 1px solid teal;
+}
+
+.word-speaker{
+    width: 35px;
+    height: 35px;
+    opacity: .7;
+    margin: 8px;
+    transition: all .3s;
+    position: absolute;
+    top: 14px;
+    left: 5px;
+}
+
+
+.word-english{
+    font-size: 1.6rem;
+    font-weight: 400;
+    color: teal;
+    margin-left: 4rem;
+}
+
+.word-transcription{
+    font-size: 1.5rem;
+    font-weight: 300;
+    opacity: .6;
+    margin-left: 4rem;
+    margin-top: 5px;
+}
+
+/* NAVIGATION BUTTONS */
+
+.speakit__nav{
+    width: 83%;
+    display: flex;
+    justify-content: space-between;
+    margin: 1rem auto 0;
+}
+
+.button-submit{
+    font-size: 1.6rem;
+    color: #fff;
+    font-weight: 300;
+    text-transform: uppercase;
+    background-color: teal;
+    border: none;
+    border-radius: 7px;
+    cursor: pointer;
+    transition: all .3s;
+    box-shadow: 0 2px 8px grey;
+    outline: none;
+}
+
+.button-submit:hover{
+    transform: translateY(-5px);
+    box-shadow: 0 7px 15px grey;
+    background-color: rgb(20, 162, 162);
+}
+.button-submit:active{
+    transform: translateY(-2px);
+    box-shadow: 0 2px 8px grey;
+    background-color: rgb(15, 140, 140);
+}
+
+.button-short{
+    width: 200px;
+    height: 55px;
+}
+
+.button-long{
+    height: 60px;
+    width: 660px !important; 
+}
