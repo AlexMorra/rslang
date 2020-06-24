@@ -36,7 +36,7 @@ export default class ControlPanel extends wordsCardList {
     let cardsWrapper = template.querySelector('.cp-cards');
     let cardTemplate = document.createElement('template');
     Object.keys(wordCards).forEach(card => {
-      let userWordsInCard = usersAppState.userWords.filter(obj => obj.difficulty === card).length;
+      let userWordsInCard = usersAppState.getAllWords().filter(obj => obj.difficulty === card).length;
       cardTemplate.innerHTML = `
              <div class="cp-card" data-card="${card}">
                 <div class="card-title">Карточка ${card}</div>

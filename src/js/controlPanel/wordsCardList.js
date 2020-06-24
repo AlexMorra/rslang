@@ -76,6 +76,7 @@ export default class WordsCardList {
         difficulty: `${this.difficulty}`,
         optional: {
           difficultWord: false,
+          deletedWord: false,
           learned: false,
           progress: 0
         }
@@ -89,7 +90,7 @@ export default class WordsCardList {
     });
     this.inputWordSearch.removeAttribute('style');
     this.addToDictionaryBtn.style.display = 'none';
-    this.chooseToggleBtn.click();
+    this.chooseToggleBtn.checked = false;
   }
 
   createWordList(card, cardKey) {
@@ -132,7 +133,7 @@ export default class WordsCardList {
 
   createWordElement(word) {
     // TODO: fix in the future !!!!!!!!
-    let userHasWord = usersAppState.userWords.some(obj => obj.wordId === word.id);
+    let userHasWord = usersAppState.getAllWords().some(obj => obj.wordId === word.id);
 
     let wordCheckbox = null;
     if (userHasWord) {
