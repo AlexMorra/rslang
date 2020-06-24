@@ -2,6 +2,7 @@ import State from '../../usersAppState';
 import * as utils from '../../utils';
 import '../../../css/games/english-puzzle/style.css';
 import './drag-and-drop';
+import wordCards from '../../wordCards';
 import dragAndDrop from './drag-and-drop';
 import {
   wordClick, checkBtnHandler, /* continuedBtnHandler */ dntKnowBtnHandler
@@ -12,6 +13,7 @@ export default class EnglishPuzzle {
     this.mainArea = document.querySelector('.main-area');
     this.state = new State();
     this.currentStage = 1;
+    this.currentWord = null;
   }
 
   /* showStartPage() {
@@ -57,7 +59,7 @@ export default class EnglishPuzzle {
           </select>
         </div>
         <div class="english-puzzle-main__control-block__hints">
-          <button class="english-puzzle-main__control-block__hints__translate">translate</button>
+          <button class="english-puzzle-main__control-block__hints__translate blocked">translate</button>
           <button class="english-puzzle-main__control-block__hints__audio-repeat">repeat</button>
         </div>
       </div>
@@ -90,25 +92,36 @@ export default class EnglishPuzzle {
   }
 
   async getNewWord() {
-    let token = localStorage.getItem('token');
-    await this.state.getUserWords();
-    let wordId = await this.state.userWords[this.currentStage - 1].wordId;
-    const rawResponse = await fetch(`https://afternoon-falls-25894.herokuapp.com/words/${wordId}`, {
-      method: 'GET',
-      withCredentials: true,
-      headers: {
-        Authorization: `Bearer ${token}`,
-        Accept: 'application/json'
-      }
-    });
-    const content = await rawResponse.json();
-    const exampleFiltered = content.textExample.split(' ').map(el => el.replace(/<b>/gm, '').replace(/<\/b>/gm, ''));
-    return {
-      word: content.word,
-      phrase: exampleFiltered,
-      translate: content.textExampleTranslate,
-      audioSrc: content.audioExample
-    };
+    try {
+      let token = localStorage.getItem('token');
+      await this.state.getUserWords();
+      let wordId = await this.state.userWords[this.currentStage - 1].wordId;
+      const rawResponse = await fetch(`https://afternoon-falls-25894.herokuapp.com/words/${wordId}`, {
+        method: 'GET',
+        withCredentials: true,
+        headers: {
+          Authorization: `Bearer ${token}`,
+          Accept: 'application/json'
+        }
+      });
+      const content = await rawResponse.json();
+      const exampleFiltered = content.textExample.split(' ').map(el => el.replace(/<b>/gm, '').replace(/<\/b>/gm, ''));
+      return {
+        word: content.word,
+        phrase: exampleFiltered,
+        translate: content.textExampleTranslate,
+        audioSrc: content.audioExample
+      };
+    } catch (er) {
+      const wordInfo = wordCards[Math.round(0 + Math.random() * (6 - 0))][Math.round(0 + Math.random() * (600 - 0))];
+      const exampleFiltered = wordInfo.textExample.split(' ').map(el => el.replace(/<b>/gm, '').replace(/<\/b>/gm, ''));
+      return {
+        word: wordInfo.word,
+        phrase: exampleFiltered,
+        translate: wordInfo.textExampleTranslate,
+        audioSrc: wordInfo.audioExample
+      };
+    }
   }
 
   async renderPhrase() {
@@ -145,11 +158,13 @@ export default class EnglishPuzzle {
   }
 
   async renderTranslate() {
+    const translateBtn = document.querySelector('.english-puzzle-main__control-block__hints__translate');
     const translateHintNode = document.querySelector('.english-puzzle-main__active-hints');
     const data = await this.getNewWord();
     await this.state.getUserSettings();
     if (this.state.translateWord) {
       translateHintNode.innerHTML = data.translate;
+      translateBtn.classList.remove('blocked');
     }
   }
 

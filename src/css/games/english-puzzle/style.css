@@ -92,6 +92,14 @@ button {
   cursor: pointer;
 }
 
+button:active, button:focus {
+  outline: none;
+}
+
+.english-puzzle-main__btn-block button:hover {
+  box-shadow: 0 0 0 2px #D2973D inset, 0 0 0 4px white inset;
+}
+
 .english-puzzle-main__active-phrase__wrapper__element {
   display: flex;
   align-items: center;
