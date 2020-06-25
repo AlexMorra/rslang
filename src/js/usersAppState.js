@@ -1,4 +1,3 @@
-import { usersAppState } from '../app';
 import wordCards from './wordCards';
 
 export default class State {
@@ -17,6 +16,10 @@ export default class State {
     this.difficultWords = [];
     this.deletedWords = [];
     this.learnedWords = [];
+  }
+
+  getAllWords() {
+    return [...this.learningWords, ...this.difficultWords, ...this.deletedWords, this.learningWords];
   }
 
   getUserSettings() {
@@ -180,39 +183,6 @@ export default class State {
       });
   }
 
-  deleteUserWord(wordId) {
-    let token = localStorage.getItem('token');
-    let userId = localStorage.getItem('user_id');
-    return fetch(`https://afternoon-falls-25894.herokuapp.com/users/${userId}/words/${wordId}`, {
-      method: 'DELETE',
-      withCredentials: true,
-      headers: {
-        Authorization: `Bearer ${token}`,
-        Accept: 'application/json',
-        'Content-Type': 'application/json'
-      }
-    })
-      .then(response => {
-        if (response.ok) console.log('DELETED');
-        return response;
-      });
-  }
-
-  returnWordToDictionary(wordId) {
-    let userWord = this.deletedWords.find(word => word.wordId === wordId);
-    userWord.optional.deletedWord = false;
-    let word_data = {
-      difficulty: userWord.difficulty,
-      optional: userWord.optional
-    };
-    return this.updateUserWord(wordId, word_data).then(response => {
-      console.log(response);
-      let word = this.deletedWords.pop(userWord);
-      usersAppState.learningWords.push(word);
-      return response;
-    });
-  }
-
   saveSettings(settings) {
     console.log(settings, 'SAVE');
     let options = settings.optional;
@@ -228,5 +198,30 @@ export default class State {
       this.picturesWords = options.picturesWords;
       this.playAudio = options.playAudio;
     }
+  }
+
+  // UPDATE SINGLE USER OPTIONS
+
+  // update this.deletedWord
+  async updateDeletedWord(wordId, value) {
+    let userWord = null;
+    if (value) {
+      userWord = await this.learningWords.find(word => word.wordId === wordId);
+      let word = this.learningWords.pop(userWord);
+      this.deletedWords.push(word);
+    } else {
+      userWord = await this.deletedWords.find(word => word.wordId === wordId);
+      let word = this.deletedWords.pop(userWord);
+      this.learningWords.push(word);
+    }
+    userWord.optional.deletedWord = value;
+    let word_data = {
+      difficulty: userWord.difficulty,
+      optional: userWord.optional
+    };
+    return this.updateUserWord(wordId, word_data).then(response => {
+      console.log(response);
+      return response;
+    });
   }
 }
