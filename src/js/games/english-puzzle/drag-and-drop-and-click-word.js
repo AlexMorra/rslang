@@ -1,4 +1,4 @@
-export default function dragAndDrop() {
+export function dragAndDrop() {
   const words = document.querySelectorAll('.english-puzzle-main__active-phrase__wrapper__element');
   const cells = document.querySelectorAll('.english-puzzle-main__result-block__element');
   let draggingItem;
@@ -68,5 +68,24 @@ export default function dragAndDrop() {
     cell.addEventListener('dragleave', dragLeave);
     cell.addEventListener('dragover', dragOver);
     cell.addEventListener('drop', dragDrop);
+  });
+}
+
+export function wordClick() {
+  const wordList = document.querySelectorAll('.english-puzzle-main__active-phrase__wrapper__element');
+  const resultBlock = document.querySelector('.english-puzzle-main__result-block');
+  const checkBtn = document.querySelector('.english-puzzle-main__btn-block__check');
+  function wordClickHandler() {
+    const cell = resultBlock.querySelector('[isfree="true"]');
+    if (cell == null) return;
+    cell.append(this);
+    cell.setAttribute('isFree', 'false');
+    this.removeEventListener('click', wordClickHandler);
+    if (resultBlock.querySelectorAll('.english-puzzle-main__active-phrase__wrapper__element').length === wordList.length) {
+      checkBtn.classList.remove('blocked');
+    }
+  }
+  wordList.forEach(word => {
+    word.addEventListener('click', wordClickHandler);
   });
 }

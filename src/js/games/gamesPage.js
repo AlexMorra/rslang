@@ -1,12 +1,12 @@
 import GAMES from './gamesConstants';
 import EnglishPuzzle from './english-puzzle/english-puzzle';
+import '../../css/games/english-puzzle/style.css';
 
 export default class GamesPage {
   constructor() {
     this.element = null;
     this.mainArea = document.querySelector('.main-area');
     this.cardList = null;
-    this.englishPuzzle = new EnglishPuzzle();
   }
 
   show() {
@@ -19,7 +19,8 @@ export default class GamesPage {
     console.log(e.target.id);
     switch (e.target.id) {
       case 'English Puzzle':
-        this.englishPuzzle.showMainPage();
+        const englishPuzzle = new EnglishPuzzle();
+        englishPuzzle.showMainPage();
     }
   }
 
