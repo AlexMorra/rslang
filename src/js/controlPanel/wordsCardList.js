@@ -72,7 +72,15 @@ export default class WordsCardList {
     e.preventDefault();
     console.log(this.checkedCheckboxes);
     this.checkedCheckboxes.forEach(wordId => {
-      let word = { difficulty: `${this.difficulty}`, optional: { testString: 'trololo', isTrololo: true } };
+      let word = {
+        difficulty: `${this.difficulty}`,
+        optional: {
+          difficultWord: false,
+          deletedWord: false,
+          learned: false,
+          progress: 0
+        }
+      };
       usersAppState.createUserWord(wordId, word).then(() => {
         let wordCheckbox = document.getElementById(wordId);
         wordCheckbox.classList.remove('word-checkbox');
@@ -80,6 +88,9 @@ export default class WordsCardList {
         wordCheckbox.setAttribute('disabled', true);
       });
     });
+    this.inputWordSearch.removeAttribute('style');
+    this.addToDictionaryBtn.style.display = 'none';
+    this.chooseToggleBtn.checked = false;
   }
 
   createWordList(card, cardKey) {
@@ -122,7 +133,7 @@ export default class WordsCardList {
 
   createWordElement(word) {
     // TODO: fix in the future !!!!!!!!
-    let userHasWord = usersAppState.userWords.some(obj => obj.wordId === word.id);
+    let userHasWord = usersAppState.getAllWords().some(obj => obj.wordId === word.id);
 
     let wordCheckbox = null;
     if (userHasWord) {

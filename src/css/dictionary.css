@@ -1,4 +1,5 @@
 .dictionary {
+    position: relative;
     max-width: 800px;
     padding: 10px;
     background-color: white;
@@ -24,6 +25,9 @@
     flex-direction: column;
     height: 80vh;
     overflow-y: auto;
+    transform: rotateY(0deg);
+    transform-origin: left;
+    background-color: inherit;
 }
 
 .dictionary .word-search {
@@ -37,12 +41,48 @@
     outline-color: transparent;
 }
 
+/* DELETE BTN */
 .dictionary .delete-words {
     padding: 8px 14px;
     cursor: pointer;
-    color: white;
-    background-color: crimson;
+    color: #605a56;
+    background-color: rgba(255, 0, 0, 0.53);
+    border: none;
+    border-radius: 5px;
 }
+
+.dictionary .delete-words:focus {
+    outline: none;
+}
+
+.dictionary .delete-words:hover {
+    background-color: rgba(255, 0, 0, 0.65);
+}
+
+/* RETURN BTN */
+
+.dictionary .return-words {
+    padding: 8px 14px;
+    cursor: pointer;
+    color: #605a56;
+    background-color: #0089ff8a;
+    border: none;
+    border-radius: 5px;
+}
+
+.dictionary .return-words:focus {
+    outline: none;
+}
+
+.dictionary .return-word:hover {
+    background-color: rgba(0, 137, 255, 0.66);
+}
+
+.dictionary .word-transcription {
+    color: #605a56;
+    letter-spacing: 1px;
+}
+
 
 .dictionary .word-list-row {
     display: flex;
@@ -57,5 +97,84 @@
 .dictionary .word-list-row .dash {
     margin: 0 10px;
 }
+
+/* DICTIONARY NAVIGATION */
+.active-dict {
+    transform: scale(1.1) translateY(-2px);
+    font-weight: 500;
+}
+.dictionary .dictionary-nav {
+    display: flex;
+    list-style: none;
+    position: absolute;
+    top: -28px;
+    left: 22px;
+}
+
+.dictionary-learning-words,
+.dictionary-difficult-words,
+.dictionary-deleted-words,
+.dictionary-learned-words {
+    padding: 5px 10px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    cursor: pointer;
+    transition: transform .2s ease;
+    z-index: 5;
+    color: #605a56;
+}
+
+.dictionary-learning-words {
+    background-color: #0089ff8a;
+    margin-right: 10px;
+}
+
+.dictionary-difficult-words {
+    background-color: #eace0099;
+    margin-right: 10px;
+}
+
+.dictionary-deleted-words {
+    background-color: #ff000066;
+    margin-right: 10px;
+}
+
+.dictionary-learned-words {
+    background-color: #30a5005e;
+    margin-right: 20px;
+}
+
+
+@media  (max-width : 750px) {
+    .dictionary .dictionary-nav {
+        top: -24px;
+        font-size: 0.8em;
+        max-width: 600px;
+    }
+}
+
+@media  (max-width : 650px) {
+    .dictionary .dictionary-nav {
+        top: -38px;
+        font-size: 0.8em;
+        max-width: 500px;
+    }
+}
+
+@media  (max-width : 550px) {
+    .dictionary .dictionary-nav {
+        top: -28px;
+        font-size: 0.5em;
+        max-width: 350px;
+    }
+    .dictionary .word-list-wrapper {
+        font-size: 0.7em;
+    }
+
+    .dictionary .word-list-row .dash {
+        margin: 0 5px;
+    }
+}
+
 
 
