@@ -21,7 +21,7 @@ const GAMES = [
   },
   {
     name: 'Skin Walker',
-    icon: 'sprint.png'
+    icon: 'translation.png'
   }
 ];
 
