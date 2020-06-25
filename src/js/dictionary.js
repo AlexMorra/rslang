@@ -43,6 +43,8 @@ export default class Dictionary {
       case 'nav-learning-words':
         console.log('learning');
         this.currentTab = 'learning';
+        this.returnToDictionaryBtn.style.display = 'none';
+        this.inputWordSearch.removeAttribute('style');
         this.getWordsList(usersAppState.learningWords);
         activeToggle();
         break;
@@ -55,6 +57,8 @@ export default class Dictionary {
       case 'nav-deleted-words':
         console.log('deleted-words');
         this.currentTab = 'deleted';
+        this.deleteWordsBtn.style.display = 'none';
+        this.inputWordSearch.removeAttribute('style');
         this.getWordsList(usersAppState.deletedWords);
         activeToggle();
         break;
