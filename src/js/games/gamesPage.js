@@ -1,4 +1,5 @@
 import GAMES from './gamesConstants';
+import SKIN from './skinWalkers/startWindow';
 
 export default class GamesPage {
   constructor() {
@@ -15,6 +16,10 @@ export default class GamesPage {
 
   cardClickHandler(e) {
     console.log(e.target.id);
+    if (e.target.id === 'Skin Walker') {
+      const skin = new SKIN();
+      skin.show();
+    }
   }
 
   getCardListTemplate() {
