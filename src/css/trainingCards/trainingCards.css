@@ -1,0 +1,221 @@
+.training-card {
+    min-height: 300px;
+    max-width: 500px;
+    white-space: nowrap;
+    background-color: white;
+    border-radius: 15px;
+    box-shadow: 0 0 10px 0 gray;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    padding: 20px;
+}
+
+.training-card .card-body {
+    display: flex;
+    flex-direction: column;
+    max-width: 500px;
+}
+
+.training-card .card-body .card-img {
+    margin: 10px auto 30px auto;
+    height: 150px;
+    width: 250px;
+}
+
+.training-card .card-body hr {
+    width: 90%;
+}
+
+.training-card .card-body i {
+    font-weight: bold;
+}
+
+.training-card .answer-input {
+    background-color: #e0ebef;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    color: #338c9c;
+    /*position: absolute;*/
+}
+
+.training-card .answer-input:focus {
+    outline: none;
+}
+
+.training-card .word-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    padding: 5px 10px;
+    opacity: 0;
+}
+
+@keyframes hide {
+    from {opacity: 1;}
+    to {opacity:0;}
+}
+
+.training-card .show-result {
+    animation: hide 2s;
+}
+
+.training-card .show {
+    opacity: 1!important;
+    visibility: visible!important;
+    transition: opacity 2s ease;
+}
+
+
+.training-card .input-container {
+    color: #338c9c;
+    font-size: 2em;
+    top: -15px;
+    /*position: relative;*/
+}
+
+.training-card .translation {
+    font-size: 1.2em;
+    margin: 10px 0;
+    font-weight: 600;
+}
+
+.training-card .word-meaning-container,
+.training-card .word-example-container {
+    position: relative;
+    opacity: 0;
+    visibility: hidden;
+}
+
+.training-card .word-meaning-container > i,
+.training-card .word-example-container > i {
+    position: absolute;
+    top: 27px;
+    left: 10px;
+    cursor: pointer;
+    font-size: 1.3em;
+}
+
+.training-card .word-example-container {
+    margin-top: 10px;
+}
+
+.training-card .word-meaning-container > i:active,
+.training-card .word-example-container > i:active {
+    transform: scale(0.9);
+}
+
+.training-card .word-meaning,
+.training-card .word-example,
+.training-card .word-meaning-translate,
+.training-card .word-example-translate {
+    white-space: pre-line;
+    margin-left: 50px;
+    color: darkslategray;
+}
+
+.training-card .card-footer {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.training-card .dontKnowBtn,
+.training-card .nextBtn {
+    margin: 0 20px;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 1.2em;
+    padding: 5px 10px;
+    border-radius: 3px;
+    transition: background-color .3s ease;
+}
+
+.training-card .dontKnowBtn {
+    color: crimson;
+}
+
+.training-card .dontKnowBtn:hover {
+    background-color: rgba(240, 20, 62, 0.11);
+}
+
+.training-card .dontKnowBtn:active {
+    background-color: rgba(240, 20, 62, 0.31);
+}
+
+.training-card .nextBtn {
+    color: #338c9c;
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 2s ease;
+}
+
+.training-card .nextBtn:hover {
+    background-color: rgba(51, 140, 156, 0.11);
+}
+
+.training-card .nextBtn:active {
+    background-color: rgba(51, 140, 156, 0.31);
+}
+
+.training-card .dontKnowBtn:focus ,
+.training-card .nextBtn:focus {
+    outline: none;
+}
+
+.training-card .card-footer i {
+    font-size: 1.5em;
+    cursor: pointer;
+    margin-left: 25px;
+}
+
+.training-card .card-footer i:active {
+    transform: scale(0.9);
+}
+
+/* TRAINING CARD STATISTIC */
+
+.training-card-statistic {
+    min-height: 300px;
+    max-width: 500px;
+    white-space: nowrap;
+    background-color: white;
+    border-radius: 15px;
+    box-shadow: 0 0 10px 0 gray;
+    padding: 20px;
+}
+
+.statistic-header {
+    position: relative;
+}
+
+.statistic-header i {
+    position: absolute;
+    top: -12px;
+    right: -8px;
+    font-size: 1.5em;
+    color: #cc0000;
+    cursor: pointer;
+}
+
+.training-card-statistic table {
+    width: 100%;
+    text-align: center;
+    border-collapse: collapse;
+    font-size: 1.1em;
+}
+
+.training-card-statistic table tr {
+    border-bottom: 1px solid white;
+}
+
+.training-card-statistic table tr:hover {
+    background-color: rgba(255, 218, 185, 0.48);
+}
+
+.training-card-statistic table td,
+.training-card-statistic table th {
+    padding: 10px;
+}

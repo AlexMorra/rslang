@@ -1,15 +1,25 @@
+import wordCards from './wordCards';
+
 export default class State {
   constructor() {
-    this.wordsPerDay = null;
-    this.cardsPerDay = null;
-    this.username = null;
-    this.examplesUsing = null;
-    this.explanationExamples = null;
-    this.nightMode = null;
-    this.picturesWords = null;
-    this.transcription = null;
-    this.translateWord = null;
-    this.userWords = [];
+    this.wordsPerDay = 1;
+    this.cardsPerDay = 1;
+    this.username = '';
+    this.examplesUsing = false;
+    this.explanationExamples = false;
+    this.nightMode = false;
+    this.picturesWords = false;
+    this.transcription = false;
+    this.translateWord = false;
+    this.playAudio = false;
+    this.learningWords = [];
+    this.difficultWords = [];
+    this.deletedWords = [];
+    this.learnedWords = [];
+  }
+
+  getAllWords() {
+    return [...this.learningWords, ...this.difficultWords, ...this.deletedWords, this.learningWords];
   }
 
   getUserSettings() {
@@ -80,12 +90,33 @@ export default class State {
       .then(response => response.json())
       .then(responseJson => {
         console.log(responseJson, 'CREATE USER WORD');
-        this.userWords.push(responseJson);
+        this.learningWords.push(responseJson);
         return responseJson;
       });
   }
 
-  getUserWord() {
+  updateUserWord(wordId, word_data) {
+    // { "difficulty": "weak", "optional": {testFieldString: 'test', testFieldBoolean: true} }
+    let token = localStorage.getItem('token');
+    let userId = localStorage.getItem('user_id');
+    return fetch(`https://afternoon-falls-25894.herokuapp.com/users/${userId}/words/${wordId}`, {
+      method: 'PUT',
+      withCredentials: true,
+      headers: {
+        Authorization: `Bearer ${token}`,
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(word_data)
+    })
+      .then(response => response.json())
+      .then(responseJson => {
+        console.log(responseJson, 'UPDATE USER WORD');
+        return responseJson;
+      });
+  }
+
+  getUserWords() {
     let token = localStorage.getItem('token');
     let userId = localStorage.getItem('user_id');
     return fetch(`https://afternoon-falls-25894.herokuapp.com/users/${userId}/words`, {
@@ -100,15 +131,23 @@ export default class State {
       .then(response => response.json())
       .then(responseJson => {
         console.log(responseJson, 'GET USER WORDS');
-        this.userWords = responseJson;
+        responseJson.forEach(word => {
+          if (word.optional.deletedWord) {
+            this.deletedWords.push(word);
+          } else if (word.optional.difficultWord) {
+            this.difficultWords.push(word);
+          } else {
+            this.learningWords.push(word);
+          }
+        });
       });
   }
 
-  deleteUserWord(wordId) {
+  getUserWord(wordId) {
     let token = localStorage.getItem('token');
     let userId = localStorage.getItem('user_id');
     return fetch(`https://afternoon-falls-25894.herokuapp.com/users/${userId}/words/${wordId}`, {
-      method: 'DELETE',
+      method: 'GET',
       withCredentials: true,
       headers: {
         Authorization: `Bearer ${token}`,
@@ -116,9 +155,31 @@ export default class State {
         'Content-Type': 'application/json'
       }
     })
-      .then(response => {
-        if (response.ok) console.log('DELETED');
-        return response;
+      .then(response => response.json())
+      .then(responseJson => {
+        console.log('WORD');
+        // console.log(responseJson, 'GET USER WORDDDD');
+        return responseJson;
+      });
+  }
+
+  getWordById(wordId) {
+    let token = localStorage.getItem('token');
+    let userId = localStorage.getItem('user_id');
+    return fetch(`https://afternoon-falls-25894.herokuapp.com/words/${wordId}`, {
+      method: 'GET',
+      withCredentials: true,
+      headers: {
+        Authorization: `Bearer ${token}`,
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      }
+    })
+      .then(response => response.json())
+      .then(responseJson => {
+        console.log('WORD');
+        // console.log(responseJson, 'GET USER WORDDDD');
+        return responseJson;
       });
   }
 
@@ -135,6 +196,32 @@ export default class State {
       this.examplesUsing = options.examplesUsing;
       this.transcription = options.transcription;
       this.picturesWords = options.picturesWords;
+      this.playAudio = options.playAudio;
     }
+  }
+
+  // UPDATE SINGLE USER OPTIONS
+
+  // update this.deletedWord
+  async updateDeletedWord(wordId, value) {
+    let userWord = null;
+    if (value) {
+      userWord = await this.learningWords.find(word => word.wordId === wordId);
+      let word = this.learningWords.pop(userWord);
+      this.deletedWords.push(word);
+    } else {
+      userWord = await this.deletedWords.find(word => word.wordId === wordId);
+      let word = this.deletedWords.pop(userWord);
+      this.learningWords.push(word);
+    }
+    userWord.optional.deletedWord = value;
+    let word_data = {
+      difficulty: userWord.difficulty,
+      optional: userWord.optional
+    };
+    return this.updateUserWord(wordId, word_data).then(response => {
+      console.log(response);
+      return response;
+    });
   }
 }

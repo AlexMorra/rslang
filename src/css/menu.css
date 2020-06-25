@@ -28,6 +28,10 @@
     background-color: inherit;
 }
 
+.menu-logo {
+    z-index: 100;
+}
+
 .menu-icon,
 .menu-logo {
     margin: 20px;
