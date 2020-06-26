@@ -1,11 +1,14 @@
 import GAMES from './gamesConstants';
 import SKIN from './skinWalkers/startWindow';
-
+import SAVANNA from './savanna/savanna';
+import * as utils from '../utils';
 export default class GamesPage {
   constructor() {
     this.element = null;
     this.mainArea = document.querySelector('.main-area');
     this.cardList = null;
+    this.skin = new SKIN();
+    this.savanna = new SAVANNA();
   }
 
   show() {
@@ -16,9 +19,17 @@ export default class GamesPage {
 
   cardClickHandler(e) {
     console.log(e.target.id);
-    if (e.target.id === 'Skin Walker') {
-      const skin = new SKIN();
-      skin.show();
+
+    switch (e.target.id) {
+      case 'Savanna':
+        utils.destroy();
+        this.savanna.show();
+        document.querySelector('.nav').classList.toggle('none');
+        break;
+      case 'Skin Walker':
+        this.skin.show();
+        break;
+      default:
     }
   }
 
