@@ -23,7 +23,7 @@ export default class TrainingCards {
   show() {
     this.wordsStatistic = [];
     this.incorrect = 0;
-    this.getTrainingWords();
+    this.trainingWords = usersAppState.getTrainingWords();
     this.initCard();
   }
 
@@ -124,15 +124,6 @@ export default class TrainingCards {
         if (wordExample) wordExample.classList.add('show');
       }
     }
-  }
-
-  getTrainingWords() {
-    // get 10 random user words from the dictionary
-    this.trainingWords = usersAppState.learningWords.slice().sort(() => 0.5 - Math.random()).slice(0, 10)
-      .map(obj => {
-        return wordCards[obj.difficulty].find(word => word.id === obj.wordId);
-      });
-    console.log(this.trainingWords, 'training words');
   }
 
   setIncorrect() {
