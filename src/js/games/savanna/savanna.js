@@ -31,6 +31,7 @@ export default class Savanna {
 
   show() {
     setTimeout(() => {
+      this.start();
       this.mainArea.append(this.element);
     }, 400);
   }
@@ -306,7 +307,7 @@ export default class Savanna {
       }
     });
 
-    utils.destroy();
-    this.show();
+    // utils.destroy();
+    // this.show();
   }
 }
