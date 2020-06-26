@@ -121,26 +121,29 @@ export default class EnglishPuzzleMainBlock {
   }
 
   nextStage() {
-    if (this.currentStage === 5) this.getStatistic();
-    const dntKnowBtn = document.querySelector('.english-puzzle-main__btn-block__dnt-know');
-    const continuedBtn = document.querySelector('.english-puzzle-main__btn-block__continued');
-    const checkBtn = document.querySelector('.english-puzzle-main__btn-block__check');
-    const resultBlock = document.querySelector('.english-puzzle-main__result-block');
-    const activePhrase = document.querySelector('.english-puzzle-main__active-phrase');
-    const stage = document.querySelector('.english-puzzle-main__stage');
-    dntKnowBtn.classList.remove('blocked');
-    checkBtn.classList.add('blocked');
-    continuedBtn.classList.add('blocked');
-    this.currentStage += 1;
-    stage.innerHTML = `${this.currentStage}/10`;
-    this.getTranslateBlock();
-    this.hintsBlock.getAudioHint(this.arrayWords[this.currentStage - 1].audioExample);
-    activePhrase.innerHTML = '';
-    resultBlock.innerHTML = '';
-    this.getPhraseBlock();
-    this.getResultBlock();
-    dragAndDrop();
-    wordClick();
+    if (this.currentStage !== 10) {
+      const dntKnowBtn = document.querySelector('.english-puzzle-main__btn-block__dnt-know');
+      const continuedBtn = document.querySelector('.english-puzzle-main__btn-block__continued');
+      const checkBtn = document.querySelector('.english-puzzle-main__btn-block__check');
+      const resultBlock = document.querySelector('.english-puzzle-main__result-block');
+      const activePhrase = document.querySelector('.english-puzzle-main__active-phrase');
+      const stage = document.querySelector('.english-puzzle-main__stage');
+      dntKnowBtn.classList.remove('blocked');
+      checkBtn.classList.add('blocked');
+      continuedBtn.classList.add('blocked');
+      this.currentStage += 1;
+      stage.innerHTML = `${this.currentStage}/10`;
+      this.getTranslateBlock();
+      this.hintsBlock.getAudioHint(this.arrayWords[this.currentStage - 1].audioExample);
+      activePhrase.innerHTML = '';
+      resultBlock.innerHTML = '';
+      this.getPhraseBlock();
+      this.getResultBlock();
+      dragAndDrop();
+      wordClick();
+    } else {
+      this.getStatistic();
+    }
   }
 
   handingStatistic() {
@@ -168,6 +171,8 @@ export default class EnglishPuzzleMainBlock {
         <div class="english-puzzle__statistic__not-learned">
           <p class="english-puzzle__statistic__learned__title">Не изучено:</p>
         </div>
+        <button>Попробовать еще раз</button>
+        <button>Вернуться куда?</button>
       </div>
     `.trim();
     targetNode.append(statistic.content);

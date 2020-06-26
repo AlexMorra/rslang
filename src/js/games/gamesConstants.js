@@ -4,7 +4,7 @@ const GAMES = [
     icon: 'microphone.png'
   },
   {
-    name: 'English Puzzle',
+    name: 'Конструктор фраз',
     icon: 'solution.png'
   },
   {

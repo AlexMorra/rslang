@@ -18,9 +18,9 @@ export default class GamesPage {
   cardClickHandler(e) {
     console.log(e.target.id);
     switch (e.target.id) {
-      case 'English Puzzle':
+      case 'Конструктор фраз':
         const englishPuzzle = new EnglishPuzzle();
-        englishPuzzle.showMainPage();
+        englishPuzzle.showStartPage();
     }
   }
 
