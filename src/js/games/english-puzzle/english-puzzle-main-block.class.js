@@ -1,5 +1,4 @@
 import wordCards from '../../wordCards';
-import TrainingCards from '../../trainingCards/trainingCards';
 import State from '../../usersAppState';
 import { dragAndDrop, wordClick } from './drag-and-drop-and-click-word';
 import EnglishPuzzleHintsBlock from './english-puzzle-hints-block.class';
@@ -7,7 +6,6 @@ import EnglishPuzzleButtonsBlock from './english-puzzle-buttons-block.class';
 export default class EnglishPuzzleMainBlock {
   constructor() {
     this.currentStage = 1;
-    this.trainingCards = new TrainingCards();
     this.arrayWords = [];
     this.state = new State();
     this.hintsBlock = new EnglishPuzzleHintsBlock();
@@ -16,15 +14,15 @@ export default class EnglishPuzzleMainBlock {
   }
 
   async getMainBlock() {
+    const targetNode = document.querySelector('.english-puzzle-main__control-block');
     const mainBlock = document.createElement('template');
-    const targetNode = document.querySelector('.english-puzzle-main');
     mainBlock.innerHTML = `
       <div class="english-puzzle-main__stage">${this.currentStage}/10</div>
       <div class="english-puzzle-main__active-hints"></div>
       <div class="english-puzzle-main__result-block"></div>
       <div class="english-puzzle-main__active-phrase"></div>
     `.trim();
-    targetNode.append(mainBlock.content);
+    targetNode.after(mainBlock.content);
     this.getArrayWords();
     this.hintsBlock.getAudioHint(this.arrayWords[this.currentStage - 1].audioExample);
     await this.getTranslateBlock();
@@ -36,8 +34,7 @@ export default class EnglishPuzzleMainBlock {
   }
 
   getArrayWords() {
-    this.trainingCards.getTrainingWords();
-    this.arrayWords = this.trainingCards.trainingWords;
+    this.arrayWords = this.state.getTrainingWords();
     if (this.arrayWords.length < 10) {
       for (let i = this.arrayWords.length; i < 10; i += 1) {
         this.arrayWords.push(wordCards[Math.round(1 + Math.random() * (5 - 1))][Math.round(0 + Math.random() * (599 - 0))]);

@@ -7,16 +7,15 @@ export default class EnglishPuzzleHintsBlock {
   }
 
   getHintsBlock() {
-    const hintsBlock = document.createElement('template');
     const targetNode = document.querySelector('.english-puzzle-main');
-    hintsBlock.innerHTML = `
+    const hintsBlock = `
     <div class="english-puzzle-main__control-block">
         <div class="english-puzzle-main__control-block__hints">
           <button class="english-puzzle-main__control-block__hints__translate blocked"></button>
           <button class="english-puzzle-main__control-block__hints__audio-repeat blocked"></button>
         </div>
     `.trim();
-    targetNode.append(hintsBlock.content);
+    targetNode.insertAdjacentHTML('beforeend', hintsBlock);
     return hintsBlock.content;
   }
 

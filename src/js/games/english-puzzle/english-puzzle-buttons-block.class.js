@@ -1,15 +1,14 @@
 export default class EnglishPuzzleButtonsBlock {
   getButtonsBlock() {
-    const buttonsBlock = document.createElement('template');
     const targetNode = document.querySelector('.english-puzzle-main');
-    buttonsBlock.innerHTML = `
+    const buttonsBlock = `
       <div class="english-puzzle-main__btn-block">
         <button class="english-puzzle-main__btn-block__check blocked">Проверить</button>
         <button class="english-puzzle-main__btn-block__dnt-know">Не знаю :(</button>
         <button class="english-puzzle-main__btn-block__continued blocked">Продолжить</button>           
       </div>
     `.trim();
-    targetNode.append(buttonsBlock.content);
+    targetNode.insertAdjacentHTML('beforeend', buttonsBlock);
     return buttonsBlock.content;
   }
 

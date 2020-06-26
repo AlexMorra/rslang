@@ -18,6 +18,10 @@ const GAMES = [
   {
     name: 'Sprint',
     icon: 'sprint.png'
+  },
+  {
+    name: 'Skin Walker',
+    icon: 'translation.png'
   }
 ];
 
