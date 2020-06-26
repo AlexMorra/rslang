@@ -9,13 +9,22 @@ import ControlPanel from './js/controlPanel/controlPanel';
 import Dictionary from './js/dictionary';
 import Account from './js/account';
 import GamesPage from './js/games/gamesPage';
+import TrainingCards from './js/trainingCards/trainingCards';
 
 // INIT
 window.currentPage = null;
 let auth = new Auth();
 
-export let menu = new Menu(new ControlPanel(), new Account(), new Auth(), new Dictionary(), new GamesPage());
 export let usersAppState = new State();
+
+export let menu = new Menu(
+  new ControlPanel(),
+  new Account(),
+  new Auth(),
+  new Dictionary(),
+  new GamesPage(),
+  new TrainingCards()
+);
 
 // check if user has session and load settings if has
 auth.authorized().then(authorized => {

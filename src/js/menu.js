@@ -1,12 +1,13 @@
 import * as utils from './utils';
 
 export default class Menu {
-  constructor(controlPanel, account, auth, dictionary, games) {
+  constructor(controlPanel, account, auth, dictionary, games, training) {
     this.controlPanel = controlPanel;
     this.dictionary = dictionary;
     this.account = account;
     this.auth = auth;
     this.games = games;
+    this.training = training;
     this.body = document.querySelector('body');
     this.menuTemplate = this.getTemplate();
     this.menuNav = null;
@@ -40,8 +41,8 @@ export default class Menu {
         this.games.show();
         break;
       case 'nav-dictionary':
-        // utils.destroy();
-        console.log('dictionary');
+        utils.destroy();
+        this.dictionary.show();
         break;
       case 'nav-account':
         utils.destroy();
@@ -49,6 +50,10 @@ export default class Menu {
         break;
       case 'nav-logout':
         this.auth.logout();
+        break;
+      case 'nav-training':
+        utils.destroy();
+        this.training.show();
         break;
       default:
     }
@@ -69,7 +74,7 @@ export default class Menu {
               <i class="fab fa-elementor menu-icon" title="Панель управления"></i>
               <span class="nav-name">Панель управления</span>
           </li>
-          <li>
+          <li id="nav-training" class="nav-training" title="УЧИ БЛЭТ">
               <i class="fab fa-leanpub menu-icon"></i>
               <span class="nav-name">Учи слова</span>
           </li>         

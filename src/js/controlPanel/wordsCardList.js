@@ -72,9 +72,25 @@ export default class WordsCardList {
     e.preventDefault();
     console.log(this.checkedCheckboxes);
     this.checkedCheckboxes.forEach(wordId => {
-      let word = { difficulty: `${this.difficulty}`, optional: { testString: 'trololo', isTrololo: true } };
-      usersAppState.createUserWord(wordId, word);
+      let word = {
+        difficulty: `${this.difficulty}`,
+        optional: {
+          difficultWord: false,
+          deletedWord: false,
+          learned: false,
+          progress: 0
+        }
+      };
+      usersAppState.createUserWord(wordId, word).then(() => {
+        let wordCheckbox = document.getElementById(wordId);
+        wordCheckbox.classList.remove('word-checkbox');
+        wordCheckbox.classList.add('word-checkbox-checked');
+        wordCheckbox.setAttribute('disabled', true);
+      });
     });
+    this.inputWordSearch.removeAttribute('style');
+    this.addToDictionaryBtn.style.display = 'none';
+    this.chooseToggleBtn.checked = false;
   }
 
   createWordList(card, cardKey) {
@@ -117,12 +133,19 @@ export default class WordsCardList {
 
   createWordElement(word) {
     // TODO: fix in the future !!!!!!!!
-    let saved = usersAppState.userWords.some(obj => obj.wordId === word.id);
+    let userHasWord = usersAppState.getAllWords().some(obj => obj.wordId === word.id);
+
+    let wordCheckbox = null;
+    if (userHasWord) {
+      wordCheckbox = `<input class="word-checkbox-checked" type="checkbox" name="word" id="${word.id}" checked disabled>`;
+    } else {
+      wordCheckbox = `<input class="word-checkbox" type="checkbox" name="word" id="${word.id}">`;
+    }
 
     let wordTemplate = document.createElement('template');
     wordTemplate.innerHTML = `
       <div class="word-list-row">
-        <input class="word-checkbox" type="checkbox" name="word" id="${word.id}" ${saved ? 'checked' : ''}>
+        ${wordCheckbox}
         <i class="fas fa-volume-up" data-audio="play" data-src="${word.audio}"></i>
         <div class="word">
             ${word.word}

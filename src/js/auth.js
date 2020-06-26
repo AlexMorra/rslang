@@ -50,7 +50,6 @@ export default class Auth {
   }
 
   createHandler(e) {
-    console.log('CREATE');
     e.preventDefault();
     let inputUsername = document.getElementById('create-username');
     let inputEmail = document.getElementById('create-email');
@@ -177,9 +176,14 @@ export default class Auth {
       message.textContent = 'Используйте не менее 8 символов.';
       errorMessages.push(message);
     }
-    if (!password.match(/a-z/g) && !password.match(/A-Z/g) && !password.match(/[0-9]/g)) {
+    if (!/[a-z]/gi.test(password) || !/\d/g.test(password) || /а-яё/gi.test(password)) {
       let message = document.createElement('li');
       message.textContent = 'Используйте строчные и прописные латинские буквы (a-z, A-Z) и цифры.';
+      errorMessages.push(message);
+    }
+    if (!/[+\-_@$!%*?&#.,:[\]{}]/g.test(password)) {
+      let message = document.createElement('li');
+      message.textContent = 'Пароль должен содержать один спец символ из +-_@$!%*?&#.,;:[]{}';
       errorMessages.push(message);
     }
     if (errorMessages.length) {
@@ -187,6 +191,7 @@ export default class Auth {
       passwordIcon.classList.add('shake');
       setTimeout(() => passwordIcon.classList.remove('shake'), 500);
       errorMessages.forEach(message => messageContainer.append(message));
+      errorMessages = [];
       return false;
     }
     return true;
