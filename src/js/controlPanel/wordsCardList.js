@@ -72,16 +72,8 @@ export default class WordsCardList {
     e.preventDefault();
     console.log(this.checkedCheckboxes);
     this.checkedCheckboxes.forEach(wordId => {
-      let word = {
-        difficulty: `${this.difficulty}`,
-        optional: {
-          difficultWord: false,
-          deletedWord: false,
-          learned: false,
-          progress: 0
-        }
-      };
-      usersAppState.createUserWord(wordId, word).then(() => {
+      usersAppState.createUserWord(wordId, this.difficulty).then(response => {
+        usersAppState.learningWords.push(response);
         let wordCheckbox = document.getElementById(wordId);
         wordCheckbox.classList.remove('word-checkbox');
         wordCheckbox.classList.add('word-checkbox-checked');
