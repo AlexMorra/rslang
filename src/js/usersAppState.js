@@ -234,7 +234,7 @@ export default class State {
   getTrainingWords(count = 10) {
     // return words and add from cards to the user dictionary if words not enough
     let words = this.learningWords.slice()
-      .sort(() => 0.5 - Math.random()).slice(0, 10)
+      .sort(() => 0.5 - Math.random()).slice(0, count)
       .map(obj => {
         return wordCards[obj.difficulty].find(word => word.id === obj.wordId);
       });
