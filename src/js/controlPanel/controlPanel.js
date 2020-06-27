@@ -1,18 +1,16 @@
 import wordCards from '../wordCards';
 import * as utils from '../utils';
-// import { usersAppState } from '../../app';
 import wordsCardList from './wordsCardList';
 import { usersAppState } from '../../app';
 
 export default class ControlPanel extends wordsCardList {
   constructor() {
     super();
-    this.controlPanelTemplate = this.getTemplate();
   }
 
   show() {
     setTimeout(() => {
-      let controlPanelTab = this.beforeCreate(this.controlPanelTemplate.cloneNode(true));
+      let controlPanelTab = this.beforeCreate(this.getTemplate());
       let controlPanel = controlPanelTab.querySelector('.control-panel');
       this.mainArea.append(controlPanelTab);
       controlPanel.addEventListener('click', this.controlPanelHandler.bind(this));
@@ -68,7 +66,7 @@ export default class ControlPanel extends wordsCardList {
                   <div class="stats-part1">
                       <div class="word-for-practice">
                           <div>Слова для практики</div>
-                          <span>0</span>
+                          <span>${usersAppState.learningWords.length}</span>
                       </div>
                       <div class="best-series">
                           <div>Лучшая серия</div>
@@ -87,7 +85,7 @@ export default class ControlPanel extends wordsCardList {
                       </div>
                       <div class="new-words">
                           <div>Новые слова</div>
-                          <span>0</span>
+                          <span>${usersAppState.getNewWords()}</span>
                       </div>
                   </div>
               </div>

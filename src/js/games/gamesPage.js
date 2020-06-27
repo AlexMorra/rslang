@@ -1,5 +1,8 @@
 import GAMES from './gamesConstants';
 import EnglishPuzzle from './english-puzzle/english-puzzle';
+import SKIN from './skinWalkers/startWindow';
+import Sprint from './sprint/sprint';
+import * as utils from '../utils';
 
 export default class GamesPage {
   constructor() {
@@ -15,12 +18,18 @@ export default class GamesPage {
   }
 
   cardClickHandler(e) {
-    const navId = e.target.id;
-    console.log(e.target.id);
-    switch (navId) {
+    const game = e.target.id;
+    console.log(game);
+    
+    switch (game) {
       case 'English Puzzle':
         this.englishPuzzle = new EnglishPuzzle();
         this.englishPuzzle.showStartPage();
+        break;
+      case 'Sprint':
+        utils.destroy();
+        new Sprint().show();
+        break;
     }
   }
 

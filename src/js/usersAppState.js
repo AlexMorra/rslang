@@ -231,6 +231,16 @@ export default class State {
     }
   }
 
+  getNewWords() {
+    // new word is the word when progress 0
+    return this.learningWords.filter(word => word.optional.progress === 0).length;
+  }
+
+  isNewWord(wordId) {
+    // new word is the word when progress 0
+    return this.getAllWords().find(word => word.wordId === wordId).optional.progress === 0;
+  }
+
   getTrainingWords(count = 10) {
     // return words and add from cards to the user dictionary if words not enough
     let words = this.learningWords.slice()
@@ -253,25 +263,70 @@ export default class State {
 
   // UPDATE SINGLE USER OPTIONS
 
-  // update this.deletedWord
+  // update optional.deletedWord
   async updateDeletedWord(wordId, value) {
-    let userWord = null;
     if (value) {
-      userWord = await this.learningWords.find(word => word.wordId === wordId);
-      let word = this.learningWords.pop(userWord);
-      this.deletedWords.push(word);
+      const index = this.learningWords.findIndex(word => word.wordId === wordId);
+      this.userWord = this.learningWords.splice(index, 1)[0];
+      this.deletedWords.push(this.userWord);
     } else {
-      userWord = await this.deletedWords.find(word => word.wordId === wordId);
-      let word = this.deletedWords.pop(userWord);
-      this.learningWords.push(word);
+      const index = this.deletedWords.findIndex(word => word.wordId === wordId);
+      this.userWord = this.deletedWords.splice(index, 1)[0];
+      this.learningWords.push(this.userWord);
     }
-    userWord.optional.deletedWord = value;
+    this.userWord.optional.deletedWord = value;
+    const wordData = {
+      difficulty: this.userWord.difficulty,
+      optional: this.userWord.optional
+    };
+    return this.updateUserWord(wordId, wordData).then(response => {
+      console.log(response, 'updated');
+      return response;
+    });
+  }
+
+  // update optional.difficultWord
+  async updateDifficultWord(wordId, value) {
+    if (value) {
+      const index = this.learningWords.findIndex(word => word.wordId === wordId);
+      this.userWord = this.learningWords.splice(index, 1)[0];
+      this.difficultWords.push(this.userWord);
+    } else {
+      const index = this.difficultWords.findIndex(word => word.wordId === wordId);
+      this.userWord = this.difficultWords.splice(index, 1)[0];
+      this.learningWords.push(this.userWord);
+    }
+    this.userWord.optional.difficultWord = value;
     let wordData = {
-      difficulty: userWord.difficulty,
-      optional: userWord.optional
+      difficulty: this.userWord.difficulty,
+      optional: this.userWord.optional
     };
     return this.updateUserWord(wordId, wordData).then(response => {
       console.log(response);
+      return response;
+    });
+  }
+
+  // update optional.progress
+  async updateProgressWord(wordId, value) {
+    this.userLearningWord = this.learningWords.find(word => word.wordId === wordId);
+    this.userDifficultWord = this.difficultWords.find(word => word.wordId === wordId);
+    this.userWord = this.userDifficultWord || this.userLearningWord;
+    if (value) {
+      this.userWord.optional.progress += 1;
+      this.wordData = {
+        difficulty: this.userWord.difficulty,
+        optional: this.userWord.optional
+      };
+    } else {
+      this.userWord.optional.progress -= 1;
+      this.wordData = {
+        difficulty: this.userWord.difficulty,
+        optional: this.userWord.optional
+      };
+    }
+    return this.updateUserWord(wordId, this.wordData).then(response => {
+      console.log(response, 'UPDATE PROGRESS');
       return response;
     });
   }
