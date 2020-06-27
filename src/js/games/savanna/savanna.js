@@ -27,6 +27,7 @@ export default class Savanna {
     this.successes = 0;
     this.bgPosition = 100;
     this.lives = null;
+    this.gameOn = false;
   }
 
   show() {
@@ -71,17 +72,17 @@ export default class Savanna {
 
           <div class="answers">
             <div class="answer">
-              <span class="answer__word answer__word--1">word1</span>
+              <span class="answer__word answer__word--1"></span>
             
             </div>
             <div class="answer">
-              <span class="answer__word answer__word--2">word2</span>
+              <span class="answer__word answer__word--2"></span>
             </div>
             <div class="answer">
-              <span class="answer__word answer__word--3">word3</span>
+              <span class="answer__word answer__word--3"></span>
             </div>
             <div class="answer">
-              <span class="answer__word answer__word--4">word4</span>
+              <span class="answer__word answer__word--4"></span>
             </div>
           </div>
         </div>  
@@ -159,20 +160,25 @@ export default class Savanna {
 
   playGame() {
     this.resetAnswers();
+    this.gameOn = true;
 
     this.gameNum += 1;
 
     console.log(this.gameNum);
     if (this.gameNum > 12) {
       console.log('game over');
-      this.showResults();
+      setTimeout(() => this.showResults(), 600);
     } else {
       setTimeout(() => {
         this.questionWrapper.classList.remove('question--fail');
         this.questionWrapper.classList.remove('question--success');
         this.questionWrapper.classList.remove('start');
         this.generateGameData();
-        this.toggleFall();
+        this.checkOffset();
+
+        if (!this.questionWrapper.classList.contains('fall')) {
+          this.questionWrapper.classList.add('fall');
+        }
       }, 400);
     }
   }
@@ -204,10 +210,40 @@ export default class Savanna {
     this.errors += 1;
   }
 
+  checkOffset() {
+    const threshold = document.documentElement.clientHeight / 2;
+    console.log(threshold);
+    console.log(this.questionWord.getBoundingClientRect());
+    console.log(this.gameOn);
+    if (this.gameOn) {
+      const timerId = setInterval(() => {
+        const posY = this.questionWord.getBoundingClientRect().y;
+
+        if (posY === threshold) {
+          console.log(true);
+          clearInterval(timerId);
+          this.getWrongAnswer();
+
+          if (this.errors === 5) {
+            console.log('game over');
+            setTimeout(() => this.showResults(), 600);
+          } else {
+            setTimeout(() => {
+              this.questionWrapper.classList.add('start');
+              this.toggleFall();
+              this.playGame();
+            }, 300);
+          }
+        }
+      }, 1000);
+    }
+  }
+
   checkAnswer(target) {
     const answer = target.innerHTML;
     console.log(this.questionWrapper);
     this.questionWrapper.classList.remove('fall');
+    this.gameOn = false;
 
     if (answer === this.question.wordTranslate) {
       console.log('correct');
@@ -225,15 +261,11 @@ export default class Savanna {
 
       if (this.errors === 5) {
         console.log('game over');
-        this.showResults();
+        setTimeout(() => this.showResults(), 600);
       } else {
         setTimeout(() => this.playGame(), 400);
       }
     }
-  }
-
-  timeIsOver() {
-
   }
 
   resetQuestion() {
@@ -267,9 +299,15 @@ export default class Savanna {
 
   initGame() {
     setTimeout(() => {
-      this.toggleFall();
+      this.gameOn = true;
+      this.showGame();
       this.generateGameData();
-    }, 600); // 3000
+
+      setTimeout(() => {
+        this.toggleFall();
+        this.checkOffset();
+      }, 600);
+    }, 3000);
   }
 
   start() {
@@ -289,12 +327,12 @@ export default class Savanna {
 
     this.startButton.addEventListener('click', () => {
       this.intro.classList.toggle('none');
-      this.showGame();
-      this.initGame();
-      // this.loader.classList.toggle('hidden');
+      this.loader.classList.toggle('none');
 
-      // this.counterOn = true;
-      // this.tickPlay();
+      this.counterOn = true;
+      this.tickPlay();
+
+      this.initGame();
     });
 
     this.sound.addEventListener('click', () => {
@@ -306,8 +344,5 @@ export default class Savanna {
         this.checkAnswer(e.target);
       }
     });
-
-    // utils.destroy();
-    // this.show();
   }
 }
