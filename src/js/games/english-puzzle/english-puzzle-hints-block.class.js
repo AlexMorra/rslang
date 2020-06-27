@@ -1,9 +1,9 @@
-import State from '../../usersAppState';
+import { usersAppState } from '../../../app';
 
 export default class EnglishPuzzleHintsBlock {
   constructor() {
     this.mainArea = document.querySelector('.main-area');
-    this.state = new State();
+    this.usersAppState = usersAppState;
   }
 
   getHintsBlock() {
@@ -20,9 +20,9 @@ export default class EnglishPuzzleHintsBlock {
   }
 
   async getAudioHint(audioSrc) {
-    await this.state.getUserSettings();
+    await this.usersAppState.getUserSettings();
     const audioBtn = document.querySelector('.english-puzzle-main__control-block__hints__audio-repeat');
-    if (this.state.playAudio) {
+    if (this.usersAppState.playAudio) {
       audioBtn.classList.remove('blocked');
       const audio = new Audio();
       audio.preload = 'auto';

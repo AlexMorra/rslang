@@ -1,6 +1,5 @@
 import GAMES from './gamesConstants';
 import EnglishPuzzle from './english-puzzle/english-puzzle';
-import '../../css/games/english-puzzle/style.css';
 
 export default class GamesPage {
   constructor() {
@@ -16,11 +15,12 @@ export default class GamesPage {
   }
 
   cardClickHandler(e) {
+    const navId = e.target.id;
     console.log(e.target.id);
-    switch (e.target.id) {
-      case 'Конструктор фраз':
-        const englishPuzzle = new EnglishPuzzle();
-        englishPuzzle.showStartPage();
+    switch (navId) {
+      case 'English Puzzle':
+        this.englishPuzzle = new EnglishPuzzle();
+        this.englishPuzzle.showStartPage();
     }
   }
 
@@ -36,13 +36,13 @@ export default class GamesPage {
   getCardTemplate(game) {
     const template = document.createElement('template');
     template.innerHTML = `
-      <li id="${game.name}" class="card">
+      <li id="${game.id}" class="card">
           <div class="card__top-part">
               <div class="card__image-wrapper">
                   <img class="card__image" src="../assets/icons/${game.icon}">
               </div>
           </div>
-          <h3 class="card__title">${game.name}</h3>
+          <h3 class="card__title">${game.title}</h3>
       </li>`.trim();
     return template.content;
   }

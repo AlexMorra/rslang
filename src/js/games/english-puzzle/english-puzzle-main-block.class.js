@@ -1,5 +1,5 @@
 import wordCards from '../../wordCards';
-import State from '../../usersAppState';
+import { usersAppState } from '../../../app';
 import { dragAndDrop, wordClick } from './drag-and-drop-and-click-word';
 import EnglishPuzzleHintsBlock from './english-puzzle-hints-block.class';
 import EnglishPuzzleButtonsBlock from './english-puzzle-buttons-block.class';
@@ -7,7 +7,7 @@ export default class EnglishPuzzleMainBlock {
   constructor() {
     this.currentStage = 1;
     this.arrayWords = [];
-    this.state = new State();
+    this.usersAppState = usersAppState;
     this.hintsBlock = new EnglishPuzzleHintsBlock();
     this.buttonsBlock = new EnglishPuzzleButtonsBlock();
     this.statistic = [];
@@ -34,7 +34,7 @@ export default class EnglishPuzzleMainBlock {
   }
 
   getArrayWords() {
-    this.arrayWords = this.state.getTrainingWords();
+    this.arrayWords = this.usersAppState.getTrainingWords();
     if (this.arrayWords.length < 10) {
       for (let i = this.arrayWords.length; i < 10; i += 1) {
         this.arrayWords.push(wordCards[Math.round(1 + Math.random() * (5 - 1))][Math.round(0 + Math.random() * (599 - 0))]);
@@ -91,8 +91,8 @@ export default class EnglishPuzzleMainBlock {
   async getTranslateBlock() {
     const translateBtn = document.querySelector('.english-puzzle-main__control-block__hints__translate');
     const translateHintNode = document.querySelector('.english-puzzle-main__active-hints');
-    await this.state.getUserSettings();
-    if (this.state.translateWord) {
+    await this.usersAppState.getUserSettings();
+    if (this.usersAppState.translateWord) {
       translateHintNode.innerHTML = this.arrayWords[this.currentStage - 1].textExampleTranslate;
       translateBtn.classList.remove('blocked');
     }
@@ -118,6 +118,7 @@ export default class EnglishPuzzleMainBlock {
   }
 
   nextStage() {
+    this.handingStatistic();
     if (this.currentStage !== 10) {
       const dntKnowBtn = document.querySelector('.english-puzzle-main__btn-block__dnt-know');
       const continuedBtn = document.querySelector('.english-puzzle-main__btn-block__continued');
