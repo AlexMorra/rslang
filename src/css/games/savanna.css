@@ -4,7 +4,8 @@
 }
 
 .savanna {
-    background-image: url("../../assets/images/savanna-bg.svg");
+    background-image: url("../../assets/images/savanna-bg.svg");    
+    background-color: #078f81;
     background-repeat: no-repeat;
     background-position-y: 100%;
     background-position-x: center;
@@ -99,6 +100,10 @@
     color: #fff;
     font-size: 40px;
     font-weight: 300;
+}
+
+.game-wrapper {
+    transition: all 1s ease;
 }
 
 .controls {
