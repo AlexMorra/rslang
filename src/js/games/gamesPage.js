@@ -3,12 +3,12 @@ import SKIN from './skinWalkers/startWindow';
 import SAVANNA from './savanna/savanna';
 import * as utils from '../utils';
 export default class GamesPage {
-  constructor() {
+  constructor(state) {
     this.element = null;
     this.mainArea = document.querySelector('.main-area');
     this.cardList = null;
     this.skin = new SKIN();
-    this.savanna = new SAVANNA();
+    this.savanna = new SAVANNA(state);
   }
 
   show() {
