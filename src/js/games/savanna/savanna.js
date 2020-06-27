@@ -1,9 +1,11 @@
 import * as utils from '../../utils';
 import DEFAULT_DATA from './defaultData';
+import wordCards from '../../wordCards';
 
 export default class Savanna {
-  constructor() {
+  constructor(state) {
     this.element = null;
+    this.userState = state;
     this.cardList = null;
     this.mainArea = document.querySelector('.main-area');
     this.startButton = null;
@@ -17,6 +19,7 @@ export default class Savanna {
     this.startDataIndex = 0;
     this.endDataIndex = 4;
     this.gameNum = 1;
+    // this.wordsArr = [];
     this.wordsArr = DEFAULT_DATA.slice(0, 48);
     this.answers = null;
     this.question = null;
@@ -319,6 +322,13 @@ export default class Savanna {
     }, 3000);
   }
 
+  getWordsList(arr) {
+    arr.forEach(obj => {
+      // const word = wordCards[1].find(word => word.id === obj.id);
+      // this.wordsArr.push(word);
+    });
+  }
+
   start() {
     this.element = this.getElement();
     this.startButton = this.element.querySelector('.into__button');
@@ -333,6 +343,11 @@ export default class Savanna {
     this.gameContent = this.element.querySelector('.game-wrapper');
     this.lives = [...this.element.querySelectorAll('.heart')];
     this.results = this.element.querySelector('.results');
+    console.log(this.userState);
+    const data = this.userState.getTrainingWords(48);
+    console.log(data);
+    this.getWordsList(data);
+    console.log(this.wordsArr);
 
     this.startButton.addEventListener('click', () => {
       this.intro.classList.toggle('none');
