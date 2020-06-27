@@ -203,7 +203,9 @@ export default class TrainingCards {
     template.innerHTML = `
       <div class="tab-wrapper training-card">
         <div class="card-header">
-            <div></div>
+            <div>
+                ${usersAppState.isNewWord(this.currentWord.id) ? this.getHeaderNewWord() : ''}
+            </div>
             <label class="drop-menu-btn">
               <i class="fas fa-caret-down"></i>
               <input type="checkbox" class="checkbox-drop-menu">
@@ -233,6 +235,12 @@ export default class TrainingCards {
     this.cardBody.querySelector('.input-container').append(this.createWordContainer(this.currentWord));
     this.wordContainer = this.cardBody.querySelector('.word-container');
     return template.content;
+  }
+
+  getHeaderNewWord() {
+    let innerLetters = 'Новое слово'.split('')
+      .reduce((acc, letter) => acc += `<span class="training-new-word-letter">${letter}</span>`, '');
+    return `<span class="training-new-word">${innerLetters}</span>`;
   }
 
   createWordStats(word) {

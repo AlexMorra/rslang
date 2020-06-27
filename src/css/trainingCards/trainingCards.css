@@ -64,6 +64,7 @@
     display: flex;
     flex-direction: column;
     max-width: 500px;
+    margin-bottom: 5px;
 }
 
 .training-card .card-body .card-img {
@@ -330,4 +331,22 @@
 .difficult-word {
     background-color: rgba(234, 206, 0, 0.45);
     transition: background-color .8s ease;
+}
+.training-new-word {
+
+}
+.training-new-word-letter {
+    position: relative;
+    font-weight: 900;
+    font-size: 1.5em;
+    transition: all .3s ease;
+    color: rgb(255, 103, 79);
+}
+
+.training-new-word-letter:hover {
+    user-select: none;
+    color: transparent;
+    opacity: 0.5;
+    text-shadow: 2px -2px 0px rgba(0, 0, 255, 0.6),
+                 -2px 2px 0px rgba(255, 0, 0, 0.6);
 }

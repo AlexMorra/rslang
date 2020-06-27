@@ -231,6 +231,16 @@ export default class State {
     }
   }
 
+  getNewWords() {
+    // new word is the word when progress 0
+    return this.learningWords.filter(word => word.optional.progress === 0).length;
+  }
+
+  isNewWord(wordId) {
+    // new word is the word when progress 0
+    return this.getAllWords().find(word => word.wordId === wordId).optional.progress === 0;
+  }
+
   getTrainingWords(count = 10) {
     // return words and add from cards to the user dictionary if words not enough
     let words = this.learningWords.slice()
