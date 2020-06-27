@@ -306,4 +306,28 @@ export default class State {
       return response;
     });
   }
+
+  // update optional.progress
+  async updateProgressWord(wordId, value) {
+    this.userLearningWord = this.learningWords.find(word => word.wordId === wordId);
+    this.userDifficultWord = this.difficultWords.find(word => word.wordId === wordId);
+    this.userWord = this.userDifficultWord || this.userLearningWord;
+    if (value) {
+      this.userWord.optional.progress += 1;
+      this.wordData = {
+        difficulty: this.userWord.difficulty,
+        optional: this.userWord.optional
+      };
+    } else {
+      this.userWord.optional.progress -= 1;
+      this.wordData = {
+        difficulty: this.userWord.difficulty,
+        optional: this.userWord.optional
+      };
+    }
+    return this.updateUserWord(wordId, this.wordData).then(response => {
+      console.log(response, 'UPDATE PROGRESS');
+      return response;
+    });
+  }
 }
