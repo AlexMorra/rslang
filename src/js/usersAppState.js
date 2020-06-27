@@ -3,6 +3,7 @@ import { usersAppState } from '../app';
 
 export default class State {
   constructor() {
+    // user options
     this.wordsPerDay = 1;
     this.cardsPerDay = 1;
     this.username = '';
@@ -13,6 +14,7 @@ export default class State {
     this.transcription = false;
     this.translateWord = false;
     this.playAudio = false;
+    // game options
     this.learningWords = [];
     this.difficultWords = [];
     this.deletedWords = [];

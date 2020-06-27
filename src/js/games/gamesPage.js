@@ -20,7 +20,7 @@ export default class GamesPage {
   cardClickHandler(e) {
     const game = e.target.id;
     console.log(game);
-    
+
     switch (game) {
       case 'English Puzzle':
         this.englishPuzzle = new EnglishPuzzle();
@@ -29,6 +29,10 @@ export default class GamesPage {
       case 'Sprint':
         utils.destroy();
         new Sprint().show();
+        break;
+      case 'Skin Walker':
+        const skin = new SKIN();
+        skin.show();
         break;
     }
   }
