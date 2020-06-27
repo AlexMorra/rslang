@@ -1,7 +1,6 @@
 export default class SprintTimer {
-  constructor(time = 5, title = '') {
+  constructor(time = 5) {
     this.time = time;
-    this.title = title;
     this.intervalId = null;
     this.element = this.createElement();
     this.startTimer();
@@ -11,9 +10,14 @@ export default class SprintTimer {
     const template = document.createElement('div');
     template.classList.add('.sprint__timer');
     template.innerHTML = `
-      <h3>${this.title}</h3>
-      <div class="j-time">${this.time}</div>
+      <div class="sprint__timer-wrap">
+        <div class="time j-time">${this.time}</div>
+        <svg>
+          <circle r="18" cx="20" cy="20"></circle>
+        </svg>
+      </div>
     `;
+    template.querySelector('circle').style.animation = `countdown ${this.time}s linear infinite forwards`;
     return template;
   }
 

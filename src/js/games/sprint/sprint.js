@@ -3,13 +3,12 @@ import SprintCard from './sprintCard';
 import SprintCounter from './sprintCounter';
 import SprintStatistic from './sprintStatistic';
 import { usersAppState } from '../../../app';
-import wordCards from '../../wordCards';
 
 export default class Sprint {
   constructor() {
-    this.gameTime = 10;
-    this.currentWords = [];
-    this.wordList = this.createWordList();
+    this.wordListLenght = 100;
+    this.gameTime = 60;
+    this.wordList = usersAppState.getTrainingWords(this.wordListLenght);
     this.element = this.getGameWrapper();
     this.mainArea = document.querySelector('.main-area');
   }
@@ -38,14 +37,14 @@ export default class Sprint {
 
   getGameElements() {
     this.initializeGame();
-    this.element.append(this.card);
-    this.element.append(this.counter.getElement());
     this.timer.getElement().addEventListener('timer-end', () => {
       this.element.innerHTML = '';
       this.element.append(this.statistic.getStatistic());
       this.addEventsToStatisticBtn();
     });
     this.element.append(this.timer.getElement());
+    this.element.append(this.counter.getElement());
+    this.element.append(this.card);
   }
 
   getInitialTemplate() {
@@ -55,7 +54,9 @@ export default class Sprint {
         <h1 class="sprint__intro-title">Спринт</h1>
         <p class="sprint__intro-description">
           Тренировка Спринт - это игра на время.</br>
-          Чем больше верных ответов ты дашь за 60 секунд, тем больше очков опыта получишь.</p>
+          Чем больше верных ответов ты дашь за 60 секунд, </br>
+          тем больше очков опыта получишь.
+        </p>
         <button class="sprint__intro-button button">Начать</button>
       </div>
     `;
@@ -76,25 +77,8 @@ export default class Sprint {
       const target = event.target;
       if (target.classList.contains('j-playAgain')) {
         this.element.innerHTML = '';
-        this.show();
-        console.log(this.card);
-      } else if (target.classList.contains('j-menu')) {
-        console.log('В меню!');
+        this.getGameElements();
       }
     });
-  }
-
-  createWordList() {
-    // Create array with words, translates and other data by word ID
-    usersAppState.userWords.forEach(obj => {
-      let word = wordCards[obj.difficulty].find(item => item.id === obj.wordId);
-      this.currentWords.push(word);
-    });
-    // Randomize array
-    for (let i = this.currentWords.length - 1; i > 0; i--) {
-      let j = Math.floor(Math.random() * (i + 1));
-      [this.currentWords[i], this.currentWords[j]] = [this.currentWords[j], this.currentWords[i]];
-    }
-    return this.currentWords;
   }
 }

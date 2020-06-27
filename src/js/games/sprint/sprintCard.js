@@ -7,7 +7,7 @@ export default class SprintCard {
     this.wordListRangeEnd = wordList.length - 1;
     this.counter = counter;
     this.statistic = statistic;
-    this.wordListMessage = 'Слова закончились( Добавьте больше слов из словаря';
+    this.wordListMessage = 'Слова закончились(<br>Добавьте больше слов из словаря';
     this.answers = 0;
     this.correctAnswers = 0;
     this.allCorrectAnswers = 0;
@@ -38,7 +38,7 @@ export default class SprintCard {
               <li class="sprint__card-main-indicator-item"></li>
             </ul>
             <p class="sprint__card-main-info j-info"></p>
-            <img class="sprint__card-main-icon" src="#" alt="icon">
+<!--            <img class="sprint__card-main-icon" src="#" alt="icon">-->
             <p class="sprint__card-main-word j-word"></p>
             <p class="sprint__card-main-translation j-translation"></p>
         </div>
