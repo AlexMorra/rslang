@@ -235,11 +235,6 @@
     background: hsla(0,0%,100%,.1);
 }
 
-.question.fall {
-    transform: translateY(50%);
-    transition: all 5s linear;
-}
-
 .question {
     position: absolute;
     left: 0;
@@ -253,7 +248,9 @@
     height: 100%; 
     width: 100%;
     transform: translateY(0);
+    transform: translateY(-60px);
     transition: transform 5s ease-in;
+    opacity: 0;
 }
 
 .question__word {
@@ -265,10 +262,16 @@
     left: 50%;
 }
 
+.question.fall {
+  transform: translateY(50%);
+  transition: all 5s linear;
+  opacity: 1;
+}
+
 .question.start { 
     transition: all 0s ease;
     opacity: 0;
-    transform: translateY(0);
+    transform: translateY(-50px);
 }
 
 .question--fail {
