@@ -1,5 +1,7 @@
 import GAMES from './gamesConstants';
 import SKIN from './skinWalkers/startWindow';
+import Sprint from './sprint/sprint';
+import * as utils from '../utils';
 
 export default class GamesPage {
   constructor() {
@@ -19,6 +21,10 @@ export default class GamesPage {
     if (e.target.id === 'Skin Walker') {
       const skin = new SKIN();
       skin.show();
+    }
+    if (e.target.id === 'Sprint') {
+      utils.destroy();
+      new Sprint().show();
     }
   }
 
