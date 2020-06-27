@@ -12,6 +12,7 @@ export default class TrainingCards {
     this.trainingWords = [];
     this.currentWord = null;
     this.audio = null;
+    this.dropMenuBtn = null;
     this.dontKnowBtn = null;
     this.nextBtn = null;
     // word parameters for statistics
@@ -64,9 +65,28 @@ export default class TrainingCards {
           console.log('END!!!!');
           utils.destroy();
           setTimeout(() => {
-            this.mainArea.append(this.getTrainingStatistic());
+            this.mainArea.append(this.getTrainingStatistic(10));
           }, 400);
         }
+        break;
+      case 'difficult-btn':
+        console.log('difficult');
+        usersAppState.updateDifficultWord(this.currentWord.id, true);
+        this.trainingCard.classList.add('difficult-word');
+        setTimeout(() => this.nextBtn.click(), 400);
+        break;
+      case 'delete-btn':
+        console.log('delete');
+        usersAppState.updateDeletedWord(this.currentWord.id, true);
+        this.wordsStatistic.pop();
+        this.trainingCard.classList.add('delete-word');
+        setTimeout(() => this.nextBtn.click(), 400);
+        break;
+      case 'repeat-btn':
+        console.log('repeat');
+        this.trainingWords.unshift(this.wordsStatistic.pop());
+        this.trainingCard.classList.add('repeat-word');
+        setTimeout(() => this.nextBtn.click(), 400);
         break;
     }
   }
@@ -117,6 +137,7 @@ export default class TrainingCards {
         this.audio.src = `./assets/${this.wordContainer.dataset.src}`;
         this.audio.play();
         this.nextBtn.classList.add('show');
+        this.dropMenuBtn.classList.add('show');
         // settings params
         const wordMeaining = document.querySelector('.word-meaning-container');
         const wordExample = document.querySelector('.word-example-container');
@@ -181,7 +202,20 @@ export default class TrainingCards {
     let template = document.createElement('template');
     template.innerHTML = `
       <div class="tab-wrapper training-card">
-        <div class="card-header"></div>
+        <div class="card-header">
+            <div>
+                ${usersAppState.isNewWord(this.currentWord.id) ? this.getHeaderNewWord() : ''}
+            </div>
+            <label class="drop-menu-btn">
+              <i class="fas fa-caret-down"></i>
+              <input type="checkbox" class="checkbox-drop-menu">
+              <div class="drop-menu">
+                <input class="difficultBtn" id="difficult-btn" type="button" value="Сложное" title="Добавить в сложные">
+                <input class="deleteBtn" id="delete-btn" type="button" value="Удалить" title="Удалить из словоря">
+                <input class="repeatBtn" id="repeat-btn" type="button" value="Повторить" title="Повторить в тренировке">
+            </div>
+            </label>
+        </div>
         <div class="card-body"></div>
         <div class="card-footer">
             <input class="dontKnowBtn" id="dont-know-btn" type="button" value="Не знаю">
@@ -192,6 +226,7 @@ export default class TrainingCards {
       </div>
     `;
     this.trainingCard = template.content.querySelector('.training-card');
+    this.dropMenuBtn = template.content.querySelector('.drop-menu-btn');
     this.nextBtn = template.content.querySelector('.nextBtn');
     this.dontKnowBtn = template.content.querySelector('.dontKnowBtn');
     this.cardBody = template.content.querySelector('.card-body');
@@ -200,6 +235,12 @@ export default class TrainingCards {
     this.cardBody.querySelector('.input-container').append(this.createWordContainer(this.currentWord));
     this.wordContainer = this.cardBody.querySelector('.word-container');
     return template.content;
+  }
+
+  getHeaderNewWord() {
+    let innerLetters = 'Новое слово'.split('')
+      .reduce((acc, letter) => acc += `<span class="training-new-word-letter">${letter}</span>`, '');
+    return `<span class="training-new-word">${innerLetters}</span>`;
   }
 
   createWordStats(word) {

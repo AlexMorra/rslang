@@ -22,7 +22,7 @@ export let menu = new Menu(
   new Account(),
   new Auth(),
   new Dictionary(),
-  new GamesPage(usersAppState),
+  new GamesPage(),
   new TrainingCards()
 );
 

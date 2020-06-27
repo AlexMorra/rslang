@@ -9,7 +9,12 @@
 @import "dictionary.css";
 @import "trainingCards/trainingCards.css";
 @import "../js/games/skinWalkers/skinwalkerStyle.css";
+<<<<<<< HEAD
 @import "games/savanna.css";
+=======
+@import "./games/english-puzzle/englishPuzzle.css";
+@import "games/sprint.css";
+>>>>>>> f47e60171444baef7b7858a174bf893c4a676f62
 
 * {
     margin: 0;
