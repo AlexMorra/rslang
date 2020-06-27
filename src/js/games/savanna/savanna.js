@@ -28,6 +28,10 @@ export default class Savanna {
     this.bgPosition = 100;
     this.lives = null;
     this.gameOn = false;
+    this.startBell = new Audio('./assets/sounds/start-bell.wav');
+    this.errorSound = new Audio('./assets/sounds/error.mp3');
+    this.successSound = new Audio('./assets/sounds/success.mp3');
+    this.gameOverSound = new Audio('./assets/sounds/game-over.wav');
   }
 
   show() {
@@ -194,7 +198,9 @@ export default class Savanna {
   }
 
   getSuccessAnswer() {
-    // this.correctSound.play();
+    if (this.soundOn) {
+      this.successSound.play();
+    }
 
     this.addSuccess();
     this.successes += 1;
@@ -203,7 +209,9 @@ export default class Savanna {
   }
 
   getWrongAnswer() {
-    // this.errorSound.play();
+    if (this.soundOn) {
+      this.errorSound.play();
+    }
 
     this.addFail();
     this.lives[this.errors].classList.add('heart--lost');
@@ -294,14 +302,15 @@ export default class Savanna {
 
   showResults() {
     this.results.classList.toggle('none');
+    this.gameOverSound.play();
     this.showGame();
   }
 
   initGame() {
     setTimeout(() => {
       this.gameOn = true;
-      this.showGame();
       this.generateGameData();
+      this.showGame();
 
       setTimeout(() => {
         this.toggleFall();
@@ -331,6 +340,7 @@ export default class Savanna {
 
       this.counterOn = true;
       this.tickPlay();
+      this.startBell.play();
 
       this.initGame();
     });
