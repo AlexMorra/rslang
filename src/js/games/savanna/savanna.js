@@ -1,6 +1,5 @@
 import * as utils from '../../utils';
-import DEFAULT_DATA from './defaultData';
-import wordCards from '../../wordCards';
+import { usersAppState } from '../../../app';
 
 export default class Savanna {
   constructor(state) {
@@ -19,12 +18,12 @@ export default class Savanna {
     this.startDataIndex = 0;
     this.endDataIndex = 4;
     this.gameNum = 1;
-    // this.wordsArr = [];
-    this.wordsArr = DEFAULT_DATA.slice(0, 48);
+    this.wordsListLength = 48;
+    this.wordsList = usersAppState.getTrainingWords(this.wordsListLength);
     this.answers = null;
     this.question = null;
-    this.answerWords = null;
     this.questionWord = null;
+    this.answerWords = null;
     this.questionWrapper = null;
     this.errors = 0;
     this.successes = 0;
@@ -63,7 +62,6 @@ export default class Savanna {
 
         <div class="game-wrapper none">
           <div class="controls">
-            <button class="controls__sound sound"></button>
             <div class="controls__lives lives">
               <div class="heart"></div>
               <div class="heart"></div>
@@ -72,6 +70,8 @@ export default class Savanna {
               <div class="heart"></div>
             </div>
           </div>
+
+          <button class="sound"></button>
           
           <div class="question">
             <div class="question__word">word</div>
@@ -131,9 +131,8 @@ export default class Savanna {
 
   generateGameData() {
     this.dataIndex += 4;
-    this.answers = this.shuffle(this.wordsArr.slice(this.startDataIndex, this.endDataIndex));
+    this.answers = this.wordsList.slice(this.startDataIndex, this.endDataIndex);
     this.question = this.answers[Math.floor(Math.random() * (4 - 0)) + 0];
-    console.log(this.question);
 
     this.answerWords.forEach((element, index) => {
       element.textContent = this.answers[index].wordTranslate;
@@ -150,13 +149,13 @@ export default class Savanna {
     this.counter.innerHTML = this.count;
   }
 
-  tickPlay() {
+  tickPlay(playFunc) {
     const timerId = setInterval(() => {
       if (this.count === 1) {
         clearInterval(timerId);
         this.counterOn = false;
-        this.loader.classList.toggle('hidden');
-        this.gamePlay();
+        this.loader.classList.toggle('none');
+        playFunc();
       }
 
       if (this.counterOn) {
@@ -167,13 +166,11 @@ export default class Savanna {
 
   playGame() {
     this.resetAnswers();
-    this.gameOn = true;
 
+    this.gameOn = true;
     this.gameNum += 1;
 
-    console.log(this.gameNum);
     if (this.gameNum > 12) {
-      console.log('game over');
       setTimeout(() => this.showResults(), 600);
     } else {
       setTimeout(() => {
@@ -223,20 +220,16 @@ export default class Savanna {
 
   checkOffset() {
     const threshold = document.documentElement.clientHeight / 2;
-    console.log(threshold);
-    console.log(this.questionWord.getBoundingClientRect());
-    console.log(this.gameOn);
+
     if (this.gameOn) {
       const timerId = setInterval(() => {
         const posY = this.questionWord.getBoundingClientRect().y;
 
         if (posY === threshold) {
-          console.log(true);
           clearInterval(timerId);
           this.getWrongAnswer();
 
           if (this.errors === 5) {
-            console.log('game over');
             setTimeout(() => this.showResults(), 600);
           } else {
             setTimeout(() => {
@@ -252,26 +245,22 @@ export default class Savanna {
 
   checkAnswer(target) {
     const answer = target.innerHTML;
-    console.log(this.questionWrapper);
     this.questionWrapper.classList.remove('fall');
     this.gameOn = false;
 
     if (answer === this.question.wordTranslate) {
-      console.log('correct');
-
       target.parentNode.classList.add('answer--true');
       this.getSuccessAnswer();
+
       setTimeout(() => {
         this.questionWrapper.classList.add('start');
         this.playGame();
       }, 400);
     } else {
-      console.log('wrong');
       target.parentNode.classList.add('answer--false');
       this.getWrongAnswer();
 
       if (this.errors === 5) {
-        console.log('game over');
         setTimeout(() => this.showResults(), 600);
       } else {
         setTimeout(() => this.playGame(), 400);
@@ -322,11 +311,8 @@ export default class Savanna {
     }, 3000);
   }
 
-  getWordsList(arr) {
-    arr.forEach(obj => {
-      // const word = wordCards[1].find(word => word.id === obj.id);
-      // this.wordsArr.push(word);
-    });
+  toggleMenuIcon() {
+    const menu = document.querySelector();
   }
 
   start() {
@@ -335,7 +321,7 @@ export default class Savanna {
     this.intro = this.element.querySelector('.intro');
     this.loader = this.element.querySelector('.loader');
     this.counter = this.element.querySelector('.preloader__counter');
-    this.sound = this.element.querySelector('.controls__sound');
+    this.sound = this.element.querySelector('.sound');
     this.answerWords = this.element.querySelectorAll('.answer__word');
     this.questionWord = this.element.querySelector('.question__word');
     this.questionWrapper = this.element.querySelector('.question');
@@ -343,18 +329,13 @@ export default class Savanna {
     this.gameContent = this.element.querySelector('.game-wrapper');
     this.lives = [...this.element.querySelectorAll('.heart')];
     this.results = this.element.querySelector('.results');
-    console.log(this.userState);
-    const data = this.userState.getTrainingWords(48);
-    console.log(data);
-    this.getWordsList(data);
-    console.log(this.wordsArr);
 
     this.startButton.addEventListener('click', () => {
       this.intro.classList.toggle('none');
       this.loader.classList.toggle('none');
 
       this.counterOn = true;
-      this.tickPlay();
+      this.tickPlay(this.playGame);
       this.startBell.play();
 
       this.initGame();
