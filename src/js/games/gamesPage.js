@@ -9,8 +9,7 @@ export default class GamesPage {
     this.element = null;
     this.mainArea = document.querySelector('.main-area');
     this.cardList = null;
-    this.skin = new SKIN();
-    this.savanna = new SAVANNA();
+    // this.savanna = new SAVANNA();
   }
 
   show() {
@@ -38,7 +37,7 @@ export default class GamesPage {
         break;
       case 'Savanna':
         utils.destroy();
-        this.savanna.show();
+        new SAVANNA().show();
         break;
     }
   }

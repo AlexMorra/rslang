@@ -110,7 +110,7 @@
     position: absolute;
     top: 15px;
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-end;
     width: 100%;
     padding: 0 18px;
     box-sizing: border-box;
@@ -123,12 +123,22 @@
     outline: none;
     transition: all .15s ease;
     background: url("../../assets/images/sound.svg");
+    background-position: center;
+    background-repeat: no-repeat;
     width: 20px;
     height: 20px;
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    padding: 18px;
+    box-sizing: border-box;
+    z-index: 30;
 }
 
 .sound.off {
   background: url("../../assets/images/sound-off.svg");
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 .lives {
@@ -330,6 +340,10 @@
 @media (max-width: 544px) {
     .intro__title {
         font-size: 32px;
+    }
+
+    .intro__description {
+        padding: 0 18px;
     }
 
     .answers {
