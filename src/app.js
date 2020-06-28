@@ -1,3 +1,4 @@
+import moment from 'moment';
 import './css/style.css';
 import './js/usersAppState';
 import './js/menu';
@@ -51,3 +52,21 @@ auth.authorized().then(authorized => {
     }
   }, 10000);
 });
+
+// setTimeout(() => {
+//   let date = moment().format('MM D YYYY');
+//   let stats = {
+//     learnedWords: usersAppState.learnedWords.length,
+//     optional: usersAppState.userStatistics.optional
+//   };
+//   stats.optional['06 26 2020'] = {
+//     correctAnswers: 18,
+//     incorrectAnswers: 23,
+//     words: []
+//   };
+//
+//   console.log(usersAppState.userStatistics);
+//   // console.log(usersAppState.userStatistics.optional['06 27 2020']);
+//   // usersAppState.setUserStatistics(stats);
+// // usersAppState.getStatisticsData();
+// }, 3500);
