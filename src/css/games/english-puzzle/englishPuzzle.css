@@ -143,7 +143,7 @@
   margin: 0 auto;
   width: auto;
   margin-top: 70px;
-  max-width: 50vw;
+  width: 50vw;
   flex-wrap: wrap;
 }
 
@@ -235,38 +235,134 @@ button:active, button:focus {
   left: 0;
   right: 0;
   bottom: 0;
-}
-
-.english-puzzle__statistic {
-  width: 25%;
-  height: 500px;
-  position: absolute;
-  border-radius: 3%;
-  top: calc(50vh - 250px);
-  left: calc(50vw - 12.5%);
-  background-color: #f7cd92;
-}
-
-.english-puzzle__statistic__learned__title {
-  text-align: center;
-  padding: 10px 0;
-}
-
-.english-puzzle__statistic__learned__wrapper-el, .english-puzzle__statistic__not-learned__wrapper-el {
   display: flex;
-  width: 80%;
-  margin: 15px auto;
-  justify-content: space-between;
+  justify-content: center;
+  align-items: center;
 }
+
+.statistic {
+  width: 25%;
+  border-radius: 3%;
+  background-color: #ffffff;
+  box-shadow: 0px 0px 5px 5px rgba(221, 221, 221, 1);
+  padding: 20px 50px;
+}
+
+.statistic__learned__title, .statistic__not-learned__title {
+  padding: 10px 0;
+  display: flex;
+  align-items: center;
+}
+
+.statistic__learned__quantity, .statistic__not-learned__quantity {
+  margin-left: 5px;
+}
+
+.statistic__learned__quantity {
+  background-color: #01AF61;
+  color: #fff;
+  padding: 0 14px;
+  border-radius: 21px;
+  margin-left: 5px;
+}
+
+.statistic__not-learned__quantity {
+  background-color: #da5b4c;
+  color: #fff;
+  padding: 0 14px;
+  border-radius: 21px;
+  margin-left: 5px;
+}
+
+.statistic__learned__title__wrapper,  .statistic__not-learned__title__wrapper{
+  display: flex;
+  align-items: center;
+  margin-left: 30px;
+}
+
+.statistic__el__wrapper {
+  display: flex;
+  padding: 10px 0;
+  justify-content: flex-start;
+  position: relative;
+  align-items: center;
+}
+
+.statistic__el__delete {
+  position: absolute;
+  right: 0;
+  background-image: url(../../../assets/english-puzzle/trash.svg);
+  width: 25px;
+  height: 25px;
+  background-position: center;
+  background-size: 100%;
+  border: 0;
+  background-color: #ffffff;
+  opacity: 0.6;
+  cursor: pointer;
+}
+
+.statistic__el__audio {
+  background-image: url(../../../assets/english-puzzle/volume.svg);
+  width: 25px;
+  height: 25px;
+  background-position: center;
+  background-size: 100%;
+  border: 0;
+  background-color: #ffffff;
+  opacity: 1;
+  cursor: pointer;
+}
+
+.statistic__el__delete:hover {
+  opacity: 1;
+}
+
+.statistic__el__word {
+  margin-left: 8px;
+}
+
+.statistic__el__translate {
+  margin-left: 8px;
+  color: rgba(14, 30, 37, 0.7);
+}
+
+.statistic__el__transcription {
+  margin-left: 8px;
+  color: rgba(14, 30, 37, 0.7);
+}
+
+.statistic__btn-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.statistic__btn-container__return, .statistic__btn-container__repeat {
+  color: #ffffff;
+  background: #62bbb9;
+  border-radius: 4px;
+  height: 50px;
+  margin: 20px 10px;
+  border: 0;
+  padding: 0 10px;
+  cursor: pointer;
+}
+
+.statistic__btn-container__return:hover, .statistic__btn-container__repeat:hover {
+  box-shadow: 0 0 0 2px #62bbb9 inset, 0 0 0 4px white inset;
+}
+
+
+
 
 @media(max-width:1600px) {
   .english-puzzle-main {
     width: 70%;
   }
 
-  .english-puzzle__statistic {
+  .statistic {
     width: 35%;
-    left: calc(50vw - 17.5%);
   }
 }
 
@@ -275,9 +371,8 @@ button:active, button:focus {
     width: 75%;
   }
 
-  .english-puzzle__statistic {
+  .statistic {
     width: 45%;
-    left: calc(50vw - 22.5%);
   }
 }
 
@@ -291,11 +386,32 @@ button:active, button:focus {
   .english-puzzle-main {
     width: 95%;
   }
+
+  .english-puzzle-main__result-block {
+  width: 70vw;
+  }
+
+  .english-puzzle-main__active-phrase {
+    width: 70vw;
+  }
 }
 
 @media(max-width:700px) {
-  .english-puzzle__statistic {
-    width: 75%;
-    left: calc(50vw - 37.5%);
+  .statistic {
+    width: 65%;
   }
+}
+
+@media(max-width:500px) {
+  .english-puzzle-main__result-block {
+    width: 90vw;
+    }
+  
+    .english-puzzle-main__active-phrase {
+      width: 90vw;
+    }
+
+    .statistic__el__transcription {
+      display: none;
+    }
 }
