@@ -1,5 +1,6 @@
 import wordCards from './wordCards';
 import { usersAppState } from '../app';
+import moment from 'moment';
 
 export default class State {
   constructor() {
@@ -19,6 +20,8 @@ export default class State {
     this.difficultWords = [];
     this.deletedWords = [];
     this.learnedWords = [];
+    // statistics
+    this.userStatistics = {};
   }
 
   getAllWords() {
@@ -233,6 +236,86 @@ export default class State {
     }
   }
 
+  setUserStatistics(data) {
+    let token = localStorage.getItem('token');
+    let userId = localStorage.getItem('user_id');
+    return fetch(`https://afternoon-falls-25894.herokuapp.com/users/${userId}/statistics`, {
+      method: 'PUT',
+      withCredentials: true,
+      headers: {
+        Authorization: `Bearer ${token}`,
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    })
+      .then(response => response.json())
+      .then(responseJson => {
+        this.userStatistics = responseJson;
+        console.log(responseJson, 'SET USER STATISTICS');
+        return responseJson;
+      });
+  }
+
+  getUserStatistics() {
+    let token = localStorage.getItem('token');
+    let userId = localStorage.getItem('user_id');
+    return fetch(`https://afternoon-falls-25894.herokuapp.com/users/${userId}/statistics`, {
+      method: 'GET',
+      withCredentials: true,
+      headers: {
+        Authorization: `Bearer ${token}`,
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      }
+    })
+      .then(response => {
+        if (response.status === 404) {
+          this.userStatistics = {
+            learnedWords: this.learnedWords.length,
+            optional: {
+              [moment().format('MM D YYYY')]: {
+                correctAnswers: 0,
+                incorrectAnswers: 0,
+                words: []
+              }
+            }
+          };
+        } else {
+          return response.json();
+        }
+      })
+      .then(responseJson => {
+        console.log(responseJson, 'GET USER STATISTICS');
+        if (responseJson) this.userStatistics = responseJson;
+        return responseJson;
+      });
+  }
+
+  getStatisticsData(wordId, value) {
+    let date = moment().format('MM D YYYY');
+    if (!this.userStatistics.optional[date]) {
+      this.userStatistics.optional[date] = {
+        correctAnswers: 0,
+        incorrectAnswers: 0,
+        words: []
+      };
+    }
+    if (value) {
+      this.userStatistics.optional[date].correctAnswers += 1;
+    } else {
+      this.userStatistics.optional[date].incorrectAnswers += 1;
+    }
+    if (!this.userStatistics.optional[date].words.includes(wordId)) {
+      this.userStatistics.optional[date].words.push(wordId);
+    }
+    let data = {
+      learnedWords: this.userStatistics.learnedWords,
+      optional: this.userStatistics.optional
+    };
+    return data;
+  }
+
   getNewWords() {
     // new word is the word when progress 0
     return this.learningWords.filter(word => word.optional.progress === 0).length;
@@ -266,7 +349,7 @@ export default class State {
   // UPDATE SINGLE USER OPTIONS
 
   // update optional.deletedWord
-  async updateDeletedWord(wordId, value) {
+  updateDeletedWord(wordId, value) {
     if (value) {
       const index = this.learningWords.findIndex(word => word.wordId === wordId);
       this.userWord = this.learningWords.splice(index, 1)[0];
@@ -282,13 +365,13 @@ export default class State {
       optional: this.userWord.optional
     };
     return this.updateUserWord(wordId, wordData).then(response => {
-      console.log(response, 'updated');
+      console.log(response, 'updated delete word');
       return response;
     });
   }
 
   // update optional.difficultWord
-  async updateDifficultWord(wordId, value) {
+  updateDifficultWord(wordId, value) {
     if (value) {
       const index = this.learningWords.findIndex(word => word.wordId === wordId);
       this.userWord = this.learningWords.splice(index, 1)[0];
@@ -304,31 +387,41 @@ export default class State {
       optional: this.userWord.optional
     };
     return this.updateUserWord(wordId, wordData).then(response => {
-      console.log(response);
+      console.log(response, 'update difficult word');
       return response;
     });
   }
 
   // update optional.progress
-  async updateProgressWord(wordId, value) {
+  updateProgressWord(wordId, value) {
     this.userLearningWord = this.learningWords.find(word => word.wordId === wordId);
     this.userDifficultWord = this.difficultWords.find(word => word.wordId === wordId);
     this.userWord = this.userDifficultWord || this.userLearningWord;
     if (value) {
-      this.userWord.optional.progress += 1;
+      this.userWord.optional.progress = this.userWord.optional.progress >= 5
+                                        ? this.userWord.optional.progress
+                                        : this.userWord.optional.progress + 1;
       this.wordData = {
         difficulty: this.userWord.difficulty,
         optional: this.userWord.optional
       };
     } else {
-      this.userWord.optional.progress -= 1;
+      this.userWord.optional.progress = this.userWord.optional.progress <= -5
+                                        ? this.userWord.optional.progress
+                                        : this.userWord.optional.progress - 1;
       this.wordData = {
         difficulty: this.userWord.difficulty,
         optional: this.userWord.optional
       };
     }
+    // update difficulty if progress -5
+    if (this.userWord.optional.progress <= -5) {
+      this.updateDifficultWord(wordId, true);
+    }
+    // take stats here
+    this.setUserStatistics(this.getStatisticsData(wordId, value));
     return this.updateUserWord(wordId, this.wordData).then(response => {
-      console.log(response, 'UPDATE PROGRESS');
+      console.log(response, 'update progress');
       return response;
     });
   }

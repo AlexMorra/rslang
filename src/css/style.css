@@ -12,6 +12,7 @@
 @import "games/savanna.css";
 @import "./games/english-puzzle/englishPuzzle.css";
 @import "games/sprint.css";
+@import "statistics.css";
 
 * {
     margin: 0;
