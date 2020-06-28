@@ -21,8 +21,10 @@ export default class Menu extends statistics {
     let menuTemplate = this.menuTemplate.cloneNode(true);
     this.menuNav = menuTemplate.querySelector('.nav-menu');
     this.userStats = menuTemplate.querySelector('.user-stats');
+    this.statsWidth = menuTemplate.querySelector('.stats-width');
     this.body.prepend(menuTemplate);
     window.addEventListener('click', this.menuHandler.bind(this));
+    this.statsWidth.addEventListener('click', this.statsWidthHandler.bind(this));
   }
 
   menuHandler(e) {
@@ -72,6 +74,19 @@ export default class Menu extends statistics {
     }
   }
 
+  statsWidthHandler() {
+    let root = document.querySelector(':root');
+    if (this.statsWidth.classList.contains('stats-closed')) {
+      this.statsWidth.classList.remove('stats-closed');
+      this.statsWidth.classList.add('stats-opened');
+      root.style.setProperty('--stats_width', '600px');
+    } else {
+      this.statsWidth.classList.add('stats-closed');
+      this.statsWidth.classList.remove('stats-opened');
+      root.style.setProperty('--stats_width', '300px');
+    }
+  }
+
   getTemplate() {
     let template = document.createElement('template');
     template.innerHTML = `
@@ -112,6 +127,7 @@ export default class Menu extends statistics {
     <i class="fas fa-project-diagram main-stats-btn" id="main-stats" style="position: absolute; right: 0"></i>
     <div class="user-stats" id="user-stats">
         <h2 class="stats-username"></h2>
+        <i class="fas fa-chevron-right stats-width stats-closed"></i>
         <div class="stats-month">${moment().locale('ru').format('MMMM')}</div>
         <canvas id="stats-chart" width="1000" height="1000"></canvas>
     </div>
