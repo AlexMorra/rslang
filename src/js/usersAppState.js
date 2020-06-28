@@ -251,6 +251,7 @@ export default class State {
     })
       .then(response => response.json())
       .then(responseJson => {
+        this.userStatistics = responseJson;
         console.log(responseJson, 'SET USER STATISTICS');
         return responseJson;
       });
@@ -308,7 +309,11 @@ export default class State {
     if (!this.userStatistics.optional[date].words.includes(wordId)) {
       this.userStatistics.optional[date].words.push(wordId);
     }
-    return this.userStatistics;
+    let data = {
+      learnedWords: this.userStatistics.learnedWords,
+      optional: this.userStatistics.optional
+    };
+    return data;
   }
 
   getNewWords() {
@@ -393,17 +398,25 @@ export default class State {
     this.userDifficultWord = this.difficultWords.find(word => word.wordId === wordId);
     this.userWord = this.userDifficultWord || this.userLearningWord;
     if (value) {
-      this.userWord.optional.progress += 1;
+      this.userWord.optional.progress = this.userWord.optional.progress >= 5
+                                        ? this.userWord.optional.progress
+                                        : this.userWord.optional.progress + 1;
       this.wordData = {
         difficulty: this.userWord.difficulty,
         optional: this.userWord.optional
       };
     } else {
-      this.userWord.optional.progress -= 1;
+      this.userWord.optional.progress = this.userWord.optional.progress <= -5
+                                        ? this.userWord.optional.progress
+                                        : this.userWord.optional.progress - 1;
       this.wordData = {
         difficulty: this.userWord.difficulty,
         optional: this.userWord.optional
       };
+    }
+    // update difficulty if progress -5
+    if (this.userWord.optional.progress <= -5) {
+      this.updateDifficultWord(wordId, true);
     }
     // take stats here
     this.setUserStatistics(this.getStatisticsData(wordId, value));
