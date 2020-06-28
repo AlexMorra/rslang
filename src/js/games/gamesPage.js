@@ -9,7 +9,6 @@ export default class GamesPage {
     this.element = null;
     this.mainArea = document.querySelector('.main-area');
     this.cardList = null;
-    // this.savanna = new SAVANNA();
   }
 
   show() {
