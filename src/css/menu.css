@@ -28,8 +28,17 @@
     background-color: inherit;
 }
 
-.menu-logo {
+.main-stats-btn {
+    margin: 20px;
+    transform: scale(2);
+    background-color: transparent;
     z-index: 100;
+}
+
+.menu-logo,
+.main-stats-btn {
+    z-index: 100;
+    cursor: pointer;
 }
 
 .menu-icon,
@@ -52,4 +61,35 @@
     .open {
         width: 230px!important;
     }
+}
+
+/* USER STATS */
+
+.open-stats {
+    width: 300px!important;
+}
+
+.user-stats {
+    height: 100%;
+    width: 0px;
+    position: fixed;
+    right: 0;
+    background-color: white;
+    box-shadow: 0 0 15px 0 gray;
+    overflow-y: auto;
+    white-space: nowrap;
+    user-select: none;
+    transition: width 0.5s ease;
+    z-index: 10;
+}
+
+.stats-username {
+    margin: 10px;
+}
+
+.stats-month {
+    text-align: center;
+    font-weight: 900;
+    font-size: 1.4em;
+    text-transform: capitalize;
 }

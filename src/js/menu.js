@@ -1,7 +1,11 @@
 import * as utils from './utils';
+import moment from 'moment';
+import { usersAppState } from '../app';
+import statistics from './statistics';
 
-export default class Menu {
+export default class Menu extends statistics {
   constructor(controlPanel, account, auth, dictionary, games, training) {
+    super();
     this.controlPanel = controlPanel;
     this.dictionary = dictionary;
     this.account = account;
@@ -16,6 +20,7 @@ export default class Menu {
   show() {
     let menuTemplate = this.menuTemplate.cloneNode(true);
     this.menuNav = menuTemplate.querySelector('.nav-menu');
+    this.userStats = menuTemplate.querySelector('.user-stats');
     this.body.prepend(menuTemplate);
     window.addEventListener('click', this.menuHandler.bind(this));
   }
@@ -23,9 +28,17 @@ export default class Menu {
   menuHandler(e) {
     const navId = e.target.id;
     const touchedMenu = this.menuNav.contains(e.target);
+    const touchedStats = this.userStats.contains(e.target) || navId === 'main-stats';
     if (!touchedMenu) this.menuNav.classList.remove('open');
+    if (!touchedStats) this.userStats.classList.remove('open-stats');
 
     switch (navId) {
+      case 'main-stats':
+        console.log('USER STATS OPEN');
+        this.getUserStats();
+        document.querySelector('.stats-username').textContent = usersAppState.username;
+        this.userStats.classList.toggle('open-stats');
+        break;
       case 'header-nav-icon':
         this.menuNav.classList.add('open');
         break;
@@ -96,6 +109,12 @@ export default class Menu {
           </li>
       </ul>
     </nav>
+    <i class="fas fa-project-diagram main-stats-btn" id="main-stats" style="position: absolute; right: 0"></i>
+    <div class="user-stats" id="user-stats">
+        <h2 class="stats-username"></h2>
+        <div class="stats-month">${moment().locale('ru').format('MMMM')}</div>
+        <canvas id="stats-chart" width="1000" height="1000"></canvas>
+    </div>
     `;
     return template.content;
   }
