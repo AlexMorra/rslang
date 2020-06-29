@@ -7,35 +7,35 @@ const TEAM = [
     },
     {
       image: '',
-      title: 'фронтендер',
+      title: 'разработчик',
       fullname: 'Дмитрий',
       github: 'DzmitryDabrahost'
     },
     {
       image: '',
-      title: 'фронтендер',
+      title: 'разработчик',
       fullname: 'Станислав Яркин',
       github: 'yarkin13'
     },
     {
       image: '',
-      title: 'фронтендер',
+      title: 'разработчик',
       fullname: 'Евгения Шибкова',
       github: 'jenia-shibkova',
     },
     {
       image: '',
-      title: 'фронтендер',
+      title: 'разработчик',
       fullname: 'Алексей Ивкин',
       github: 'ivkin-alexey'
     },
     {
       image: '',
-      title: 'фронтендер',
+      title: 'разработчик',
       fullname: 'Денис Марытчак',
       github: 'SonOfGlory'
     },
 ];
   
-export default GAMES;
+export default TEAM;
   
