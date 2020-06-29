@@ -7,6 +7,7 @@ import EnglishPuzzleButtonsBlock from './english-puzzle-buttons-block.class';
 import EnglishPuzzle from './english-puzzle';
 export default class EnglishPuzzleMainBlock {
   constructor() {
+    this.mainArea = document.querySelector('.main-area');
     this.currentStage = 1;
     this.arrayWords = [];
     this.usersAppState = usersAppState;
@@ -138,16 +139,17 @@ export default class EnglishPuzzleMainBlock {
       dragAndDrop();
       wordClick();
     } else {
-      const targetNode = document.querySelector('.english-puzzle');
-      const mainContent = document.querySelector('.english-puzzle-main');
       this.handingStatistic();
-      this.getStatistic(this.statistic, targetNode, mainContent);
+      this.getStatistic(this.statistic);
     }
   }
 
-  getStatistic(statisticArray, targetNode, mainContent) {
-    this.createStatistic(statisticArray, targetNode, mainContent);
-    this.addEventHandlerInStatistic();
+  getStatistic(statisticArray) {
+    utils.destroy();
+    setTimeout(() =>{
+      this.createStatistic(statisticArray);
+      this.addEventHandlerInStatistic();
+    }, 400);
   }
 
   handingStatistic() {
@@ -158,7 +160,7 @@ export default class EnglishPuzzleMainBlock {
         el.isLearned = false;
       }
     });
-    this.statistic.forEach(el => {
+     this.statistic.forEach(el => {
       if (el.isLearned) {
         this.usersAppState.updateProgressWord(el.id, true);
       } else {
@@ -168,8 +170,7 @@ export default class EnglishPuzzleMainBlock {
     return this.statistic;
   }
 
-  createStatistic(statisticArray, targetNode, mainContent) {
-    mainContent.style.display = 'none';
+  createStatistic(statisticArray) {
     const errors = statisticArray.reduce((acc, currentValue) => {
       if (!currentValue.isLearned) {
         acc += 1;
@@ -184,18 +185,20 @@ export default class EnglishPuzzleMainBlock {
     }, 0);
     const statisticNode = document.createElement('template');
     statisticNode.innerHTML = `
-      <div class="modal">
+    <div class="tab-wrapper">
       <div class="statistic">
-        <div class="statistic__learned">
-          <div class="statistic__learned__title__wrapper">
-            <p class="statistic__learned__title">Знаю</p>
-            <span class="statistic__learned__quantity">${right}</span>
+        <div class="statistic-wrapper">
+          <div class="statistic__learned">
+            <div class="statistic__learned__title__wrapper">
+              <p class="statistic__learned__title">Знаю</p>
+              <span class="statistic__learned__quantity">${right}</span>
+            </div>
           </div>
-        </div>
-        <div class="statistic__not-learned">
-          <div class="statistic__not-learned__title__wrapper">
-            <p class="statistic__not-learned__title">Ошибок</p>
-            <span class="statistic__not-learned__quantity">${errors}</span>
+          <div class="statistic__not-learned">
+            <div class="statistic__not-learned__title__wrapper">
+              <p class="statistic__not-learned__title">Ошибок</p>
+              <span class="statistic__not-learned__quantity">${errors}</span>
+            </div>
           </div>
         </div>
         <div class="statistic__btn-container">
@@ -205,9 +208,8 @@ export default class EnglishPuzzleMainBlock {
       </div>
       </div>
     `.trim();
-    targetNode.append(statisticNode.content);
-    const learnedNode = document.querySelector('.statistic__learned');
-    const notLearnedNode = document.querySelector('.statistic__not-learned');
+    const learnedNode = statisticNode.content.querySelector('.statistic__learned');
+    const notLearnedNode = statisticNode.content.querySelector('.statistic__not-learned');
     statisticArray.forEach(el => {
       if (el.isLearned) {
         const statisticEl = document.createElement('template');
@@ -234,6 +236,7 @@ export default class EnglishPuzzleMainBlock {
         `;
         notLearnedNode.append(statisticEl.content);
       }
+      this.mainArea.append(statisticNode.content);
     });
   }
 
