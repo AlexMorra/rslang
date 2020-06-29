@@ -12,6 +12,7 @@
 @import "./games/english-puzzle/englishPuzzle.css";
 @import "games/sprint.css";
 @import "statistics.css";
+@import "team.css";
 
 * {
     margin: 0;
