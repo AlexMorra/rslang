@@ -147,6 +147,7 @@
     max-width: 100%;
     justify-content: flex-end;
     align-items: center;
+    margin-right: 50px;
 }
 
 .heart {
