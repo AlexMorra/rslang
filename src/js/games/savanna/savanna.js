@@ -25,6 +25,7 @@ export default class Savanna {
     this.questionWord = null;
     this.answerWords = null;
     this.questionWrapper = null;
+    this.currentAnswer = null;
     this.errors = 0;
     this.successes = 0;
     this.bgPosition = 100;
@@ -165,7 +166,8 @@ export default class Savanna {
   }
 
   playGame() {
-    this.resetAnswers();
+    this.currentAnswer.classList.remove('answer--true');
+    this.currentAnswer.classList.remove('answer--false');
 
     this.gameOn = true;
     this.gameNum += 1;
@@ -215,7 +217,7 @@ export default class Savanna {
 
     this.addFail();
     this.lives[this.errors].classList.add('heart--lost');
-    this.errors += 1;
+    this.errors += 1;   
   }
 
   checkOffset() {
@@ -247,9 +249,10 @@ export default class Savanna {
     const answer = target.innerHTML;
     this.questionWrapper.classList.remove('fall');
     this.gameOn = false;
+    this.currentAnswer = target.parentNode;
 
     if (answer === this.question.wordTranslate) {
-      target.parentNode.classList.add('answer--true');
+      this.currentAnswer.classList.add('answer--true');
       this.getSuccessAnswer();
 
       setTimeout(() => {
@@ -257,7 +260,7 @@ export default class Savanna {
         this.playGame();
       }, 400);
     } else {
-      target.parentNode.classList.add('answer--false');
+      this.currentAnswer.classList.add('answer--false');
       this.getWrongAnswer();
 
       if (this.errors === 5) {
@@ -271,21 +274,6 @@ export default class Savanna {
   resetQuestion() {
     this.questionWrapper.classList.value = '';
     this.questionWrapper.classList.value = 'question';
-  }
-
-  resetAnswers() {
-    const trueAnswer = document.querySelector('.answer--true');
-    const falseAnswer = document.querySelector('.answer--false');
-
-    if (trueAnswer) {
-      trueAnswer.classList.value = '';
-      trueAnswer.classList.value = 'answer';
-    }
-
-    if (falseAnswer) {
-      falseAnswer.classList.value = '';
-      falseAnswer.classList.value = 'answer';
-    }
   }
 
   showGame() {
@@ -308,7 +296,7 @@ export default class Savanna {
         this.toggleFall();
         this.checkOffset();
       }, 600);
-    }, 3000);
+    }, 4000);
   }
 
   toggleMenuIcon() {
