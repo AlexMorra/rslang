@@ -1,3 +1,4 @@
+import moment from 'moment';
 import './css/style.css';
 import './js/usersAppState';
 import './js/menu';

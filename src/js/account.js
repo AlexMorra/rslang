@@ -30,6 +30,7 @@ export default class Account {
     let username = document.getElementById('username').value;
     let wordsPerDay = document.getElementById('wordsPerDay').value;
     let cardsPerDay = document.getElementById('cardsPerDay').value;
+    username = username || ' ';
     let options = {
       wordsPerDay: wordsPerDay,
       optional: {

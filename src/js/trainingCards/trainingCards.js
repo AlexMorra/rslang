@@ -106,6 +106,7 @@ export default class TrainingCards {
       let value = this.answerInput.value.split('').filter(letter => word.includes(letter)).join('').toLowerCase();
 
       if (word !== value) {
+        usersAppState.updateProgressWord(this.currentWord.id, false);
         this.setIncorrect();
         if (word.includes(value) && value.length > 1) {
           let start_index = word.indexOf(value);
@@ -133,6 +134,7 @@ export default class TrainingCards {
         this.wordContainer.classList.add('show-result');
       } else if (word === value) {
         console.log('CORRECT');
+        usersAppState.updateProgressWord(this.currentWord.id, true);
         this.answered = true;
         this.audio.src = `./assets/${this.wordContainer.dataset.src}`;
         this.audio.play();
