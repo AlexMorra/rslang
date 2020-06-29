@@ -91,11 +91,15 @@ export default class Auth {
       },
       body: user
     })
-      .then(response => response.json())
-      .then(responseJson => {
-        console.log(responseJson);
-        this.createSuccess();
-      });
+      .then(response => {
+        if (response.ok) {
+          utils.systemMessage('Пользователь успешно создан', 'success');
+          this.createSuccess();
+        } else {
+          utils.systemMessage('Пользователь уже существует', 'error');
+        }
+        return response.json();
+      })
   }
 
   logout() {

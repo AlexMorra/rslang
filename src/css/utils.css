@@ -11,5 +11,31 @@
     opacity: 0;
 }
 
+/* SYSTEM MESSAGE */
+@keyframes show-message {
+    0% {
+      top: -30px;
+    }
+    50% {
+        top: 10px;
+    }
+    100% {}
+}
+
+.message-wrapper {
+    top: 10px;
+    position: absolute;
+    text-align: center;
+    z-index: 10000;
+    width: 100%;
+    animation: show-message 1.5s ease alternate 2 forwards;
+}
+
+.system-message {
+    padding: 10px 15px;
+    background-color: #0b0b2a;
+    color: white;
+}
+
 
 

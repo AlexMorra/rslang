@@ -1,5 +1,4 @@
 import wordCards from './wordCards';
-import { usersAppState } from '../app';
 import moment from 'moment';
 
 export default class State {
