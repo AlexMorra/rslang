@@ -8,7 +8,7 @@ const TEAM = [
   {
     image: '',
     title: 'разработчик',
-    fullname: 'Дмитрий',
+    fullname: 'Дмитрий Доброгост',
     github: 'DzmitryDabrahost'
   },
   {
