@@ -1,6 +1,7 @@
 import wordCards from '../../wordCards';
 import { usersAppState } from '../../../app';
 import TrainingCards from '../../../js/trainingCards/trainingCards';
+import * as utils from '../../utils';
 
 // export let usersAppState = new State();
 
@@ -9,9 +10,11 @@ console.log(usersAppState);
 export default class Audiocall {
   constructor() {
     this.mainArea = document.querySelector('.main-area');
-    this.hintsBlock = new EnglishPuzzleHintsBlock();
-    this.mainBlock = new EnglishPuzzleMainBlock();
-    this.buttonsBlock = new EnglishPuzzleButtonsBlock();
+  }
+
+  show() {
+    utils.destroy();
+    this.getAudiocallTemplate();
   }
 
   winamp(e) {
@@ -106,8 +109,7 @@ export default class Audiocall {
   }
 
   getAudiocallTemplate() {
-    let audiocallTemplate = document.createElement('div');
-    audiocallTemplate.innerHTML = `
+    const audiocallTemplate = `
     <div class="tab-wrapper audiocall">
       <div class="intro">
         <h1 class="intro__title">Аудиовызов</h1>
@@ -116,13 +118,15 @@ export default class Audiocall {
           <div class="word"><span>2</span>Слово-2</div>
           <div class="word"><span>3</span>Слово-3</div>
           <div class="word"><span>4</span>Слово-4</div>
-          <div class="word" data-audiosrc="${word.audio}><span>5</span>Слово-5</div>
+          <div class="word" data-audiosrc="{word.audio}"><span>5</span>Слово-5</div>
         </div>
         <button class="into__button answer">Не знаю</button>
       </div>
     </div>
     `;
-    return audiocallTemplate.content;
+    setTimeout(() => {
+      this.mainArea.innerHTML = audiocallTemplate;
+    }, 400);
   }
 
   // startButton.onclick = () => {

@@ -1,3 +1,4 @@
+/* eslint-disable default-case */
 import GAMES from './gamesConstants';
 import EnglishPuzzle from './english-puzzle/english-puzzle';
 import SKIN from './skinWalkers/startWindow';
@@ -35,9 +36,8 @@ export default class GamesPage {
         const skin = new SKIN();
         skin.show();
         break;
-      case 'Audiocall':
-        this.Audiocall = new Audiocall();
-        this.Audiocall.getAudiocallTemplate();
+      case 'Audio Challenge':
+        new Audiocall().show();
         break;
     }
   }
