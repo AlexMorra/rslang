@@ -2,6 +2,7 @@ import GAMES from './gamesConstants';
 import EnglishPuzzle from './english-puzzle/english-puzzle';
 import SKIN from './skinWalkers/startWindow';
 import Sprint from './sprint/sprint';
+import Audiocall from './Audiocall/audiocall';
 import * as utils from '../utils';
 
 export default class GamesPage {
@@ -33,6 +34,10 @@ export default class GamesPage {
       case 'Skin Walker':
         const skin = new SKIN();
         skin.show();
+        break;
+      case 'English Puzzle':
+        this.Audiocall = new Audiocall();
+        this.Audiocall.getAudiocallTemplate();
         break;
     }
   }

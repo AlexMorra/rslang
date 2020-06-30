@@ -5,13 +5,14 @@ body {
  
  /* Your game css */
  
- .tab-wrapper.savanna {   
+ .tab-wrapper.audiocall {   
      padding: 0;
      margin: 0;
  }
  
- .savanna {
- /*     background-image: url("../../assets/images/savanna-bg.svg"); */  background-color: #078f81;
+ .audiocall {
+     background-image: url("../../../assets/images/bg-04.png");
+     background-color: #078f81;
      background-repeat: no-repeat;
      background-position-y: 100%;
      background-position-x: center;
