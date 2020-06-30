@@ -35,7 +35,7 @@ export default class GamesPage {
         const skin = new SKIN();
         skin.show();
         break;
-      case 'English Puzzle':
+      case 'Audiocall':
         this.Audiocall = new Audiocall();
         this.Audiocall.getAudiocallTemplate();
         break;

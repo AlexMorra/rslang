@@ -1,30 +1,19 @@
 import wordCards from '../../wordCards';
 import { usersAppState } from '../../../app';
+import TrainingCards from '../../../js/trainingCards/trainingCards';
 
 // export let usersAppState = new State();
 
 console.log(usersAppState);
 
 export default class Audiocall {
-  getAudiocallTemplate() {
-    let audiocallTemplate = document.createElement('div');
-    audiocallTemplate.innerHTML = `
-    <div class="tab-wrapper audiocall">
-      <div class="intro">
-        <h1 class="intro__title">Аудиовызов</h1>
-        <div class="word-wrapper">
-          <div class="word"><span>1</span>Слово-1</div>
-          <div class="word"><span>2</span>Слово-2</div>
-          <div class="word"><span>3</span>Слово-3</div>
-          <div class="word"><span>4</span>Слово-4</div>
-          <div class="word" data-audiosrc="${word.audio}><span>5</span>Слово-5</div>
-        </div>
-        <button class="into__button answer">Не знаю</button>
-      </div>
-    </div>
-    `;
-    return audiocallTemplate.content;
+  constructor() {
+    this.mainArea = document.querySelector('.main-area');
+    this.hintsBlock = new EnglishPuzzleHintsBlock();
+    this.mainBlock = new EnglishPuzzleMainBlock();
+    this.buttonsBlock = new EnglishPuzzleButtonsBlock();
   }
+
   winamp(e) {
     const playableTarget = e.target.closest('.flip-card');
     let volumeSlider = document.querySelector('#volume');
@@ -40,26 +29,6 @@ export default class Audiocall {
     const mp3 = new Audio(url);
     mp3.volume = (volumeSlider.value) / (volumeSlider.max);
     mp3.play();
-  }
-
-  handleStart() {
-    // Выбираем массив соответствующий теме
-    // Копируем в отдельную переменную
-    const currentTheme = dataStorage[menu.querySelector(".active").dataset.order].slice();
-    // Перетасовываем массив
-    shuffledCurrentTheme = shuffle(currentTheme);
-    // Выбираем [последний]
-    currentObject = shuffledCurrentTheme.pop();
-    // Проигрываем звук
-    playGameSound(currentObject.audioSrc);
-    // Вешаем обработчик на контейнер
-    cardsContainer.onclick = (e) => {
-      checkCorrectAnswer(e)
-    };
-    // Превращаем "старт" в "повтор" / Прячем "старт", показываем "повтор"
-    startButton.classList.toggle('purple-gradient');
-    startButton.classList.toggle('repeat');
-    /* if (!gameMogeSwitch.checked) return; */
   }
 
   checkCorrectAnswer(e) {
@@ -136,10 +105,29 @@ export default class Audiocall {
     /* if (!gameMogeSwitch.checked) return; */
   }
 
-  startButton.onclick = () => {
-    // Кликаем на кнопку только когда она "старт", а не "повтор"
-    if (startButton.classList.contains('repeat')) this.playGameSound(currentObject.audioSrc);
-    else handleStart();
-  };
+  getAudiocallTemplate() {
+    let audiocallTemplate = document.createElement('div');
+    audiocallTemplate.innerHTML = `
+    <div class="tab-wrapper audiocall">
+      <div class="intro">
+        <h1 class="intro__title">Аудиовызов</h1>
+        <div class="word-wrapper">
+          <div class="word"><span>1</span>Слово-1</div>
+          <div class="word"><span>2</span>Слово-2</div>
+          <div class="word"><span>3</span>Слово-3</div>
+          <div class="word"><span>4</span>Слово-4</div>
+          <div class="word" data-audiosrc="${word.audio}><span>5</span>Слово-5</div>
+        </div>
+        <button class="into__button answer">Не знаю</button>
+      </div>
+    </div>
+    `;
+    return audiocallTemplate.content;
+  }
 
+  // startButton.onclick = () => {
+  //   // Кликаем на кнопку только когда она "старт", а не "повтор"
+  //   if (startButton.classList.contains('repeat')) this.playGameSound(currentObject.audioSrc);
+  //   else handleStart();
+  // };
 }
