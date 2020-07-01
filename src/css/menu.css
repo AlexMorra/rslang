@@ -28,8 +28,17 @@
     background-color: inherit;
 }
 
-.menu-logo {
+.main-stats-btn {
+    margin: 20px;
+    transform: scale(2);
+    background-color: transparent;
     z-index: 100;
+}
+
+.menu-logo,
+.main-stats-btn {
+    z-index: 100;
+    cursor: pointer;
 }
 
 .menu-icon,

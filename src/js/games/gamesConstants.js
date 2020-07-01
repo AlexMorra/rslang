@@ -1,27 +1,33 @@
 const GAMES = [
   {
-    name: 'SpeakIt',
-    icon: 'microphone.png'
+    id: 'SpeakIt',
+    icon: 'microphone.png',
+    title: 'SpeakIt'
   },
   {
-    name: 'English Puzzle',
-    icon: 'solution.png'
+    id: 'English Puzzle',
+    icon: 'solution.png',
+    title: 'Конструктор фраз'
   },
   {
-    name: 'Savanna',
-    icon: 'africa.png'
+    id: 'Savanna',
+    icon: 'africa.png',
+    title: 'Savanna'
   },
   {
-    name: 'Audio Challenge',
-    icon: 'shout.png'
+    id: 'Audio Challenge',
+    icon: 'shout.png',
+    title: 'Audio Challenge'
   },
   {
-    name: 'Sprint',
-    icon: 'sprint.png'
+    id: 'Sprint',
+    icon: 'sprint.png',
+    title: 'Sprint'
   },
   {
-    name: 'Skin Walker',
-    icon: 'translation.png'
+    id: 'Skin Walker',
+    icon: 'translation.png',
+    title: 'Skin Walker'
   }
 ];
 

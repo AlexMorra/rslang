@@ -1,3 +1,4 @@
+import moment from 'moment';
 import './css/style.css';
 import './js/usersAppState';
 import './js/menu';
@@ -10,6 +11,7 @@ import Dictionary from './js/dictionary';
 import Account from './js/account';
 import GamesPage from './js/games/gamesPage';
 import TrainingCards from './js/trainingCards/trainingCards';
+import Team from './js/team/team';
 
 // INIT
 window.currentPage = null;
@@ -23,7 +25,8 @@ export let menu = new Menu(
   new Auth(),
   new Dictionary(),
   new GamesPage(),
-  new TrainingCards()
+  new TrainingCards(),
+  new Team()
 );
 
 // check if user has session and load settings if has
@@ -32,6 +35,12 @@ auth.authorized().then(authorized => {
     auth.showLoginPage();
   } else {
     auth.loginSuccess();
+    setTimeout(() => {
+      // uncomment if you want to delete all words. And refresh page :D
+      // usersAppState.getAllWords().forEach(word => {
+      //   usersAppState.deleteUserWord(word.wordId).then(() => console.log('------------------'));
+      // });
+    }, 2000);
   }
 }).finally(() => {
   // set the session check every 10 seconds
