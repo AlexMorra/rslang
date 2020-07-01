@@ -10,6 +10,7 @@
 @import "trainingCards/trainingCards.css";
 @import "../js/games/skinWalkers/skinwalkerStyle.css";
 @import "./games/english-puzzle/englishPuzzle.css";
+@import "./games/speak-it/speak-it.css";
 @import "games/sprint.css";
 @import "statistics.css";
 
