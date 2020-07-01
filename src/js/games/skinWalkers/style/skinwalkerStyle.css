@@ -1,46 +1,122 @@
+@import url("./skinwalkerStart.css");
+
+.games__skinwalkers__start {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
 .skinwalker__title {
-    border: 1px solid blue;
-    width: 280px;
+    display: flex;
+    justify-content: center;
+    border: 1px solid #1a3b71;
     padding: 5px;
     border-radius: 5px;
+    margin-bottom: 20px;
+    width: 265px;
+    flex-wrap: wrap;
+    line-height: 25px
 }
 
-.skinwalker__title a {
-    text-decoration: none;
+.skinwalker__title p {
+    width: 100%;
 }
 
-.skinwalker__title a:hover {
+.skinwalker__title__link {
+    text-decoration: underline;
+}
+
+.skinwalker__title__link:hover {
     color: #698d59;
-}
-
-.skinwalker__buttons__block button {
-    background-color: #1a3b71;
-    color: white;
-    height: 45px;
-    width: 30%;
-    border: none;
-    border-radius: 25px;
     cursor: pointer;
-    margin: 15px;
-    padding: 5px;
-    font-size: 0.9em;
 }
 
-.skinwalker__buttons__block button:hover {
-    background-color: rgba(26, 59, 113, 0.87);
+.skinwalker__checkbox {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
-.skinwalker__buttons__block button:focus {
+.skinwalker__checkbox_description {
+    line-height: 20px;
+    border: 1px solid #1a3b71;
+    width: 265px;
+    padding: 10px;
+    border-radius: 10px;
+    cursor: pointer;
+    margin: 10px 0;
+}
+
+.skinwalker__checkbox_description:hover {
+    color: white;
+    background-color: #1a3b71;
+    transition: 0.3s;
+}
+
+.skinwalker__checkbox_active {
+    color: white;
+    background-color: #1a3b71;
+}
+
+.skinwalker__buttons__block {
+    display: flex;
+    padding: 10px 55px;
+    flex-direction: column;
+    align-items: center;
+} 
+
+.skinwalker__settings__window {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+    width: 100%;
+    padding: 10px 55px;
+}
+
+.skinwalker__buttons__block_checked {
+    padding: 10px;
+    border: 1px solid #1a3b71;
+    border-radius: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin: 10px 10px;
+    width: 65%;
+    min-width: 275px;
+    text-align: center;
+}
+
+.skinwalker__buttons__block_checked:hover {
+    color: white;
+    background-color: #1a3b71;
+    transition: 0.3s;
+    cursor: pointer;
+}
+
+.skinwalker__game__start-button,
+.skinwalker__choise-difficult {
+    padding: 10px;
+    border: 1px solid #1a3b71;
+    border-radius: 10px;
+    opacity: 0;
+    cursor: pointer;
+    color: white;
+    background-color: #1a3b71;
     outline: none;
 }
 
-.skinwalker__settings__window {
-    text-align: center;
+.skinwalker-opacity {
+    transition: 1s;
+    opacity: 1;
 }
 
 .skinwalker__game__zone {
     display: flex;
     justify-content: center;
+    width: 100%;
 }
 
 .skinwalker__word__list {

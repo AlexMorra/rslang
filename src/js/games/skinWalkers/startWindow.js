@@ -1,37 +1,50 @@
 import wordCards from '../../wordCards';
+import { usersAppState } from '../../../app';
+import Dictionary from '../../dictionary';
+import * as utils from '../../utils';
 
 export default class SkinWalkerStartGame {
   constructor() {
     this.mainArea = document.querySelector('.main-area');
-    this.usWords = [];
+    this.usWords = usersAppState.learningWords;
     this.wordListDictionary = [];
-    this.element = null;
     this.wordList = null;
   }
 
   show() {
+    utils.destroy();
+    this.getStart();
+  }
+
+  getStart() {
+    const start = `
+    <div class="skinwalker__start">
+      <div class="skinwalker__start__intro">
+        <h1 class="skinwalker__start__intro__title">Найди пару</h1>
+        <p class="skinwalker__start__intro__description">Игра "Найди пару" развивает словарный запас и тренирует память.</br>
+          Чем больше слов ты знаешь, тем больше очков опыта получишь.</p>
+        <button class="skinwalker__start__into__button">Начать</button>
+      </div>
+    </div>
+    `;
     setTimeout(() => {
-      this.mainArea.append(this.getButtons());
+      this.mainArea.innerHTML = start;
+      const button = document.querySelector('.skinwalker__start__into__button');
+      button.addEventListener('click', (event) => {
+        if (event.target.tagName === 'BUTTON') {
+          this.startClickHandler();
+        }
+      });
     }, 400);
   }
 
-  getUserWord() {
-    let token = localStorage.getItem('token');
-    let userId = localStorage.getItem('user_id');
-    return fetch(`https://afternoon-falls-25894.herokuapp.com/users/${userId}/words`, {
-      method: 'GET',
-      withCredentials: true,
-      headers: {
-        Authorization: `Bearer ${token}`,
-        Accept: 'application/json',
-        'Content-Type': 'application/json'
-      }
-    })
-      .then(response => response.json())
-      .then(responseJson => {
-        console.log(responseJson.length);
-        this.usWords = responseJson;
-      });
+  startClickHandler() {
+    const wrapper = document.querySelector('.skinwalker__start');
+    wrapper.classList.add('destroy');
+    setTimeout(() => this.mainArea.innerHTML = '', 400);
+    setTimeout(() => {
+      this.getButtonsListTemplate();
+    }, 400);
   }
 
   getWordListDictionary() {
@@ -89,13 +102,15 @@ export default class SkinWalkerStartGame {
       <div class="tab-wrapper games__skinwalkers__start">
         <div class="skinwalker__settings__window">
           <div class="skinwalker__title">
-            <p>Сейчас в Вашем словаре ${this.usWords.length} слов, <a href="#">добавить слова из словаря</a></p>
+            <p>Сейчас в Вашем словаре ${this.usWords.length} слов</p>
+            <p class="skinwalker__title__link">добавить слова из словаря</p>
           </div>
-          <p class="skinwalker__buttons__description">Выберите условия для начала игры</p>
-          <div class="skinwalker__buttons__block">
-            <button class="skinwalker__start__random">Случайные слова</button>
-            <button class="skinwalker__start__vocabulary">Слова из словаря</button>
-            <button class="skinwalker__start__mix">50 на 50</button>
+          <p class="skinwalker__buttons__description">Выберите условия для начала игры:</p>
+          <div class="skinwalker__checkbox">
+            <div class="skinwalker__checkbox_description skinwalker-light">Лёгкий уровень сложности <br> (10 пар слов)</div>
+            <div class="skinwalker__checkbox_description skinwalker-middle">Средний уровень сложности <br> (15 пар слов)</div>
+            <div class="skinwalker__checkbox_description skinwalker-hard">Тяжёлый уровень сложности <br> (20 пар слов)</div>
+            <button class="skinwalker__choise-difficult">Продолжить</button>
           </div>
         </div>
         <div class="skinwalker__game__zone">
@@ -104,6 +119,77 @@ export default class SkinWalkerStartGame {
       </div>
     `;
     this.mainArea.innerHTML = buttonsBlock;
+    this.buttonsAddChecked();
+    const skinwalkerReturnDictionary = document.querySelector('.skinwalker__title__link');
+    const skinwalkerHandlerLevelCheck = document.querySelector('.skinwalker__checkbox');
+    this.skinWalkerBackToMenu(skinwalkerReturnDictionary);
+    this.checkLevelButton(skinwalkerHandlerLevelCheck);
+  }
+
+  skinWalkerBackToMenu(skinwalkerReturnDictionary) {
+    skinwalkerReturnDictionary.addEventListener('click', () => {
+      const Diary = new Dictionary();
+      utils.destroy();
+      Diary.show();
+    });
+  }
+
+  checkLevelButton(skinwalkerHandlerLevelCheck) {
+    skinwalkerHandlerLevelCheck.addEventListener(('click'), (event) => {
+      const target = event.target;
+      let difficult = 0;
+      skinwalkerHandlerLevelCheck.querySelectorAll('.skinwalker__checkbox_description').forEach(button => {
+        button.classList.remove('skinwalker__checkbox_active');
+        if (target.classList.contains('skinwalker__checkbox_description')) {
+          target.classList.add('skinwalker__checkbox_active');
+        }
+      });
+      const choise = skinwalkerHandlerLevelCheck.querySelectorAll('.skinwalker__checkbox_description')
+        .find(item => item.classList.contains('skinwalker__checkbox_active'));
+      console.log(choise);
+
+      const nextChoice = document.querySelector('.skinwalker__choise-difficult');
+      nextChoice.classList.add('skinwalker-opacity');
+      this.getNextChoice(nextChoice, skinwalkerHandlerLevelCheck, difficult);
+    });
+  }
+
+  /* getNextChoice(nextChoice, skinwalkerHandlerLevelCheck, difficult) {
+    nextChoice.addEventListener(('click'), () => {
+      const blockTitle = document.querySelector('.skinwalker__title');
+    });
+  } */
+
+  buttonsAddChecked() {
+    const buttonsBlockGame = `
+    <div class="skinwalker__buttons__block">
+      <div class="skinwalker__buttons__block_checked">
+        Выбрать произвольные слова для изучения.
+      </div>
+      <div class="skinwalker__buttons__block_checked">
+        Выбрать произвольные слова из добавленных в словарь для изучения.
+      </div>
+      <div class="skinwalker__buttons__block_checked">
+        Выбрать произвольные слова из словаря и случайные для изучения.
+      </div>
+      <button class="skinwalker__game__start-button">Начать игру</button>
+    </div>
+    `;
+    document.querySelector('.tab-wrapper').innerHTML += buttonsBlockGame;
+    const skinwalkerBlockChoise = document.querySelector('.skinwalker__buttons__block');
+    this.getChoiseToStartGame(skinwalkerBlockChoise);
+  }
+
+  getChoiseToStartGame(skinwalkerBlockChoise) {
+    skinwalkerBlockChoise.addEventListener(('click'), (event) => {
+      const target = event.target;
+      skinwalkerBlockChoise.querySelectorAll('.skinwalker__buttons__block_checked').forEach(button => {
+        button.classList.remove('skinwalker__checkbox_active');
+        if (target.classList.contains('skinwalker__buttons__block_checked')) {
+          target.classList.add('skinwalker__checkbox_active');
+        }
+      });
+    });
   }
 
   skinWalkerHandler() {
@@ -142,10 +228,10 @@ export default class SkinWalkerStartGame {
         }
       }
     });
+    gameZone.innerHTML = this.getRandomDictionary();
   }
 
-  async getButtons() {
-    await this.getUserWord();
+  getButtons() {
     this.getButtonsListTemplate();
     this.getWordListDictionary();
     this.getRandomDictionary();
