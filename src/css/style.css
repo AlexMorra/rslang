@@ -13,6 +13,7 @@
 @import "./games/speak-it/speak-it.css";
 @import "games/sprint.css";
 @import "statistics.css";
+@import "team.css";
 
 * {
     margin: 0;
