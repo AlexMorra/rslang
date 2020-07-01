@@ -91,11 +91,15 @@ export default class Auth {
       },
       body: user
     })
-      .then(response => response.json())
-      .then(responseJson => {
-        console.log(responseJson);
-        this.createSuccess();
-      });
+      .then(response => {
+        if (response.ok) {
+          utils.systemMessage('Пользователь успешно создан', 'success');
+          this.createSuccess();
+        } else {
+          utils.systemMessage('Пользователь уже существует', 'error');
+        }
+        return response.json();
+      })
   }
 
   logout() {
@@ -109,7 +113,9 @@ export default class Auth {
     window.currentPage = null;
     let userLoginPage = document.querySelector('.user-login-page');
     if (userLoginPage) userLoginPage.remove();
-    usersAppState.getUserWords();
+    usersAppState.getUserWords().finally(() => {
+      usersAppState.getUserStatistics();
+    });
     usersAppState.getUserSettings().then(nightMode => {
       if (nightMode) {
         console.log('AUTH - GET USER SETTINGS');
