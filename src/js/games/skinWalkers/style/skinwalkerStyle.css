@@ -1,4 +1,4 @@
-@import url("./skinwalkerStart.css");
+@import "skinwalkerStart.css";
 
 .games__skinwalkers__start {
     display: flex;
