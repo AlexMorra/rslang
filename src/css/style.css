@@ -8,24 +8,13 @@
 @import "games/games_page.css";
 @import "dictionary.css";
 @import "trainingCards/trainingCards.css";
-<<<<<<< HEAD
-<<<<<<< HEAD
 @import "../js/games/skinWalkers/style/skinwalkerStyle.css";
-
-=======
-=======
->>>>>>> 07be27c69dc38f895d3b31b8e89d2dc84ae76bd7
 @import "../js/games/skinWalkers/skinwalkerStyle.css";
 @import "./games/english-puzzle/englishPuzzle.css";
 @import "games/sprint.css";
 @import "statistics.css";
 @import "team.css";
-<<<<<<< HEAD
->>>>>>> dev
 
-=======
-@import "../js/games/skinWalkers/style/skinwalkerStyle.css";
->>>>>>> 07be27c69dc38f895d3b31b8e89d2dc84ae76bd7
 * {
     margin: 0;
     padding: 0;
