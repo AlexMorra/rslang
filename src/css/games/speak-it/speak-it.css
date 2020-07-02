@@ -60,3 +60,29 @@
   margin-top: 7px;
 }
 
+.active {
+  border: 1px solid red;
+}
+
+.speak-it__main__main-block__image-block {
+  margin: 0 auto;
+  width: 300px;
+  height: 300px;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.speak-it__main__main-block__translate-block{
+  display: flex;
+  justify-content: center;
+}
+
+.speak-it__main__main-block__input {
+}
+
+.speak-it__main__main-block__input__wrapper {
+  display: flex;
+  justify-content: center;
+}
+
