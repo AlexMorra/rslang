@@ -63,7 +63,7 @@ export default class EnglishPuzzleMainBlock {
       const phraseElement = document.createElement('template');
       phraseElement.innerHTML = `
       <div class="english-puzzle-main__active-phrase__wrapper">
-        <div class="english-puzzle-main__active-phrase__wrapper__element" index="${i}" draggable="true">
+        <div class="english-puzzle-main__active-phrase__wrapper__element" index="${i}" word="${this.arrayWords[this.currentStage - 1].textExampleArray[i]}" draggable="true">
         ${this.arrayWords[this.currentStage - 1].textExampleArray[i]}</div>
       </div>
       `;
