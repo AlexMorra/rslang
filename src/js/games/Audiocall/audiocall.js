@@ -10,11 +10,14 @@ console.log(usersAppState);
 export default class Audiocall {
   constructor() {
     this.mainArea = document.querySelector('.main-area');
+    // выбираем 50 елементов из массива слов
+    this.allWords = usersAppState.getTrainingWords(50);
+    this.wordsWrapper = '';
   }
 
   show() {
     utils.destroy();
-    this.getAudiocallTemplate();
+    this.handleStart();
   }
 
   winamp(e) {
@@ -22,7 +25,7 @@ export default class Audiocall {
     let volumeSlider = document.querySelector('#volume');
     if (playableTarget && !gameModeSwitch.checked) {
       let mp3 = new Audio(playableTarget.dataset.audiosrc);
-      mp3.volume = volumeSlider.value / (volumeSlider.max - volumeSlider.min);
+      // mp3.volume = volumeSlider.value / (volumeSlider.max - volumeSlider.min);
       mp3.play();
     }
   }
@@ -30,20 +33,30 @@ export default class Audiocall {
   playGameSound(url) {
     let volumeSlider = document.querySelector('#volume');
     const mp3 = new Audio(url);
-    mp3.volume = (volumeSlider.value) / (volumeSlider.max);
+    // mp3.volume = (volumeSlider.value) / (volumeSlider.max);
     mp3.play();
+  }
+
+  shuffle(array) {
+    let m = array.length; let
+      i;
+    while (m) {
+      i = Math.floor(Math.random() * m--);
+      [array[m], array[i]] = [array[i], array[m]];
+    }
+    return array;
   }
 
   checkCorrectAnswer(e) {
     const playableTarget = e.target.closest('.word');
     var isError = 0;
-    if (playableTarget && !playableTarget.classList.contains('already-guessed')) {
+    if (playableTarget && !playableTarget.classList.contains('already-checked')) {
     // выяснить какого слова касается карточка
     // если слово совпало:
       if (playableTarget.dataset.word === currentObject.word) {
         // выключаем карточку
-        playableTarget.classList.add('already-guessed');
-        // добавляем звездочку
+        playableTarget.classList.add('already-checked');
+        // добавляем галочку
         ratingContainer.insertAdjacentHTML('beforeEnd', '<div class="correct"></div>');
         // если слов больше нету ->
         if (shuffledCurrentTheme.length === 0) {
@@ -90,35 +103,30 @@ export default class Audiocall {
   }
 
   handleStart() {
-    // Выбираем массив соответствующий теме
-    // Копируем в отдельную переменную
-    const currentWords = usersAppState.getTrainingWords(5);
+    console.log(this.allWords);
+    // выбор 50 елементов из массива слов вынес на уровень выше так как выбрать нужно единожды
+    // запускаем стартовую страницу с выборкой 5 первых слов
+    const currentWords = this.allWords.splice(0, 5);
+    const currentPlayed = currentWords[0];
     // Перетасовываем массив
+    this.shuffle(currentWords);
     // Выбираем [последний]
-    let currentObject = currentWords.pop();
     // Проигрываем звук
-    this.playGameSound(currentObject.audio);
+    this.playGameSound(`../../../assets/${currentPlayed.audio}`);
     // Вешаем обработчик на контейнер
-    cardsContainer.onclick = (e) => {
-      this.checkCorrectAnswer(e);
-    };
     // Превращаем "старт" в "повтор" / Прячем "старт", показываем "повтор"
-    startButton.classList.toggle('purple-gradient');
-    startButton.classList.toggle('repeat');
+    // startButton.classList.toggle('purple-gradient');
+    // startButton.classList.toggle('repeat');
     /* if (!gameMogeSwitch.checked) return; */
+    this.setAudiocallWrapper(currentWords);
   }
 
-  getAudiocallTemplate() {
+  setAudiocallWrapper(currentWords) {
     const audiocallTemplate = `
     <div class="tab-wrapper audiocall">
       <div class="intro">
         <h1 class="intro__title">Аудиовызов</h1>
         <div class="word-wrapper">
-          <div class="word"><span>1</span>Слово-1</div>
-          <div class="word"><span>2</span>Слово-2</div>
-          <div class="word"><span>3</span>Слово-3</div>
-          <div class="word"><span>4</span>Слово-4</div>
-          <div class="word" data-audiosrc="{word.audio}"><span>5</span>Слово-5</div>
         </div>
         <button class="into__button answer">Не знаю</button>
       </div>
@@ -126,7 +134,23 @@ export default class Audiocall {
     `;
     setTimeout(() => {
       this.mainArea.innerHTML = audiocallTemplate;
+      this.wordsWrapper = document.querySelector('.word-wrapper');
+      this.setAudiocallWord(currentWords);
     }, 400);
+  }
+
+  // <div class="word"><span>1</span>Слово-1</div>
+  // <div class="word"><span>2</span>Слово-2</div>
+  // <div class="word"><span>3</span>Слово-3</div>
+  // <div class="word"><span>4</span>Слово-4</div>
+  // <div class="word" data-audiosrc="{word.audio}"><span>5</span>Слово-5</div>
+
+  setAudiocallWord(currentWords) {
+    console.log(currentWords);
+    this.wordsWrapper.innerHTML = currentWords.map((word) => `<div class="word" data-audiosrc="../../../assets/${word.audio}"><span></span>${word.word}</div>`).join('');
+    this.wordsWrapper.onclick = (e) => {
+      this.checkCorrectAnswer(e);
+    };
   }
 
   // startButton.onclick = () => {
