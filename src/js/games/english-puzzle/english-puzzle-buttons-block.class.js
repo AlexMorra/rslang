@@ -19,10 +19,10 @@ export default class EnglishPuzzleButtonsBlock {
     const dntKnowBtn = document.querySelector('.english-puzzle-main__btn-block__dnt-know');
     resultCells.forEach((el, index) => {
       if (Number(el.getAttribute('index')) === index) {
-        el.style.backgroundColor = 'green';
+        el.style.backgroundColor = '#01AF61';
         count += 1;
       } else {
-        el.style.backgroundColor = 'red';
+        el.style.backgroundColor = '#da5b4c';
       }
     });
     if (count === resultCells.length) {

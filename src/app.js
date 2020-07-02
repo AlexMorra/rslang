@@ -11,6 +11,7 @@ import Dictionary from './js/dictionary';
 import Account from './js/account';
 import GamesPage from './js/games/gamesPage';
 import TrainingCards from './js/trainingCards/trainingCards';
+import Team from './js/team/team';
 
 // INIT
 window.currentPage = null;
@@ -24,7 +25,8 @@ export let menu = new Menu(
   new Auth(),
   new Dictionary(),
   new GamesPage(),
-  new TrainingCards()
+  new TrainingCards(),
+  new Team()
 );
 
 // check if user has session and load settings if has
