@@ -74,7 +74,7 @@ export default class Audiocall {
     if (playableTarget && !playableTarget.classList.contains('already-checked')) {
     // выяснить какого слова касается карточка
     // если слово совпало:
-      if (playableTarget.innerHTML === this.currentPlayed.word) {
+      if (playableTarget.innerHTML === this.currentPlayed.wordTranslate) {
         // добавляем галочку
         playableTarget.insertAdjacentHTML('beforeEnd', '<div class="correct"></div>');
         // если слов больше нету ->
@@ -138,15 +138,9 @@ export default class Audiocall {
     }, 400);
   }
 
-  // <div class="word"><span>1</span>Слово-1</div>
-  // <div class="word"><span>2</span>Слово-2</div>
-  // <div class="word"><span>3</span>Слово-3</div>
-  // <div class="word"><span>4</span>Слово-4</div>
-  // <div class="word" data-audiosrc="{word.audio}"><span>5</span>Слово-5</div>
-
   setAudiocallWord(currentWords) {
     console.log(currentWords);
-    this.wordsWrapper.innerHTML = currentWords.map((word) => `<div class="word" data-audiosrc="../../../assets/${word.audio}">${word.word}</div>`).join('');
+    this.wordsWrapper.innerHTML = currentWords.map((word) => `<div class="word" data-audiosrc="../../../assets/${word.word}">${word.wordTranslate}</div>`).join('');
     this.wordsWrapper.onclick = (e) => {
       this.checkCorrectAnswer(e);
     };
