@@ -92,9 +92,9 @@ export default class Audiocall {
           // startButton.classList.add('purple-gradient');
           // startButton.classList.remove('repeat');
           setTimeout(() => {
-            this.mainContentGenerator();
-            this.menuOutlineGenerator(0);
-            this.nonGameMode();
+            // this.mainContentGenerator();
+            // this.menuOutlineGenerator(0);
+            // this.nonGameMode();
           }, 2500);
           return;
         }
