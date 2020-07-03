@@ -13,6 +13,7 @@ export default class Audiocall {
     // выбираем 50 елементов из массива слов
     this.allWords = usersAppState.getTrainingWords(50);
     this.wordsWrapper = '';
+    this.currentPlayed = '';
   }
 
   show() {
@@ -47,26 +48,44 @@ export default class Audiocall {
     return array;
   }
 
+  handleStart() {
+    console.log(this.allWords);
+    // выбор 50 елементов из массива слов вынес на уровень выше так как выбрать нужно единожды
+    // запускаем стартовую страницу с выборкой 5 первых слов
+    const currentWords = this.allWords.splice(0, 5);
+    this.currentPlayed = currentWords[0];
+    // Перетасовываем массив
+    this.shuffle(currentWords);
+    // Выбираем [последний]
+    // Проигрываем звук
+    this.playGameSound(`../../../assets/${this.currentPlayed.audio}`);
+    // Вешаем обработчик на контейнер
+    // Превращаем "старт" в "повтор" / Прячем "старт", показываем "повтор"
+    // startButton.classList.toggle('purple-gradient');
+    // startButton.classList.toggle('repeat');
+    /* if (!gameMogeSwitch.checked) return; */
+    this.setAudiocallWrapper(currentWords);
+  }
+
   checkCorrectAnswer(e) {
-    const playableTarget = e.target.closest('.word');
     var isError = 0;
+    const playableTarget = e.target.closest('.word');
+    console.log(playableTarget.innerHTML);
     if (playableTarget && !playableTarget.classList.contains('already-checked')) {
     // выяснить какого слова касается карточка
     // если слово совпало:
-      if (playableTarget.dataset.word === currentObject.word) {
-        // выключаем карточку
-        playableTarget.classList.add('already-checked');
+      if (playableTarget.innerHTML === this.currentPlayed.word) {
         // добавляем галочку
-        ratingContainer.insertAdjacentHTML('beforeEnd', '<div class="correct"></div>');
+        playableTarget.insertAdjacentHTML('beforeEnd', '<div class="correct"></div>');
         // если слов больше нету ->
-        if (shuffledCurrentTheme.length === 0) {
+        if (this.allWords.length === 0) {
           if (document.querySelector('.wrong') === null) {
             // показываем картинку
-            cardsContainer.innerHTML = '<img src="Assets/img/crashbirthday.jpg" alt="success">';
+            this.mainArea.innerHTML = '<img src="Assets/img/crashbirthday.jpg" alt="success">';
             // проигрываем звук прохождения теста
-            this.playGameSound('Assets/audio/success.mp3'); /* success */
+            this.playGameSound('../../../assets/sounds/game-over.mp3'); /* success */
           } else {
-            cardsContainer.innerHTML = '<img src="Assets/img/failure.jpg" alt="failure">';
+            this.mainArea.innerHTML = '<img src="Assets/img/failure.jpg" alt="failure">';
             this.playGameSound('Assets/audio/failure.mp3');
           }
           // возврат в экран выбора категорий и return
@@ -80,45 +99,25 @@ export default class Audiocall {
           return;
         }
         // проигрываем звук победы
-        this.playGameSound('Assets/audio/correct.mp3');
+        this.playGameSound('../../../assets/sounds/success.mp3');
         // берем следующее слово
         // Проигрываем следуюций звук
         // (Взято из handleStart)
-        currentObject = shuffledCurrentTheme.pop();
-        setTimeout(function () {
-          this.playGameSound(currentObject.audioSrc);
+        setTimeout(() => {
+          this.handleStart();
         }, 900);
       }
-      // если слово НЕ совпало:
+      // ---- если слово НЕ совпало----:
       else {
         // добавляем пустую звездочку
-        ratingContainer.insertAdjacentHTML('beforeEnd', '<div class="wrong"></div>');
+        playableTarget.insertAdjacentHTML('beforeEnd', '<span class="wrong"></span>');
         // проигрываем звук поражения
-        this.playGameSound('Assets/audio/error.mp3');
+        this.playGameSound('../../../assets/sounds/error.mp3');
         isError++;
         console.log(isError);
         // ожидание слова
       }
     }
-  }
-
-  handleStart() {
-    console.log(this.allWords);
-    // выбор 50 елементов из массива слов вынес на уровень выше так как выбрать нужно единожды
-    // запускаем стартовую страницу с выборкой 5 первых слов
-    const currentWords = this.allWords.splice(0, 5);
-    const currentPlayed = currentWords[0];
-    // Перетасовываем массив
-    this.shuffle(currentWords);
-    // Выбираем [последний]
-    // Проигрываем звук
-    this.playGameSound(`../../../assets/${currentPlayed.audio}`);
-    // Вешаем обработчик на контейнер
-    // Превращаем "старт" в "повтор" / Прячем "старт", показываем "повтор"
-    // startButton.classList.toggle('purple-gradient');
-    // startButton.classList.toggle('repeat');
-    /* if (!gameMogeSwitch.checked) return; */
-    this.setAudiocallWrapper(currentWords);
   }
 
   setAudiocallWrapper(currentWords) {
@@ -147,7 +146,7 @@ export default class Audiocall {
 
   setAudiocallWord(currentWords) {
     console.log(currentWords);
-    this.wordsWrapper.innerHTML = currentWords.map((word) => `<div class="word" data-audiosrc="../../../assets/${word.audio}"><span></span>${word.word}</div>`).join('');
+    this.wordsWrapper.innerHTML = currentWords.map((word) => `<div class="word" data-audiosrc="../../../assets/${word.audio}">${word.word}</div>`).join('');
     this.wordsWrapper.onclick = (e) => {
       this.checkCorrectAnswer(e);
     };
