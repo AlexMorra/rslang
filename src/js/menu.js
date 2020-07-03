@@ -4,7 +4,7 @@ import { usersAppState } from '../app';
 import statistics from './statistics';
 
 export default class Menu extends statistics {
-  constructor(controlPanel, account, auth, dictionary, games, training) {
+  constructor(controlPanel, account, auth, dictionary, games, training, team) {
     super();
     this.controlPanel = controlPanel;
     this.dictionary = dictionary;
@@ -12,6 +12,7 @@ export default class Menu extends statistics {
     this.auth = auth;
     this.games = games;
     this.training = training;
+    this.team = team;
     this.body = document.querySelector('body');
     this.menuTemplate = this.getTemplate();
     this.menuNav = null;
@@ -64,12 +65,16 @@ export default class Menu extends statistics {
         this.account.show();
         break;
       case 'nav-logout':
+        window.logout = true;
         this.auth.logout();
         break;
       case 'nav-training':
         utils.destroy();
         this.training.show();
         break;
+      case 'nav-team':
+        utils.destroy();
+        this.team.show();
       default:
     }
   }
@@ -117,6 +122,10 @@ export default class Menu extends statistics {
           <li id="nav-account" class="nav-account">
               <i class="fas fa-user-circle menu-icon" title="Аккаунт"></i>
               <span class="nav-name">Аккаунт</span>
+          </li>
+          <li id="nav-team" class="nav-team">
+            <i class="fas fa-shield-alt menu-icon" title="Команда"></i>
+            <span class="nav-name">О команде</span>
           </li>
           <li id="nav-logout" class="nav-logout">
               <i class="fas fa-sign-out-alt menu-icon" title="Выход"></i>

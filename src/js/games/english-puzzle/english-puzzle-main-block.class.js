@@ -1,10 +1,12 @@
-import wordCards from '../../wordCards';
+import * as utils from '../../utils';
 import { usersAppState } from '../../../app';
 import { dragAndDrop, wordClick } from './drag-and-drop-and-click-word';
 import EnglishPuzzleHintsBlock from './english-puzzle-hints-block.class';
 import EnglishPuzzleButtonsBlock from './english-puzzle-buttons-block.class';
+
 export default class EnglishPuzzleMainBlock {
   constructor() {
+    this.mainArea = document.querySelector('.main-area');
     this.currentStage = 1;
     this.arrayWords = [];
     this.usersAppState = usersAppState;
@@ -35,11 +37,6 @@ export default class EnglishPuzzleMainBlock {
 
   getArrayWords() {
     this.arrayWords = this.usersAppState.getTrainingWords();
-    if (this.arrayWords.length < 10) {
-      for (let i = this.arrayWords.length; i < 10; i += 1) {
-        this.arrayWords.push(wordCards[Math.round(1 + Math.random() * (5 - 1))][Math.round(0 + Math.random() * (599 - 0))]);
-      }
-    }
     this.arrayWords.forEach(el => {
       el.textExample = el.textExample.replace(/<b>/gm, '').replace(/<\/b>/gm, '');
       el.textExampleArray = el.textExample.split(' ');
@@ -48,11 +45,13 @@ export default class EnglishPuzzleMainBlock {
     this.statistic = this.arrayWords.map(el => {
       return {
         id: el.id,
-        group: el.group,
-        page: el.page,
         word: el.word,
         checkClick: 0,
-        dntKnowClick: 0
+        dntKnowClick: 0,
+        translate: el.wordTranslate,
+        isLearned: false,
+        audioSrc: el.audio,
+        transcription: el.transcription
       };
     });
     console.log(this.statistic);
@@ -118,7 +117,6 @@ export default class EnglishPuzzleMainBlock {
   }
 
   nextStage() {
-    this.handingStatistic();
     if (this.currentStage !== 10) {
       const dntKnowBtn = document.querySelector('.english-puzzle-main__btn-block__dnt-know');
       const continuedBtn = document.querySelector('.english-puzzle-main__btn-block__continued');
@@ -140,7 +138,8 @@ export default class EnglishPuzzleMainBlock {
       dragAndDrop();
       wordClick();
     } else {
-      this.getStatistic();
+      this.handingStatistic();
+      utils.getStatistic(this.statistic)
     }
   }
 
@@ -152,50 +151,14 @@ export default class EnglishPuzzleMainBlock {
         el.isLearned = false;
       }
     });
-    console.log(this.statistic);
+     this.statistic.forEach(el => {
+      if (el.isLearned) {
+        this.usersAppState.updateProgressWord(el.id, true);
+      } else {
+        this.usersAppState.updateProgressWord(el.id, false);
+      }
+    });
     return this.statistic;
   }
 
-  getStatistic() {
-    const handedStatistic = this.handingStatistic();
-    const targetNode = document.querySelector('.english-puzzle-main');
-    const statistic = document.createElement('template');
-    statistic.innerHTML = `
-      <div class="modal">
-      <div class="english-puzzle__statistic">
-        <div class="english-puzzle__statistic__learned">
-          <p class="english-puzzle__statistic__learned__title">Изучено:</p>
-        </div>
-        <div class="english-puzzle__statistic__not-learned">
-          <p class="english-puzzle__statistic__learned__title">Не изучено:</p>
-        </div>
-        <button>Попробовать еще раз</button>
-        <button>Вернуться куда?</button>
-      </div>
-    `.trim();
-    targetNode.append(statistic.content);
-    const learnedNode = document.querySelector('.english-puzzle__statistic__learned');
-    const notLearnedNode = document.querySelector('.english-puzzle__statistic__not-learned');
-    handedStatistic.forEach(el => {
-      if (el.isLearned) {
-        const statisticEl = document.createElement('template');
-        statisticEl.innerHTML = `
-          <div class="english-puzzle__statistic__learned__wrapper-el">
-            <p class="english-puzzle__statistic__learned__wrapper-el__word">${el.word}</p>
-            <button class="english-puzzle__statistic__learned__wrapper-el__btn-is-difficult">Сложное</button>
-          </div>
-        `;
-        learnedNode.append(statisticEl.content);
-      } else {
-        const statisticEl = document.createElement('template');
-        statisticEl.innerHTML = `
-          <div class="english-puzzle__statistic__not-learned__wrapper-el">
-            <p class="english-puzzle__statistic__not-learned__wrapper-el__word">${el.word}</p>
-            <button class="english-puzzle__statistic__not-learned__wrapper-el__btn-is-difficult">Сложное</button>
-          </div>
-        `;
-        notLearnedNode.append(statisticEl.content);
-      }
-    });
-  }
 }
