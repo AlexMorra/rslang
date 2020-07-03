@@ -398,16 +398,16 @@ export default class State {
     this.userWord = this.userDifficultWord || this.userLearningWord;
     if (value) {
       this.userWord.optional.progress = this.userWord.optional.progress >= 5
-                                        ? this.userWord.optional.progress
-                                        : this.userWord.optional.progress + 1;
+        ? this.userWord.optional.progress
+        : this.userWord.optional.progress + 1;
       this.wordData = {
         difficulty: this.userWord.difficulty,
         optional: this.userWord.optional
       };
     } else {
       this.userWord.optional.progress = this.userWord.optional.progress <= -5
-                                        ? this.userWord.optional.progress
-                                        : this.userWord.optional.progress - 1;
+        ? this.userWord.optional.progress
+        : this.userWord.optional.progress - 1;
       this.wordData = {
         difficulty: this.userWord.difficulty,
         optional: this.userWord.optional
