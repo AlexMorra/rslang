@@ -11,9 +11,9 @@ export default class SprintTimer {
     template.classList.add('.sprint__timer');
     template.innerHTML = `
       <div class="sprint__timer-wrap">
-        <div class="time j-time">${this.time}</div>
+        <div class="sprint__timer-time j-time">${this.time}</div>
         <svg>
-          <circle r="18" cx="20" cy="20"></circle>
+          <circle r="40" cx="50" cy="50"></circle>
         </svg>
       </div>
     `;

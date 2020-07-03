@@ -7,7 +7,7 @@ import { usersAppState } from '../../../app';
 export default class Sprint {
   constructor() {
     this.wordListLenght = 100;
-    this.gameTime = 60;
+    this.gameTime = 1000; // seconds
     this.wordList = usersAppState.getTrainingWords(this.wordListLenght);
     this.element = this.getGameWrapper();
     this.mainArea = document.querySelector('.main-area');
@@ -38,6 +38,7 @@ export default class Sprint {
   getGameElements() {
     this.initializeGame();
     this.timer.getElement().addEventListener('timer-end', () => {
+      document.removeEventListener('keydown', this.card.handler);
       this.element.innerHTML = '';
       this.element.append(this.statistic.getStatistic());
       this.addEventsToStatisticBtn();

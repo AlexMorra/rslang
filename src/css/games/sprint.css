@@ -2,8 +2,6 @@ li {
     list-style: none;
 }
 
-/*--------------------*/
-
 .tab-wrapper.sprint-wrapper {
     padding: 0;
     margin: 0;
@@ -66,8 +64,6 @@ li {
     line-height: 22px;
     font-weight: 300;
     color: #fff;
-    /* color: #CCE6C1; */
-    opacity: .8;
 }
 
 .sprint__statistic {
@@ -162,14 +158,27 @@ li {
     position: relative;
     border-radius: 15px;
     color: white;
+    box-shadow: 0 0 19px 0 #272323;
+}
+
+.sprint__card_highlight {
+    box-shadow: 0 0 30px 0 #2fee5b;
+    transition-property: box-shadow;
+    transition-duration: 100ms;
 }
 
 .sprint__card-main-indicator-item {
     border-radius: 50%;
-    width: 20px;
-    height: 20px;
-    background-color: #37383c;
+    width: 22px;
+    height: 22px;
+    background-color: #1e2f55;
     margin: 3px;
+}
+
+.sprint__card-main-indicator-item-img {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
 }
 
 .indicator-item-highlight {
@@ -192,45 +201,73 @@ li {
 
 .sprint__timer-wrap {
     position: absolute;
-    left: calc(50% + 300px);
-    top: calc(50% + 20px);
-    height: 40px;
-    width: 40px;
+    left: calc(50% + 275px);
+    top: calc(50% + -100px);
+    height: 100px;
+    width: 100px;
     text-align: center;
 }
 
-.sprint__timer-wrap .time {
+.sprint__timer-wrap .sprint__timer-time {
     color: white;
     display: inline-block;
-    line-height: 40px;
+    line-height: 100px;
 }
 
 .sprint__timer-wrap svg {
     position: absolute;
     top: 0;
     right: 0;
-    width: 40px;
-    height: 40px;
+    width: 100px;
+    height: 100px;
     transform: rotateY(-180deg) rotateZ(-90deg);
 }
 
 .sprint__timer-wrap svg circle {
-    stroke-dasharray: 113px;
+    stroke-dasharray: 251px;
     stroke-dashoffset: 0;
     stroke-linecap: round;
-    stroke-width: 2px;
-    stroke: white;
+    stroke-width: 5px;
+    stroke: rgba(255,255,255,0.5);
     fill: none;
 }
 
 @media (min-width: 320px) and (max-width: 800px) {
+    /*.sprint__timer-wrap {*/
+    /*    transform: scale(0.5);*/
+    /*}*/
+    .sprint__intro {
+        margin-left: 55px;
+    }
+    .sprint__statistic {
+        margin: 0 0 0 55px!important;
+    }
     .sprint__card {
         width: 70%;
+        max-width: 500px;
     }
     .sprint__timer-wrap {
-        left: calc(50% - 20px);
-        top: 10%;
+        left: calc(50% + 275px);
+        top: calc(50% + -100px);
+        height: 40px;
+        width: 40px;
     }
+
+    .sprint__timer-wrap .sprint__timer-time {
+        line-height: 400px;
+    }
+
+    .sprint__timer-wrap svg {
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 40px;
+        height: 400px;
+        transform: rotateY(-180deg) rotateZ(-90deg);
+    }
+}
+
+@media (min-width: 320px) and (max-width: 500px) {
     .sprint__card-btn-item {
         min-width: 107px;
     }
@@ -241,6 +278,6 @@ li {
         stroke-dashoffset: 0;
     }
     to {
-        stroke-dashoffset: 113px;
+        stroke-dashoffset: 251px;
     }
 }

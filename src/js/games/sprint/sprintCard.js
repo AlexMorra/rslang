@@ -7,7 +7,7 @@ export default class SprintCard {
     this.wordListRangeEnd = wordList.length - 1;
     this.counter = counter;
     this.statistic = statistic;
-    this.wordListMessage = 'Слова закончились(<br>Добавьте больше слов из словаря';
+    this.wordListMessage = 'Слова закончились:(<br>Добавьте больше слов из словаря';
     this.answers = 0;
     this.correctAnswers = 0;
     this.allCorrectAnswers = 0;
@@ -19,17 +19,17 @@ export default class SprintCard {
     this.element = this.getCard();
     this.info = this.element.querySelector('.j-info');
     this.word = this.element.querySelector('.j-word');
+    this.card = this.element.querySelector('.j-card');
     this.translation = this.element.querySelector('.j-translation');
     this.addWordAndTranslateToCard();
     this.addClickEventsToCardButtons();
-    this.addKeyDownEventToCardButtons();
     return this.element;
   }
 
   getCard() {
     const template = document.createElement('template');
     template.innerHTML = `
-      <div class="sprint__card">
+      <div class="sprint__card j-card">
         <div class="sprint__card-main">
             <ul class="sprint__card-main-indicator j-indicator">
               <li class="sprint__card-main-indicator-item"></li>
@@ -48,6 +48,7 @@ export default class SprintCard {
         </div>
       </div>
     `;
+    document.addEventListener('keydown', this.handler);
     return template.content;
   }
 
@@ -87,17 +88,17 @@ export default class SprintCard {
     });
   }
 
-  addKeyDownEventToCardButtons() {
-    document.addEventListener('keydown', (event) => {
-      if ((event.code === 'ArrowLeft' && this.isSame === false) || (event.code === 'ArrowRight' && this.isSame === true)) {
-        this.updateAnswersAndStatistic();
-        this.counter.setCounter(this.points);
-        this.addWordAndTranslateToCard();
-      } else if (event.code === 'ArrowLeft' || event.code === 'ArrowRight') {
-        this.resetAnswers();
-        this.addWordAndTranslateToCard();
-      }
-    });
+  handler(event) {
+    console.log(event);
+    console.log(this.isSame);
+    if ((event.code === 'ArrowLeft' && this.isSame === false) || (event.code === 'ArrowRight' && this.isSame === true)) {
+      this.updateAnswersAndStatistic();
+      this.counter.setCounter(this.points);
+      this.addWordAndTranslateToCard();
+    } else if (event.code === 'ArrowLeft' || event.code === 'ArrowRight') {
+      this.resetAnswers();
+      this.addWordAndTranslateToCard();
+    }
   }
 
   resetAnswers() {
@@ -122,13 +123,23 @@ export default class SprintCard {
     this.statistic.points = this.points;
   }
 
+  highlightCard() {
+    this.card.classList.add('sprint__card_highlight');
+    setTimeout(() => {
+      this.card.classList.remove('sprint__card_highlight');
+    }, 200);
+  }
+
   toggleIndicatorAndInfo(childNumber) {
     const indicator = document.querySelector('.j-indicator');
     if (childNumber === undefined) {
-      Array.from(indicator.children).forEach(child => child.classList.remove('indicator-item-highlight'));
+      Array.from(indicator.children).forEach(child => child.innerHTML = '');
       this.info.innerHTML = '';
     } else {
-      indicator.children[childNumber].classList.add('indicator-item-highlight');
+      indicator.children[childNumber].innerHTML = `
+        <img class="sprint__card-main-indicator-item-img" alt='' src='../../../assets/icons/check-mark.png'>
+      `;
+      this.highlightCard();
       if (this.cur > 10) {
         this.info.innerHTML = `+${this.cur} очков за слово`;
       }
