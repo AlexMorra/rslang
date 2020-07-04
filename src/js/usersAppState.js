@@ -370,7 +370,7 @@ export default class State {
           if (!words.includes(word) && words.length < count) {
             words.push(word);
             this.createUserWord(word.id, index + 1)
-              .then(response => this.learningWords.push(response)
+              .then(response => this.learningWords.push(response));
           }
         });
       });
