@@ -369,7 +369,8 @@ export default class State {
         card.forEach(word => {
           if (!words.includes(word) && words.length < count) {
             words.push(word);
-            this.createUserWord(word.id, index + 1);
+            this.createUserWord(word.id, index + 1)
+              .then(response => this.learningWords.push(response)
           }
         });
       });

@@ -1,4 +1,5 @@
 import { usersAppState } from '../app';
+import * as utils from './utils';
 
 let body = document.querySelector('body');
 
@@ -41,7 +42,9 @@ export default class Account {
     this.idCheckboxOptions.forEach(el => {
       options.optional[el] = document.getElementById(el).checked;
     });
-    usersAppState.setUserSettings(options);
+    usersAppState.setUserSettings(options).then(() => {
+      utils.systemMessage('Настроки сохранены', 'success');
+    });
   }
 
   nightModeHandler(e) {
