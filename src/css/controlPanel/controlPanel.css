@@ -65,6 +65,10 @@
     box-shadow: 0 0 10px 0 gray;
 }
 
+.cp-stats-today {
+    font-size: 1.1em;
+}
+
 .cp-stats h2 {
     margin: 10px 10px 0 10px;
 }
@@ -143,4 +147,31 @@
     .cp-course {
         width: 100%;
     }
+
+    .cp-stats-today {
+        font-size: 0.9em;
+    }
+}
+
+/* PROGRESS BAR */
+
+.day-progress-wrapper {
+    position: relative;
+    margin: 10px auto;
+    height: 200px;
+    width: 200px;
+}
+
+.cp-stats-progress {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.day-progress-percent {
+    position: absolute;
+    top: 46% !important;
+    left: 39% !important;
+    font-size: 1.5em;
+    color: inherit!important;
 }

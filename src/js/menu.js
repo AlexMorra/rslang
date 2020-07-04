@@ -38,8 +38,8 @@ export default class Menu extends statistics {
     switch (navId) {
       case 'main-stats':
         console.log('USER STATS OPEN');
+        this.updateUserStatsData();
         this.getUserStats();
-        document.querySelector('.stats-username').textContent = usersAppState.username;
         this.userStats.classList.toggle('open-stats');
         break;
       case 'header-nav-icon':
@@ -92,6 +92,14 @@ export default class Menu extends statistics {
     }
   }
 
+  updateUserStatsData() {
+    document.querySelector('.stats-username').textContent = usersAppState.username;
+    document.querySelector('.user-level').textContent = usersAppState.userLevel;
+    document.querySelector('.user-experience-value').textContent = `${usersAppState.userExp} / 50`;
+    let progress = document.querySelector('.user-progress-bar-progress');
+    progress.style.width = `${usersAppState.userExp * 2}%`;
+  }
+
   getTemplate() {
     let template = document.createElement('template');
     template.innerHTML = `
@@ -136,6 +144,13 @@ export default class Menu extends statistics {
     <i class="fas fa-project-diagram main-stats-btn" id="main-stats" style="position: absolute; right: 0"></i>
     <div class="user-stats" id="user-stats">
         <h2 class="stats-username"></h2>
+        <div class="user-progress-bar">
+          <div class="user-level"></div>
+          <div class="user-experience">
+            <span class="user-experience-value"></span>
+             <div class="user-progress-bar-progress"></div>
+          </div>
+        </div>
         <i class="fas fa-chevron-right stats-width stats-closed"></i>
         <div class="stats-month">${moment().locale('ru').format('MMMM')}</div>
         <canvas id="stats-chart" width="1000" height="1000"></canvas>

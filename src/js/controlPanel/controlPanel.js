@@ -1,3 +1,5 @@
+import moment from 'moment';
+import Chart from 'chart.js';
 import wordCards from '../wordCards';
 import * as utils from '../utils';
 import wordsCardList from './wordsCardList';
@@ -13,6 +15,7 @@ export default class ControlPanel extends wordsCardList {
       let controlPanelTab = this.beforeCreate(this.getTemplate());
       let controlPanel = controlPanelTab.querySelector('.control-panel');
       this.mainArea.append(controlPanelTab);
+      this.getDayProgress();
       controlPanel.addEventListener('click', this.controlPanelHandler.bind(this));
     }, 400);
   }
@@ -44,6 +47,33 @@ export default class ControlPanel extends wordsCardList {
       cardsWrapper.append(cardTemplate.content);
     });
     return template;
+  }
+
+  getDayProgress() {
+    let dayProgressPercent = document.querySelector('.day-progress-percent');
+    let percent =  usersAppState.getTodayProgress() * 100 / usersAppState.getExperienceGoal()
+    dayProgressPercent.textContent = `${percent >= 100 ? 100 : percent}%`;
+    let ctx = document.getElementById('day-progress-chart');
+    let myChart = new Chart(ctx, {
+      type: 'doughnut',
+      data: {
+        datasets: [{
+          data: [usersAppState.getTodayProgress() , usersAppState.getTodayProgress() >= usersAppState.getExperienceGoal() ? 0
+                                                    : usersAppState.getExperienceGoal() - usersAppState.getTodayProgress()],
+          backgroundColor: [
+            'rgba(54,162,235,0.6)',
+            'rgba(54,162,235,0.11)',
+          ],
+          borderColor: [
+            'rgba(54,162,235,0.6)',
+            'rgba(54,162,235,0.6)',
+            // 'rgba(255, 99, 132, 1)',
+          ],
+          borderWidth: 1
+        }]
+      },
+      // options: options
+    });
   }
 
   getTemplate() {
@@ -91,6 +121,10 @@ export default class ControlPanel extends wordsCardList {
               </div>
               <div class="cp-stats-progress">
                   <h2 class="stats-title">Прогресс</h2>
+                  <div class="day-progress-wrapper">
+                    <span class="day-progress-percent">24%</span>
+                    <canvas id="day-progress-chart" width="200" height="200"></canvas>
+                  </div>
               </div>
           </div>
           <div class="cp-cards">
