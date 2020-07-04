@@ -18,7 +18,6 @@ export default class Account {
       this.mainArea.append(accountTab);
       let settings = document.getElementById('account_settings');
       settings.addEventListener('change', this.optionsHandler.bind(this));
-      settings.addEventListener('click', this.countHandler.bind(this));
     }, 400);
   }
 
@@ -28,15 +27,15 @@ export default class Account {
     this.nightModeHandler(e);
 
     let username = document.getElementById('username').value;
-    let wordsPerDay = document.getElementById('wordsPerDay').value;
-    let cardsPerDay = document.getElementById('cardsPerDay').value;
+    let goal = document.querySelector('input[name="goal"]:checked').value;
     username = username || ' ';
     let options = {
-      wordsPerDay: wordsPerDay,
+      wordsPerDay: 1,
       optional: {
         username: username,
-        wordsPerDay: wordsPerDay,
-        cardsPerDay: cardsPerDay
+        trainingGoal: goal,
+        userLevel: usersAppState.userLevel,
+        userExp: usersAppState.userExp
       }
     };
     this.idCheckboxOptions.forEach(el => {
@@ -55,26 +54,9 @@ export default class Account {
     }
   }
 
-  countHandler(e) {
-    let btn = e.target.dataset.type;
-    if (btn) {
-      let optionInput = e.target.parentElement.querySelector('input');
-      console.log(optionInput);
-      if (btn === 'minus') {
-        optionInput.value--;
-      } else if (btn === 'plus') {
-        optionInput.value++;
-      }
-      if (optionInput.value > 999) optionInput.value = 999;
-      if (optionInput.value < 1) optionInput.value = 1;
-      this.optionsHandler(e);
-    }
-  }
-
   beforeCreated(template) {
     // update options before append the template
-    let wordsPerDay = template.getElementById('wordsPerDay');
-    let cardsPerDay = template.getElementById('cardsPerDay');
+    let trainingGoal = template.getElementById(usersAppState.trainingGoal);
     let username = template.getElementById('username');
     let nightMode = template.getElementById('nightMode');
     let translateWord = template.getElementById('translateWord');
@@ -83,6 +65,7 @@ export default class Account {
     let transcription = template.getElementById('transcription');
     let picturesWords = template.getElementById('picturesWords');
     let playAudio = template.getElementById('playAudio');
+    trainingGoal.checked = true;
     username.value = usersAppState.username || ' ';
     nightMode.checked = usersAppState.nightMode;
     translateWord.checked = usersAppState.translateWord;
@@ -91,8 +74,6 @@ export default class Account {
     transcription.checked = usersAppState.transcription;
     picturesWords.checked = usersAppState.picturesWords;
     playAudio.checked = usersAppState.playAudio;
-    wordsPerDay.value = usersAppState.wordsPerDay || 1;
-    cardsPerDay.value = usersAppState.cardsPerDay || 1;
     return template;
   }
 
@@ -111,26 +92,45 @@ export default class Account {
             <span>k77.wolf@gmail.com</span>
         </div>
         <hr>
-        <div class="account-section"><span class="account-section-title">Настройки</span></div>
+        <div class="account-section"><span class="account-section-title goal">Ежедневная цель</span></div>
+        <hr>
         <label class="account-row">
-            <i class="far fa-comment-dots"></i>
-            <span>Cлов в день</span>
-            <span class="input-text-wrapper">
-                <i class="fas fa-minus" data-type="minus"></i>
-                <input type="text" id="wordsPerDay" value="1" readonly>
-                <i class="fas fa-plus" data-type="plus"></i>
+            <i class="fas fa-egg"></i>
+            <span>Легкая (10 опыта)</span>
+            <span class="checkbox-wrapper">
+                <input type="radio" name="goal" value="1" id="1" class="checkbox">
+                <span class="checkbox-style"></span>
             </span>
         </label>
         <hr>
         <label class="account-row">
-            <i class="far fa-file-word"></i>
-            <span>Карточек в день</span>
-            <span class="input-text-wrapper">
-                <i class="fas fa-minus" data-type="minus"></i>
-                <input type="text" id="cardsPerDay" value="1" readonly>
-                <i class="fas fa-plus" data-type="plus"></i>
+            <i class="fas fa-skiing-nordic"></i>
+            <span>Обычная (20 опыта)</span>
+            <span class="checkbox-wrapper">
+                <input type="radio" name="goal" value="2" id="2" class="checkbox">
+                <span class="checkbox-style"></span>
             </span>
         </label>
+        <hr>
+        <label class="account-row">
+            <i class="fas fa-weight-hanging"></i>
+            <span>Серьезная (30 опыта)</span>
+            <span class="checkbox-wrapper">
+                <input type="radio" name="goal" value="3" id="3" class="checkbox">
+                <span class="checkbox-style"></span>
+            </span>
+        </label>
+        <hr>
+        <label class="account-row">
+            <i class="fas fa-dumbbell"></i>
+            <span>Интенсивная (50 опыта)</span>
+            <span class="checkbox-wrapper">
+                <input type="radio" name="goal" value="5" id="5" class="checkbox">
+                <span class="checkbox-style"></span>
+            </span>
+        </label>
+        <hr>
+        <div class="account-section"><span class="account-section-title">Настройки</span></div>
         <hr>
         <label class="account-row">
             <i class="far fa-moon"></i>

@@ -73,8 +73,45 @@
     }
 }
 
-/*padding: 15px;*/
-/*animation-name: prev;*/
-/*animation-duration: 1s;*/
-/*animation-fill-mode: forwards;*/
-/*animation-iteration-count: infinite;*/
+/* USER PROGRESS BAR */
+
+.user-progress-bar {
+    display: flex;
+    width: 100%;
+    align-items: center;
+}
+
+.user-level {
+    position: relative;
+    font-size: 2.3em;
+    font-weight: 900;
+    margin-left: 15px;
+}
+
+.user-experience {
+    position: relative;
+    width: 100%;
+    margin: 10px 15px;
+    height: 30px;
+    line-height: 30px;
+    background-color: #e5e5e5;
+    font-weight: 800;
+    border-radius: 5px;
+
+}
+
+.user-experience-value {
+    z-index: 1;
+    position: absolute;
+    left: 43%;
+}
+
+.user-progress-bar-progress {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    border-radius: 5px;
+    background: linear-gradient(to left, rgb(242, 112, 156), rgb(255, 148, 114));
+    box-shadow: 0 3px 3px -5px #f2709c, 0 2px 5px #f2709c;
+}
