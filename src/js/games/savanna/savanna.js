@@ -1,12 +1,9 @@
 import * as utils from '../../utils';
 import { usersAppState } from '../../../app';
 import SavannaIntro from './savannaIntro';
-
 export default class Savanna {
-  constructor(state) {
+  constructor() {
     this.element = null;
-    this.userState = state;
-    this.cardList = null;
     this.mainArea = document.querySelector('.main-area');
     this.startButton = null;
     this.loader = null;
@@ -17,9 +14,9 @@ export default class Savanna {
     this.soundOn = true;
     this.startDataIndex = 0;
     this.endDataIndex = 4;
-    this.gameNum = 1;
+    this.gameNum = 0;
     this.wordsListLength = 48;
-    this.wordsList = usersAppState.getTrainingWords(this.wordsListLength);
+    this.wordsList = null;
     this.answers = null;
     this.question = null;
     this.questionWord = null;
@@ -38,10 +35,12 @@ export default class Savanna {
     this.gameOverSound = new Audio('./assets/sounds/game-over.wav');
     this.intro = new SavannaIntro().getElement();
     this.statistics = [];
+    this.usersAppState = usersAppState;
   }
 
   show() {
     setTimeout(() => {
+      this.wordsList = this.usersAppState.getTrainingWords(this.wordsListLength);
       this.element = this.getElement();
       this.element.append(this.intro);
       this.mainArea.append(this.element);
@@ -49,9 +48,10 @@ export default class Savanna {
       this.startButtonClickHandler();
     }, 400);
   }
-  
+
   startAgain() {
     setTimeout(() => {
+      this.wordsList = this.usersAppState.getTrainingWords(this.wordsListLength);
       this.element = this.getElement();
       this.mainArea.append(this.element);
       this.initElements();
@@ -76,7 +76,7 @@ export default class Savanna {
     this.lives = [...this.element.querySelectorAll('.heart')];
     this.results = this.element.querySelector('.results');
   }
-  
+
   startButtonClickHandler() {
     this.startButton.addEventListener('click', () => {
       this.intro.remove();
@@ -89,16 +89,16 @@ export default class Savanna {
   }
 
   initGame() {
-    setTimeout(() => {      
+    setTimeout(() => {
       this.gameOn = true;
       this.gameNum += 1;
       this.generateGameData();
       this.showGame();
       this.checkDistance();
       this.initHandlers();
-    }, 400); 
+    }, 400);
 
-    setTimeout((() => this.toggleFall()), 500);  
+    setTimeout((() => this.toggleFall()), 500);
   }
 
   getElement() {
@@ -143,28 +143,8 @@ export default class Savanna {
             </div>
           </div>
         </div>  
-        
-        <div class="results none">
-          <div class="results__content"></div>
-        </div>
       </div>`.trim();
     return template.content.children[0];
-  }
-
-  shuffle(array) {
-    let counter = array.length;
-    const shuffleArr = array.slice();
-
-    while (counter > 0) {
-      let index = Math.floor(Math.random() * counter);
-      counter -= 1;
-
-      let temp = shuffleArr[counter];
-      shuffleArr[counter] = shuffleArr[index];
-      shuffleArr[index] = temp;
-    }
-
-    return shuffleArr;
   }
 
   toggleFall() {
@@ -185,7 +165,7 @@ export default class Savanna {
     this.answersIndex = Math.floor(Math.random() * (4 - 0)) + 0;
     this.question = this.answers[this.answersIndex];
 
-    this.allAnswers.forEach((element, index) => {     
+    this.allAnswers.forEach((element, index) => {
       element.textContent = this.answers[index].wordTranslate;
     });
 
@@ -216,10 +196,10 @@ export default class Savanna {
   }
 
   resetAnswersState() {
-    if (this.currentAnswer) {      
+    if (this.currentAnswer) {
       this.currentAnswer.classList.remove('answer--true');
       this.currentAnswer.classList.remove('answer--false');
-    }    
+    }
     this.allAnswers[this.answersIndex].parentNode.classList.remove('answer--true');
   }
 
@@ -266,9 +246,10 @@ export default class Savanna {
 
     this.addSuccess();
     this.moveBackground();
+    this.addToStatistic(this.question, true);
   }
 
-  moveBackground() {    
+  moveBackground() {
     this.successes += 1;
     this.bgPosition -= 5;
     this.element.style.backgroundPositionY = `${this.bgPosition}%`;
@@ -282,11 +263,7 @@ export default class Savanna {
     this.addFail();
     this.lives[this.errors].classList.add('heart--lost');
     this.errors += 1;
-  }
-
-  getCorrectAnswer() {
-    console.log(this.answers)
-    console.log(this.questionWord)
+    this.addToStatistic(this.question);
   }
 
   checkDistance() {
@@ -315,24 +292,6 @@ export default class Savanna {
   }
 
   checkAnswer(target) {
-    console.log(this.question)
-    const arr = {
-      audio: "files/02_0030.mp3",
-      audioExample: "files/02_0030_example.mp3",
-      audioMeaning: "files/02_0030_meaning.mp3",
-      group: 0,
-      id: "5e9f5ee35eb9e72bc21af4bd",
-      image: "files/02_0030.jpg",
-      page: 1,
-      textExample: "The sound of her <b>laugh</b> filled the room.",
-      textExampleTranslate: "Звук ее смеха заполнил комнату",
-      textMeaning: "<i>Laugh</i> is the sound made when someone is happy or a funny thing occurs.",
-      textMeaningTranslate: "Смех - это звук, который звучит, когда кто-то счастлив или происходит смешная вещь",
-      transcription: "[læf]",
-      word: "laugh",
-      wordTranslate: "смех",
-      wordsPerExampleSentence: 8
-    }
     const answer = target.innerHTML;
     this.questionWrapper.classList.remove('fall');
     this.gameOn = false;
@@ -359,20 +318,32 @@ export default class Savanna {
     }
   }
 
+  addToStatistic(el, isLearned = false) {
+    const question = {
+      id: el.id,
+      word: el.word,
+      translate: el.wordTranslate,
+      isLearned: isLearned,
+      audioSrc: el.audio,
+      transcription: el.transcription
+    };
+
+    this.statistics.push(question);
+  }
+
   resetQuestion() {
     this.questionWrapper.classList.value = '';
     this.questionWrapper.classList.value = 'question';
   }
 
   showGame() {
-    this.gameContent.classList.toggle('none'); 
+    this.gameContent.classList.toggle('none');
   }
 
   showResults() {
     this.gameOn = false;
-    this.results.classList.toggle('none');
     this.gameOverSound.play();
-    this.showGame();
+    utils.getStatistic(this.statistics);
   }
 
   initHandlers() {
