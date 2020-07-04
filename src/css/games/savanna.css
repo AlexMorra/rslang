@@ -176,7 +176,6 @@
     left: 70px;
     width: calc(100% - 70px);
     text-align: center;
-    /* min-height: 50%; */
     padding-top: 100px;
 }
 
@@ -269,7 +268,7 @@
     width: 100%;
     transform: translateY(-100px);
     transition: transform 5s ease-in;
-    /* opacity: 0; */
+    opacity: 0;
 }
 
 .question__word {
@@ -368,4 +367,24 @@
         box-sizing: border-box; 
         border-radius: 0;
     }    
+}
+
+@media (max-width: 400px) {
+    .answers {
+        left: 0;
+        max-width: 100%;
+    }
+
+    .answer {
+        max-width: 100%; 
+        margin: 0;
+    }
+
+    .answer__word {
+        padding: 20px 20px 20px 40px;
+    }
+
+    .answer__word::before {
+        left: 22px;
+    }
 }
