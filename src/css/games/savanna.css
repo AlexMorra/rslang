@@ -1,6 +1,7 @@
 .tab-wrapper.savanna {   
     padding: 0;
     margin: 0;
+    /* padding: 0 10px 20px 65px; */
 }
 
 .savanna {
@@ -114,6 +115,7 @@
     width: 100%;
     padding: 0 18px;
     box-sizing: border-box;
+    right: 30px;
 }
 
 .sound {
@@ -122,7 +124,7 @@
     border: none;
     outline: none;
     transition: all .15s ease;
-    background: url("../../assets/images/sound.svg");
+    background: url("../../assets/images/sound-white.svg");
     background-position: center;
     background-repeat: no-repeat;
     width: 20px;
@@ -136,7 +138,7 @@
 }
 
 .sound.off {
-  background: url("../../assets/images/sound-off.svg");
+  background: url("../../assets/images/sound-off-white.svg");
   background-position: center;
   background-repeat: no-repeat;
 }
@@ -171,7 +173,8 @@
     top: 30%;
     margin-top: -30px;
     right: 0;
-    left: 0;
+    left: 70px;
+    width: calc(100% - 70px);
     text-align: center;
     /* min-height: 50%; */
     padding-top: 100px;
@@ -194,7 +197,8 @@
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
-    position: relative;    
+    position: relative;  
+    box-sizing: border-box;  
 }
 
 .answer--true {
@@ -225,7 +229,7 @@
 }
 
 .answer__word--2::before {
-    content: "3.";
+    content: "2.";
 }
 
 .answer__word--3::before {
@@ -263,10 +267,9 @@
     letter-spacing: 1px;
     height: 100%; 
     width: 100%;
-    transform: translateY(0);
-    transform: translateY(-60px);
+    transform: translateY(-100px);
     transition: transform 5s ease-in;
-    opacity: 0;
+    /* opacity: 0; */
 }
 
 .question__word {
@@ -338,7 +341,7 @@
     box-shadow: 0 0 10px 0 gray;
 }
 
-@media (max-width: 544px) {
+@media (max-width: 800px) {
     .intro__title {
         font-size: 32px;
     }
@@ -350,7 +353,7 @@
     .answers {
         flex-direction: column;
         font-size: 24px;
-        padding: 10px 20px 13px 38px;
+        padding: 10px 20px 13px 0;
         width: 100%;
         margin-bottom: 8px;
         margin-left: 0;
