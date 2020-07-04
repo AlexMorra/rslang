@@ -99,7 +99,7 @@ export default class Auth {
           utils.systemMessage('Пользователь уже существует', 'error');
         }
         return response.json();
-      })
+      });
   }
 
   logout() {
