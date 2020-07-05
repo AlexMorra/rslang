@@ -1,5 +1,5 @@
-import {usersAppState} from '../app';
-import EnglishPuzzle from '../js/games/english-puzzle/english-puzzle'
+import { usersAppState } from '../app';
+import EnglishPuzzle from '../js/games/english-puzzle/english-puzzle';
 let mainArea = document.querySelector('.main-area');
 
 export function destroy() {

@@ -1,6 +1,6 @@
 import * as utils from '../../utils';
 import SpeakItHintsBlock from './speak-it.hints-block.class';
-import SpeakItMainBlock from './speak-it.main-block.class'
+import SpeakItMainBlock from './speak-it.main-block.class';
 
 export default class SpeakIt {
   constructor() {
@@ -8,6 +8,7 @@ export default class SpeakIt {
     this.hintsBlock = new SpeakItHintsBlock();
     this.mainBlock = new SpeakItMainBlock();
   }
+
   showMainPage() {
     utils.destroy();
     setTimeout(async () => {
@@ -16,7 +17,7 @@ export default class SpeakIt {
   }
 
   getMainPage() {
-    this.mainArea.append(this.getMainPageWrapper())
+    this.mainArea.append(this.getMainPageWrapper());
     this.hintsBlock.getHintsBlock();
     this.mainBlock.getMainBlock();
   }

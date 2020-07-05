@@ -30,6 +30,19 @@
   justify-content: center;
 }
 
+.speak-it__main__hints-block__audio {
+  width: 37px;
+  height: 37px;
+  background-image: url(../../../assets/icons/volume.svg);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 100%;
+  border: 0;
+  background-color: #ffffff;
+}
+
+
+
 .speak-it__main__main-block__cards-block {
   display: flex;
   justify-content: center;
@@ -43,21 +56,50 @@
 
 .speak-it__main__main-block__cards-block__card {
   position: relative;
-  width: 80px;
+  width: 160px;
   height: 50px;
   border: solid black 1px;
-  padding-left: 60px;
   margin: 15px;
+}
+
+.speak-it__main__main-block__cards-block__card__wrapper {
+  width: 100%;
+  height: 100%;
 }
 
 .speak-it__main__main-block__cards-block__card__audio {
   position: absolute;
-  top: 15px;
-  left: 10px;
+  top: 0;
+  left: 0;
+  width: 30%;
+  height: 100%;
+  background-image: url(../../../assets/icons/volume.svg);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 50%;
+}
+
+.speak-it__main__main-block__cards-block__card__audio:hover {
+  background-color: #f8f2ee;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 1s ease;
 }
 
 .speak-it__main__main-block__cards-block__card__title {
-  margin-top: 7px;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.speak-it__main__main-block__cards-block__card__transcription {
+  width: 100%;
+  height: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .active {

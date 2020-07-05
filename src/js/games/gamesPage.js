@@ -2,7 +2,7 @@ import GAMES from './gamesConstants';
 import EnglishPuzzle from './english-puzzle/english-puzzle';
 import SKIN from './skinWalkers/startWindow';
 import Sprint from './sprint/sprint';
-import SpeakIt from './speak-it/speak-it'
+import SpeakIt from './speak-it/speak-it';
 import * as utils from '../utils';
 
 export default class GamesPage {
