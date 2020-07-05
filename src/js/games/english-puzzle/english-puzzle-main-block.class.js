@@ -117,7 +117,7 @@ export default class EnglishPuzzleMainBlock {
   }
 
   nextStage() {
-    if (this.currentStage !== 1) {
+    if (this.currentStage !== 10) {
       const dntKnowBtn = document.querySelector('.english-puzzle-main__btn-block__dnt-know');
       const continuedBtn = document.querySelector('.english-puzzle-main__btn-block__continued');
       const checkBtn = document.querySelector('.english-puzzle-main__btn-block__check');
