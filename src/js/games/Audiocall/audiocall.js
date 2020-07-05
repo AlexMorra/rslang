@@ -13,7 +13,7 @@ export default class Audiocall {
     // выбираем 50 елементов из массива слов
     this.allWords = usersAppState.getTrainingWords(50);
     this.wordsWrapper = '';
-    this.currentPlayed = null;
+    this.currentPlayed = '';
     this.arrayOfGuessed = [];
     this.arrayOfMissed = [];
   }
@@ -86,12 +86,10 @@ export default class Audiocall {
         // если слов больше нету ->
         if (this.allWords.length === 0) {
           if (document.querySelector('.wrong') === null) {
-            // показываем картинку
-            this.mainArea.innerHTML = '<img src="Assets/img/crashbirthday.jpg" alt="success">';
             // проигрываем звук прохождения теста
             this.playGameSound('../../../assets/sounds/game-over.mp3'); /* success */
           } else {
-            utils.getStatistic(this.statistic); // статистика, шо дает не понятно
+            // utils.getStatistic(this.statistic); // статистика, шо дает не понятно
             this.playGameSound('Assets/audio/failure.mp3');
           }
           // возврат в экран выбора категорий и return
@@ -106,9 +104,7 @@ export default class Audiocall {
         }
         // проигрываем звук победы
         this.playGameSound('../../../assets/sounds/success.mp3');
-        // берем следующее слово
-        // Проигрываем следуюций звук
-        // (Взято из handleStart)
+        // берем следующею пару слов
         setTimeout(() => {
           this.handleStart();
         }, 900);
@@ -135,7 +131,7 @@ export default class Audiocall {
         <h1 class="intro__title">Аудиовызов</h1>
         <div class="word-wrapper">
         </div>
-        <button class="into__button answer">Не знаю</button>
+        <button class="into__button">Не знаю</button>
       </div>
     </div>
     `;
