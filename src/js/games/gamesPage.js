@@ -1,8 +1,10 @@
+/* eslint-disable default-case */
 import GAMES from './gamesConstants';
 import EnglishPuzzle from './english-puzzle/english-puzzle';
 import SKIN from './skinWalkers/startWindow';
 import SAVANNA from './savanna/savanna';
 import Sprint from './sprint/sprint';
+import Audiocall from './Audiocall/audiocall';
 import SpeakIt from './speak-it/speak-it';
 import * as utils from '../utils';
 export default class GamesPage {
@@ -34,6 +36,8 @@ export default class GamesPage {
         const skin = new SKIN();
         skin.show();
         break;
+      case 'Audio Challenge':
+        new Audiocall().show();
       case 'Speak It':
         new SpeakIt().showStartPage();
         break;
