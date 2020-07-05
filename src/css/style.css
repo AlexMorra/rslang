@@ -8,6 +8,8 @@
 @import "games/games_page.css";
 @import "dictionary.css";
 @import "trainingCards/trainingCards.css";
+@import "../js/games/skinWalkers/skinwalkerStyle.css";
+@import "../js/games/Audiocall/audiocall.css";
 @import "../js/games/skinWalkers/style/skinwalkerStyle.css";
 @import "./games/english-puzzle/englishPuzzle.css";
 @import "./games/speak-it/speak-it.css";
