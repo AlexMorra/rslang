@@ -1,8 +1,8 @@
 const GAMES = [
   {
-    id: 'SpeakIt',
+    id: 'Speak It',
     icon: 'microphone.png',
-    title: 'SpeakIt'
+    title: 'Скажи это'
   },
   {
     id: 'English Puzzle',
