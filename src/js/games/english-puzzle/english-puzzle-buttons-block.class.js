@@ -28,9 +28,9 @@ export default class EnglishPuzzleButtonsBlock {
     if (count === resultCells.length) {
       continuedBtn.classList.remove('blocked');
       dntKnowBtn.classList.add('blocked');
-      this.getSuccessSound()
+      this.getSuccessSound();
     } else {
-      this.getErrorSound()
+      this.getErrorSound();
     }
   }
 
@@ -51,14 +51,14 @@ export default class EnglishPuzzleButtonsBlock {
   getSuccessSound() {
     const audio = new Audio();
     audio.preload = 'auto';
-    audio.src = `../../../assets/sounds/success.mp3`;
+    audio.src = '../../../assets/sounds/success.mp3';
     audio.play();
   }
 
   getErrorSound() {
     const audio = new Audio();
     audio.preload = 'auto';
-    audio.src = `../../../assets/sounds/error.mp3`;
+    audio.src = '../../../assets/sounds/error.mp3';
     audio.play();
   }
 }

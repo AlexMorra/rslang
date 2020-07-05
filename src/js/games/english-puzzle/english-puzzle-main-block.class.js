@@ -160,5 +160,4 @@ export default class EnglishPuzzleMainBlock {
     });
     return this.statistic;
   }
-
 }
