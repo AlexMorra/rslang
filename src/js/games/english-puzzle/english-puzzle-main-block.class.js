@@ -80,7 +80,7 @@ export default class EnglishPuzzleMainBlock {
     for (let i = 0; i < this.arrayWords[this.currentStage - 1].textExampleArray.length; i += 1) {
       const resultElement = document.createElement('template');
       resultElement.innerHTML = `
-      <div class="english-puzzle-main__result-block__element" isFree="true">
+      <div class="english-puzzle-main__result-block__element" word="${this.arrayWords[this.currentStage - 1].textExampleArray[i]}" isFree="true">
       </div>
       `;
       resultBlock.append(resultElement.content);

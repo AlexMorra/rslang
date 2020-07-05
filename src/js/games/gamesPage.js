@@ -1,9 +1,10 @@
 import GAMES from './gamesConstants';
 import EnglishPuzzle from './english-puzzle/english-puzzle';
 import SKIN from './skinWalkers/startWindow';
+import SAVANNA from './savanna/savanna';
 import Sprint from './sprint/sprint';
+import SpeakIt from './speak-it/speak-it';
 import * as utils from '../utils';
-
 export default class GamesPage {
   constructor() {
     this.element = null;
@@ -20,11 +21,10 @@ export default class GamesPage {
   cardClickHandler(e) {
     const game = e.target.id;
     console.log(game);
-
+    window.currentPage = e.target.id;
     switch (game) {
       case 'English Puzzle':
-        this.englishPuzzle = new EnglishPuzzle();
-        this.englishPuzzle.showStartPage();
+        new EnglishPuzzle().showStartPage();
         break;
       case 'Sprint':
         utils.destroy();
@@ -33,6 +33,13 @@ export default class GamesPage {
       case 'Skin Walker':
         const skin = new SKIN();
         skin.show();
+        break;
+      case 'Speak It':
+        new SpeakIt().showStartPage();
+        break;
+      case 'Savanna':
+        utils.destroy();
+        new SAVANNA().show();
         break;
     }
   }
