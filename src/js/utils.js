@@ -3,6 +3,7 @@ import EnglishPuzzle from '../js/games/english-puzzle/english-puzzle';
 import Savanna from './games/savanna/savanna';
 import Sprint from './games/sprint/sprint';
 import SpeakIt from './games/speak-it/speak-it';
+import SkinWalker from './games/skinWalkers/startWindow';
 let mainArea = document.querySelector('.main-area');
 
 export function destroy() {
@@ -155,9 +156,9 @@ function addEventHandlerInStatistic() {
       case 'Savanna':
         new Savanna().startAgain();
         break;
-      /* case 'Skin Walker':
-        new EnglishPuzzle().showMainPage();
-        break; */
+      case 'Skin Walker':
+        new SkinWalker().getButtonsListTemplate();
+        break;
       /* case 'AudioChellange':
         new EnglishPuzzle().showMainPage();
         break; */
