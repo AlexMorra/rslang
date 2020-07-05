@@ -244,17 +244,17 @@ export default class State {
     let options = settings.optional;
     this.wordsPerDay = settings.wordsPerDay;
     if (options) {
-      this.trainingGoal = options.trainingGoal || 2;
-      this.username = options.username || 'User';
-      this.nightMode = options.nightMode || false;
-      this.translateWord = options.translateWord || true;
-      this.explanationExamples = options.explanationExamples || true;
-      this.examplesUsing = options.examplesUsing || true;
-      this.transcription = options.transcription || true;
-      this.picturesWords = options.picturesWords || true;
-      this.playAudio = options.playAudio || true;
-      this.userLevel = options.userLevel || 1;
-      this.userExp = options.userExp || 0;
+      this.trainingGoal = options.trainingGoal === undefined ? 2 : options.trainingGoal;
+      this.username = options.username === undefined ? 'User' : options.username;
+      this.nightMode = options.nightMode === undefined ? false : options.nightMode;
+      this.translateWord = options.translateWord === undefined ? true : options.translateWord;
+      this.explanationExamples = options.explanationExamples === undefined ? true : options.explanationExamples;
+      this.examplesUsing = options.examplesUsing === undefined ? true : options.examplesUsing;
+      this.transcription = options.transcription === undefined ? true : options.transcription;
+      this.picturesWords = options.picturesWords === undefined ? true : options.picturesWords;
+      this.playAudio = options.playAudio === undefined ? true : options.playAudio;
+      this.userLevel = options.userLevel === undefined ? 1 : options.userLevel;
+      this.userExp = options.userExp === undefined ? 0 : options.userExp;
     }
   }
 
