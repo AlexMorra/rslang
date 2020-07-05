@@ -247,6 +247,7 @@ export default class Savanna {
     this.addSuccess();
     this.moveBackground();
     this.addToStatistic(this.question, true);
+    this.usersAppState.updateProgressWord(this.question.id, true);
   }
 
   moveBackground() {
@@ -264,6 +265,7 @@ export default class Savanna {
     this.lives[this.errors].classList.add('heart--lost');
     this.errors += 1;
     this.addToStatistic(this.question);
+    this.usersAppState.updateProgressWord(this.question.id, false);
   }
 
   checkDistance() {
