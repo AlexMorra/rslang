@@ -220,7 +220,7 @@ export default class State {
       });
   }
 
-  getUserSettingsData(){
+  getUserSettingsData() {
     return {
       wordsPerDay: this.wordsPerDay,
       optional: {
@@ -234,9 +234,9 @@ export default class State {
         translateWord: this.translateWord,
         playAudio: this.playAudio,
         userLevel: this.userLevel,
-        userExp: this.userExp,
+        userExp: this.userExp
       }
-    }
+    };
   }
 
   saveSettings(settings) {
@@ -339,11 +339,11 @@ export default class State {
   }
 
   getTodayProgress() {
-    return this.userStatistics.optional[moment().format('MM D YYYY')].correctAnswers
+    return this.userStatistics.optional[moment().format('MM D YYYY')].correctAnswers;
   }
 
   getExperienceGoal() {
-    return this.trainingGoal * 10
+    return this.trainingGoal * 10;
   }
 
   getNewWords() {
@@ -462,8 +462,8 @@ export default class State {
     this.userWord = this.userDifficultWord || this.userLearningWord;
     if (value) {
       this.userWord.optional.progress = this.userWord.optional.progress >= 5
-                                        ? this.userWord.optional.progress
-                                        : this.userWord.optional.progress + 1;
+        ? this.userWord.optional.progress
+        : this.userWord.optional.progress + 1;
       this.wordData = {
         difficulty: this.userWord.difficulty,
         optional: this.userWord.optional
@@ -471,8 +471,8 @@ export default class State {
       this.increaseExperience();
     } else {
       this.userWord.optional.progress = this.userWord.optional.progress <= -5
-                                        ? this.userWord.optional.progress
-                                        : this.userWord.optional.progress - 1;
+        ? this.userWord.optional.progress
+        : this.userWord.optional.progress - 1;
       this.wordData = {
         difficulty: this.userWord.difficulty,
         optional: this.userWord.optional
