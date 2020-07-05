@@ -1,17 +1,15 @@
 export default class SprintCard {
-  constructor(counter, statistic, timer, wordList) {
+  constructor(counter, initStatistic, statistic, timer, wordList) {
     this.timer = timer;
-    this.intervalId = null;
     this.wordList = wordList;
     this.wordListRangeStart = 0;
     this.wordListRangeEnd = wordList.length - 1;
     this.counter = counter;
+    this.initStatistic = initStatistic;
     this.statistic = statistic;
-    this.wordListMessage = 'Слова закончились:(<br>Добавьте больше слов из словаря';
     this.answers = 0;
     this.correctAnswers = 0;
     this.allCorrectAnswers = 0;
-    this.allWrongAnswers = 0;
     this.points = 0;
     this.cur = 10;
     this.multiplier = 2;
@@ -23,6 +21,10 @@ export default class SprintCard {
     this.translation = this.element.querySelector('.j-translation');
     this.addWordAndTranslateToCard();
     this.addClickEventsToCardButtons();
+    this.addKeyEventsToCardButtons();
+  }
+
+  getElement() {
     return this.element;
   }
 
@@ -48,13 +50,11 @@ export default class SprintCard {
         </div>
       </div>
     `;
-    document.addEventListener('keydown', this.handler);
     return template.content;
   }
 
   addWordAndTranslateToCard() {
     if (this.wordList.length === this.answers) {
-      this.statistic.message = this.wordListMessage;
       this.timer.destroy();
     } else {
       this.word.innerHTML = this.wordList[this.answers].word;
@@ -64,7 +64,6 @@ export default class SprintCard {
       } else {
         // eslint-disable-next-line max-len
         let rand = Math.floor(this.wordListRangeStart + Math.random() * (this.wordListRangeEnd + 1 - this.wordListRangeStart));
-        console.log(rand);
         this.translation.innerHTML = this.wordList[rand].wordTranslate;
         if (rand === this.answers) {
           this.isSame = true;
@@ -88,9 +87,15 @@ export default class SprintCard {
     });
   }
 
-  handler(event) {
-    console.log(event);
-    console.log(this.isSame);
+  removeKeyEventsFromCardButtons() {
+    document.removeEventListener('keydown', this.onKeyDown.bind(this));
+  }
+
+  addKeyEventsToCardButtons() {
+    document.addEventListener('keydown', this.onKeyDown.bind(this));
+  }
+
+  onKeyDown(event) {
     if ((event.code === 'ArrowLeft' && this.isSame === false) || (event.code === 'ArrowRight' && this.isSame === true)) {
       this.updateAnswersAndStatistic();
       this.counter.setCounter(this.points);
@@ -104,9 +109,8 @@ export default class SprintCard {
   resetAnswers() {
     this.correctAnswers = 0;
     this.cur = 10;
+    this.statistic.push(this.initStatistic[this.answers - 1]);
     this.toggleIndicatorAndInfo();
-    this.allWrongAnswers++;
-    this.statistic.allWrongAnswers = this.allWrongAnswers;
   }
 
   updateAnswersAndStatistic() {
@@ -119,8 +123,8 @@ export default class SprintCard {
     this.correctAnswers++;
     this.allCorrectAnswers++;
     this.points += this.cur;
-    this.statistic.allCorrectAnswers = this.allCorrectAnswers;
-    this.statistic.points = this.points;
+    this.initStatistic[this.answers - 1].isLearned = true;
+    this.statistic.push(this.initStatistic[this.answers - 1]);
   }
 
   highlightCard() {
@@ -137,7 +141,7 @@ export default class SprintCard {
       this.info.innerHTML = '';
     } else {
       indicator.children[childNumber].innerHTML = `
-        <img class="sprint__card-main-indicator-item-img" alt='' src='../../../assets/icons/check-mark.png'>
+        <img class="sprint__card-main-indicator-item-img" alt='' src='../../../assets/icons/sprint_check-mark.png'>
       `;
       this.highlightCard();
       if (this.cur > 10) {

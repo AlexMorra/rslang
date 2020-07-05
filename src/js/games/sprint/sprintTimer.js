@@ -41,4 +41,8 @@ export default class SprintTimer {
     this.element.dispatchEvent(new CustomEvent('timer-end'));
     clearInterval(this.intervalId);
   }
+
+  clearInterval() {
+    clearInterval(this.intervalId);
+  }
 }

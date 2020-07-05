@@ -1,14 +1,17 @@
 import SprintTimer from './sprintTimer';
 import SprintCard from './sprintCard';
 import SprintCounter from './sprintCounter';
-import SprintStatistic from './sprintStatistic';
+import * as utils from '../../utils';
 import { usersAppState } from '../../../app';
 
 export default class Sprint {
   constructor() {
     this.wordListLenght = 100;
-    this.gameTime = 1000; // seconds
-    this.wordList = usersAppState.getTrainingWords(this.wordListLenght);
+    this.usersAppState = usersAppState;
+    this.gameTime = 60; // seconds
+    this.arrayWords = [];
+    this.initStatistic = [];
+    this.statistic = [];
     this.element = this.getGameWrapper();
     this.mainArea = document.querySelector('.main-area');
   }
@@ -29,23 +32,68 @@ export default class Sprint {
   }
 
   initializeGame() {
-    this.counter = new SprintCounter(this.statistic);
-    this.statistic = new SprintStatistic();
+    this.getArrayWords();
+    this.counter = new SprintCounter();
     this.timer = new SprintTimer(this.gameTime);
-    this.card = new SprintCard(this.counter, this.statistic, this.timer, this.wordList);
+    this.card = new SprintCard(
+      this.counter,
+      this.initStatistic,
+      this.statistic,
+      this.timer,
+      this.arrayWords
+    );
   }
 
   getGameElements() {
     this.initializeGame();
     this.timer.getElement().addEventListener('timer-end', () => {
-      document.removeEventListener('keydown', this.card.handler);
-      this.element.innerHTML = '';
-      this.element.append(this.statistic.getStatistic());
-      this.addEventsToStatisticBtn();
+      this.card.removeKeyEventsFromCardButtons();
+      this.handingStatistic()
+        .then(() => utils.getStatistic(this.statistic))
+        .catch(console.error);
     });
     this.element.append(this.timer.getElement());
     this.element.append(this.counter.getElement());
-    this.element.append(this.card);
+    this.element.append(this.card.getElement());
+    this.addMenuClickHandler();
+  }
+
+  addMenuClickHandler() {
+    const menu = document.querySelector('.nav-menu');
+    menu.addEventListener('click', (event) => {
+      const target = event.target;
+      if (target.tagName === 'LI') {
+        this.timer.clearInterval();
+        this.card.removeKeyEventsFromCardButtons();
+      }
+    });
+  }
+
+  handingStatistic() {
+    const promises = this.statistic.map(el => {
+      if (el.isLearned) {
+        return this.usersAppState.updateProgressWord(el.id, true);
+      } else {
+        return this.usersAppState.updateProgressWord(el.id, false);
+      }
+    });
+    return Promise.all(promises);
+  }
+
+  getArrayWords() {
+    this.arrayWords = this.usersAppState.getTrainingWords(this.wordListLenght);
+    this.initStatistic = this.arrayWords.map(el => {
+      return {
+        id: el.id,
+        word: el.word,
+        checkClick: 0,
+        dntKnowClick: 0,
+        translate: el.wordTranslate,
+        isLearned: false,
+        audioSrc: el.audio,
+        transcription: el.transcription
+      };
+    });
   }
 
   getInitialTemplate() {
@@ -70,16 +118,6 @@ export default class Sprint {
     this.introBtn.addEventListener('click', () => {
       this.element.innerHTML = '';
       this.getGameElements();
-    });
-  }
-
-  addEventsToStatisticBtn() {
-    document.querySelector('.j-statisticBtn').addEventListener('click', (event) => {
-      const target = event.target;
-      if (target.classList.contains('j-playAgain')) {
-        this.element.innerHTML = '';
-        this.getGameElements();
-      }
     });
   }
 }

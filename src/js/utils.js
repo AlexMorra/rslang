@@ -129,9 +129,7 @@ function addEventHandlerInStatistic() {
   deleteBtns.forEach(el => {
     el.addEventListener('click', () => {
       usersAppState.deleteUserWord(el.id, true);
-      systemMessage('Слово удалено из словоря', 'success');
       el.style.pointerEvents = 'none';
-      el.style.opacity = '0.2';
     });
   });
   const returnBtn = document.querySelector('.statistic__btn-container__return');
