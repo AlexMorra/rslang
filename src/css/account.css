@@ -1,5 +1,5 @@
 .account {
-    height: 625px;
+    height: 773px;
     max-width: 400px;
     white-space: nowrap;
     background-color: white;
@@ -51,6 +51,26 @@
     width: 70px;
     background-color: gray;
     right: -85px;
+    top: 11px;
+}
+
+.goal:before {
+    position: absolute;
+    content: '';
+    height: 1px;
+    width: 50px;
+    background-color: gray;
+    left: -65px;
+    top: 11px;
+}
+
+.goal:after {
+    position: absolute;
+    content: '';
+    height: 1px;
+    width: 50px;
+    background-color: gray;
+    right: -65px;
     top: 11px;
 }
 

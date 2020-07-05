@@ -4,7 +4,7 @@ import { usersAppState } from '../app';
 import statistics from './statistics';
 
 export default class Menu extends statistics {
-  constructor(controlPanel, account, auth, dictionary, games, training) {
+  constructor(controlPanel, account, auth, dictionary, games, training, team) {
     super();
     this.controlPanel = controlPanel;
     this.dictionary = dictionary;
@@ -12,6 +12,7 @@ export default class Menu extends statistics {
     this.auth = auth;
     this.games = games;
     this.training = training;
+    this.team = team;
     this.body = document.querySelector('body');
     this.menuTemplate = this.getTemplate();
     this.menuNav = null;
@@ -37,8 +38,8 @@ export default class Menu extends statistics {
     switch (navId) {
       case 'main-stats':
         console.log('USER STATS OPEN');
+        this.updateUserStatsData();
         this.getUserStats();
-        document.querySelector('.stats-username').textContent = usersAppState.username;
         this.userStats.classList.toggle('open-stats');
         break;
       case 'header-nav-icon':
@@ -64,12 +65,16 @@ export default class Menu extends statistics {
         this.account.show();
         break;
       case 'nav-logout':
+        window.logout = true;
         this.auth.logout();
         break;
       case 'nav-training':
         utils.destroy();
         this.training.show();
         break;
+      case 'nav-team':
+        utils.destroy();
+        this.team.show();
       default:
     }
   }
@@ -85,6 +90,14 @@ export default class Menu extends statistics {
       this.statsWidth.classList.remove('stats-opened');
       root.style.setProperty('--stats_width', '300px');
     }
+  }
+
+  updateUserStatsData() {
+    document.querySelector('.stats-username').textContent = usersAppState.username;
+    document.querySelector('.user-level').textContent = usersAppState.userLevel;
+    document.querySelector('.user-experience-value').textContent = `${usersAppState.userExp} / 50`;
+    let progress = document.querySelector('.user-progress-bar-progress');
+    progress.style.width = `${usersAppState.userExp * 2}%`;
   }
 
   getTemplate() {
@@ -118,6 +131,10 @@ export default class Menu extends statistics {
               <i class="fas fa-user-circle menu-icon" title="Аккаунт"></i>
               <span class="nav-name">Аккаунт</span>
           </li>
+          <li id="nav-team" class="nav-team">
+            <i class="fas fa-shield-alt menu-icon" title="Команда"></i>
+            <span class="nav-name">О команде</span>
+          </li>
           <li id="nav-logout" class="nav-logout">
               <i class="fas fa-sign-out-alt menu-icon" title="Выход"></i>
               <span class="nav-name">Выход</span>
@@ -127,6 +144,13 @@ export default class Menu extends statistics {
     <i class="fas fa-project-diagram main-stats-btn" id="main-stats" style="position: absolute; right: 0"></i>
     <div class="user-stats" id="user-stats">
         <h2 class="stats-username"></h2>
+        <div class="user-progress-bar">
+          <div class="user-level"></div>
+          <div class="user-experience">
+            <span class="user-experience-value"></span>
+             <div class="user-progress-bar-progress"></div>
+          </div>
+        </div>
         <i class="fas fa-chevron-right stats-width stats-closed"></i>
         <div class="stats-month">${moment().locale('ru').format('MMMM')}</div>
         <canvas id="stats-chart" width="1000" height="1000"></canvas>

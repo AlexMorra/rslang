@@ -33,9 +33,170 @@
 
 .system-message {
     padding: 10px 15px;
-    background-color: #0b0b2a;
-    color: white;
+    background-color: white;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    box-shadow: 0 0 10px 0 gray;
 }
 
+/* Statistic */
 
+.statistic {
+    margin: 0 auto;
+    width: 25%;
+    border-radius: 3%;
+    background-color: #ffffff;
+    box-shadow: 0px 0px 5px 5px rgba(221, 221, 221, 1);
+    padding: 20px 50px;
+  }
+  
+  .statistic-wrapper {
+    overflow: auto;
+    height: 530px;
+  }
+  
+  .statistic__learned__title, .statistic__not-learned__title {
+    padding: 10px 0;
+    display: flex;
+    align-items: center;
+  }
+  
+  .statistic__learned__quantity, .statistic__not-learned__quantity {
+    margin-left: 5px;
+  }
+  
+  .statistic__learned__quantity {
+    background-color: #01AF61;
+    color: #fff;
+    padding: 0 14px;
+    border-radius: 21px;
+    margin-left: 5px;
+  }
+  
+  .statistic__not-learned__quantity {
+    background-color: #da5b4c;
+    color: #fff;
+    padding: 0 14px;
+    border-radius: 21px;
+    margin-left: 5px;
+  }
+  
+  .statistic__learned__title__wrapper,  .statistic__not-learned__title__wrapper{
+    display: flex;
+    align-items: center;
+    margin-left: 30px;
+  }
+  
+  .statistic__el__wrapper {
+    display: flex;
+    padding: 10px 0;
+    justify-content: flex-start;
+    position: relative;
+    align-items: center;
+  }
+  
+  .statistic__el__delete {
+    position: absolute;
+    right: 0;
+    width: 25px;
+    height: 25px;
+    background-position: center;
+    background-size: 100%;
+    border: 0;
+    background-color: #ffffff;
+    opacity: 0.6;
+    cursor: pointer;
+  }
+  
+  .statistic__el__audio {
+    background-image: url(../assets/images/sound.svg);
+    width: 25px;
+    height: 25px;
+    background-position: center;
+    background-size: 100%;
+    background-repeat: no-repeat;
+    border: 0;
+    background-color: #ffffff;
+    opacity: 1;
+    cursor: pointer;
+  }
+  
+  .statistic__el__delete:hover{
+    opacity: 1;
+    background-color: #f8f2ee;
+  cursor: pointer;
+  transition: all 1s ease;
+  fill: #1a3b71;
+  }
+  
+  .statistic__el__word {
+    margin-left: 8px;
+  }
+  
+  .statistic__el__translate {
+    margin-left: 8px;
+    color: rgba(14, 30, 37, 0.7);
+  }
+  
+  .statistic__el__transcription {
+    margin-left: 8px;
+    color: rgba(14, 30, 37, 0.7);
+  }
+  
+  .statistic__btn-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .statistic__btn-container__return, .statistic__btn-container__repeat {
+    color: #ffffff;
+    background: #62bbb9;
+    border-radius: 4px;
+    height: 50px;
+    margin: 20px 10px;
+    border: 0;
+    padding: 0 10px;
+    cursor: pointer;
+  }
+  
+  .statistic__btn-container__return:hover, .statistic__btn-container__repeat:hover {
+    box-shadow: 0 0 0 2px #62bbb9 inset, 0 0 0 4px white inset;
+  }
+  
+  
+  
+  
+  @media(max-width:1600px) {
+    .statistic {
+      width: 35%;
+    }
+  }
+  
+  @media(max-width:1300px) {
+    .statistic {
+      width: 45%;
+    }
+  }
+
+  
+  @media(max-width:700px) {
+    .statistic {
+      width: 65%;
+      padding: 20px 30px;
+    }
+  }
+  
+  @media(max-width:500px) {
+  
+    .statistic__el__transcription {
+      display: none;
+    }
+
+    .statistic {
+      width: 80%;
+      padding: 5px 30px;
+    }
+  }
+  
 
