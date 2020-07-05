@@ -99,7 +99,7 @@ export default class Auth {
           utils.systemMessage('Пользователь уже существует', 'error');
         }
         return response.json();
-      })
+      });
   }
 
   logout() {
@@ -109,7 +109,7 @@ export default class Auth {
   }
 
   loginSuccess() {
-    menu.show();
+    if (!window.logout) menu.show();
     window.currentPage = null;
     let userLoginPage = document.querySelector('.user-login-page');
     if (userLoginPage) userLoginPage.remove();

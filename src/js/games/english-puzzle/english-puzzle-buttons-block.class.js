@@ -14,20 +14,23 @@ export default class EnglishPuzzleButtonsBlock {
 
   checkBtnHandler() {
     let count = 0;
-    const resultCells = document.querySelectorAll('.english-puzzle-main__active-phrase__wrapper__element');
+    const resultCells = document.querySelectorAll('.english-puzzle-main__result-block__element');
     const continuedBtn = document.querySelector('.english-puzzle-main__btn-block__continued');
     const dntKnowBtn = document.querySelector('.english-puzzle-main__btn-block__dnt-know');
-    resultCells.forEach((el, index) => {
-      if (Number(el.getAttribute('index')) === index) {
-        el.style.backgroundColor = '#01AF61';
+    resultCells.forEach(el => {
+      if (el.getAttribute('word') === el.children[0].innerHTML.trim()) {
+        el.children[0].style.backgroundColor = '#01AF61';
         count += 1;
       } else {
-        el.style.backgroundColor = '#da5b4c';
+        el.children[0].style.backgroundColor = '#da5b4c';
       }
     });
     if (count === resultCells.length) {
       continuedBtn.classList.remove('blocked');
       dntKnowBtn.classList.add('blocked');
+      this.getSuccessSound();
+    } else {
+      this.getErrorSound();
     }
   }
 
@@ -43,5 +46,19 @@ export default class EnglishPuzzleButtonsBlock {
       cellsResultBlock[index].append(el);
     });
     checkBtn.classList.remove('blocked');
+  }
+
+  getSuccessSound() {
+    const audio = new Audio();
+    audio.preload = 'auto';
+    audio.src = '../../../assets/sounds/success.mp3';
+    audio.play();
+  }
+
+  getErrorSound() {
+    const audio = new Audio();
+    audio.preload = 'auto';
+    audio.src = '../../../assets/sounds/error.mp3';
+    audio.play();
   }
 }

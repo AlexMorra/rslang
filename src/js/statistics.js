@@ -10,7 +10,7 @@ export default class Statistics {
       data: {
         labels: this.getDaysInMonth(),
         datasets: [{
-          label: 'Correct answers',
+          label: 'Правильных ответов',
           data: this.getData('correctAnswers'),
           backgroundColor: 'rgba(0,255,0,0)',
           borderColor: [
@@ -19,7 +19,7 @@ export default class Statistics {
           borderWidth: 2
         },
         {
-          label: 'Incorrect answers',
+          label: 'Неправильных ответов',
           data: this.getData('incorrectAnswers'),
           backgroundColor: 'rgba(0,255,0,0)',
           borderColor: [
@@ -28,7 +28,7 @@ export default class Statistics {
           borderWidth: 2
         },
         {
-          label: 'Trained words',
+          label: 'Слов тренированно',
           data: this.getData('words'),
           backgroundColor: 'rgba(0,255,0,0)',
           borderColor: [
@@ -54,9 +54,7 @@ export default class Statistics {
   }
 
   getDaysInMonth() {
-    return Array.from({ length: moment().daysInMonth() }, ((v, k) => {
-      return k + 1 < 10 ? `0${k + 1}` : (k + 1).toString();
-    }));
+    return Array.from({ length: moment().daysInMonth() }, ((v, k) => k + 1));
   }
 
   getData(value) {
