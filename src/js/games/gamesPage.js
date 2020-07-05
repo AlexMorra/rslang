@@ -38,6 +38,7 @@ export default class GamesPage {
         break;
       case 'Audio Challenge':
         new Audiocall().show();
+        break;
       case 'Speak It':
         new SpeakIt().showStartPage();
         break;
