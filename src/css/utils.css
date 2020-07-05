@@ -98,7 +98,6 @@
   .statistic__el__delete {
     position: absolute;
     right: 0;
-    background-image: url(../assets/icons/trash.svg);
     width: 25px;
     height: 25px;
     background-position: center;
@@ -110,19 +109,24 @@
   }
   
   .statistic__el__audio {
-    background-image: url(../assets/icons/volume.svg);
+    background-image: url(../assets/images/sound.svg);
     width: 25px;
     height: 25px;
     background-position: center;
     background-size: 100%;
+    background-repeat: no-repeat;
     border: 0;
     background-color: #ffffff;
     opacity: 1;
     cursor: pointer;
   }
   
-  .statistic__el__delete:hover {
+  .statistic__el__delete:hover{
     opacity: 1;
+    background-color: #f8f2ee;
+  cursor: pointer;
+  transition: all 1s ease;
+  fill: #1a3b71;
   }
   
   .statistic__el__word {
@@ -187,6 +191,11 @@
   
     .statistic__el__transcription {
       display: none;
+    }
+
+    .statistic {
+      width: 80%;
+      padding: 5px 30px;
     }
   }
   

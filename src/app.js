@@ -38,7 +38,7 @@ auth.authorized().then(authorized => {
     setTimeout(() => {
       // uncomment if you want to delete all words. And refresh page :D
       // usersAppState.getAllWords().forEach(word => {
-      //   usersAppState.deleteUserWord(word.wordId).then(() => console.log('------------------'));
+      //  usersAppState.deleteUserWord(word.wordId).then(() => console.log('------------------'));
       // });
     }, 2000);
   }
