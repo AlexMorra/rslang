@@ -141,11 +141,12 @@ export default class SpeakItMainBlock {
         setTimeout(() => input.value = '', 3000);
       };
     }
-    function nextStageBtnHadler() {
+    function nextStageBtnHandler() {
+      this.getAudioError();
       this.getNextStage();
     }
     startRecognitionBtn.addEventListener('click', startRecoginitionHandler.bind(this));
-    nextStageBtn.addEventListener('click', nextStageBtnHadler.bind(this));
+    nextStageBtn.addEventListener('click', nextStageBtnHandler.bind(this));
   }
 
   addAudioHandler() {
