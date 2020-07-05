@@ -2,7 +2,7 @@ const GAMES = [
   {
     id: 'Speak It',
     icon: 'microphone.png',
-    title: 'Speak It'
+    title: 'Скажи это'
   },
   {
     id: 'English Puzzle',

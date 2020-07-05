@@ -28,8 +28,8 @@ export default class SpeakItMainBlock {
       </div>
       <div class="speak-it__main__main-block__cards-block"></div>
       <div class="speak-it__main__main-block__buttons-block">
-        <button class="speak-it__main__main-block__buttons-block__start-recognition">recognition</button>
-        <button class="speak-it__main__main-block__buttons-block__next">пропустить</button>
+        <button class="speak-it__main__main-block__buttons-block__start-recognition">Начать</button>
+        <button class="speak-it__main__main-block__buttons-block__next">Пропустить</button>
       </div>
     </div>
     `;
@@ -107,7 +107,8 @@ export default class SpeakItMainBlock {
   getNextStage() {
     if (this.currentStage !== 0) {
       const currentCard = document.querySelector(`[index="${this.currentStage - 1}"]`);
-      currentCard.style.border = '1px solid black';
+      currentCard.style.opacity = '0.5';
+      currentCard.style.border = '2px solid #f7cd92';
       currentCard.children[0].classList.add('blocked');
       currentCard.children[0].style.pointerEvents = 'none';
     }
@@ -121,7 +122,7 @@ export default class SpeakItMainBlock {
       this.getImage();
       this.getTranslate();
       this.addAudioHandler();
-      input.textContent = '';
+      input.value = '';
     }
   }
 
@@ -129,7 +130,6 @@ export default class SpeakItMainBlock {
     const startRecognitionBtn = document.querySelector('.speak-it__main__main-block__buttons-block__start-recognition');
     const nextStageBtn = document.querySelector('.speak-it__main__main-block__buttons-block__next');
     function startRecoginitionHandler() {
-      console.log('asd');
       const input = document.querySelector('.speak-it__main__main-block__input');
       const recognition = new webkitSpeechRecognition();
       recognition.lang = 'en';
@@ -138,6 +138,7 @@ export default class SpeakItMainBlock {
         let result = event.results[0][0].transcript.toLowerCase();
         input.value = result;
         this.checkResult();
+        setTimeout(() => input.value = '', 3000);
       };
     }
     function nextStageBtnHadler() {
@@ -167,6 +168,9 @@ export default class SpeakItMainBlock {
     if (input.value === this.userWords[this.currentStage - 1].word) {
       this.statistic[this.currentStage - 1].isLearned = true;
       this.getNextStage();
+      this.getAudioSuccess();
+    } else {
+      this.getAudioError();
     }
   }
 
@@ -179,5 +183,19 @@ export default class SpeakItMainBlock {
       }
     });
     return this.statistic;
+  }
+
+  getAudioSuccess() {
+    const audio = new Audio();
+    audio.preload = 'auto';
+    audio.src = '../../../assets/sounds/success.mp3';
+    audio.play();
+  }
+
+  getAudioError() {
+    const audio = new Audio();
+    audio.preload = 'auto';
+    audio.src = '../../../assets/sounds/error.mp3';
+    audio.play();
   }
 }

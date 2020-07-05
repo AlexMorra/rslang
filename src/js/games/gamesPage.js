@@ -36,7 +36,7 @@ export default class GamesPage {
         skin.show();
         break;
       case 'Speak It':
-        new SpeakIt().showMainPage();
+        new SpeakIt().showStartPage();
         break;
       case 'Savanna':
         utils.destroy();

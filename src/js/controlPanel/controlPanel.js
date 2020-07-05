@@ -51,27 +51,27 @@ export default class ControlPanel extends wordsCardList {
 
   getDayProgress() {
     let dayProgressPercent = document.querySelector('.day-progress-percent');
-    let percent =  usersAppState.getTodayProgress() * 100 / usersAppState.getExperienceGoal()
+    let percent = usersAppState.getTodayProgress() * 100 / usersAppState.getExperienceGoal();
     dayProgressPercent.textContent = `${percent >= 100 ? 100 : percent}%`;
     let ctx = document.getElementById('day-progress-chart');
     let myChart = new Chart(ctx, {
       type: 'doughnut',
       data: {
         datasets: [{
-          data: [usersAppState.getTodayProgress() , usersAppState.getTodayProgress() >= usersAppState.getExperienceGoal() ? 0
-                                                    : usersAppState.getExperienceGoal() - usersAppState.getTodayProgress()],
+          data: [usersAppState.getTodayProgress(), usersAppState.getTodayProgress() >= usersAppState.getExperienceGoal() ? 0
+            : usersAppState.getExperienceGoal() - usersAppState.getTodayProgress()],
           backgroundColor: [
             'rgba(54,162,235,0.6)',
-            'rgba(54,162,235,0.11)',
+            'rgba(54,162,235,0.11)'
           ],
           borderColor: [
             'rgba(54,162,235,0.6)',
-            'rgba(54,162,235,0.6)',
+            'rgba(54,162,235,0.6)'
             // 'rgba(255, 99, 132, 1)',
           ],
           borderWidth: 1
         }]
-      },
+      }
       // options: options
     });
   }
