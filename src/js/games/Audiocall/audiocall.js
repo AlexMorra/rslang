@@ -13,7 +13,9 @@ export default class Audiocall {
     // выбираем 50 елементов из массива слов
     this.allWords = usersAppState.getTrainingWords(50);
     this.wordsWrapper = '';
-    this.currentPlayed = '';
+    this.currentPlayed = null;
+    this.arrayOfGuessed = [];
+    this.arrayOfMissed = [];
   }
 
   show() {
@@ -39,13 +41,14 @@ export default class Audiocall {
   }
 
   shuffle(array) {
-    let m = array.length; let
-      i;
+    const newArray = array.slice();
+    let m = array.length;
+    let i;
     while (m) {
       i = Math.floor(Math.random() * m--);
-      [array[m], array[i]] = [array[i], array[m]];
+      [newArray[m], newArray[i]] = [newArray[i], newArray[m]];
     }
-    return array;
+    return newArray;
   }
 
   handleStart() {
@@ -55,7 +58,7 @@ export default class Audiocall {
     const currentWords = this.allWords.splice(0, 5);
     this.currentPlayed = currentWords[0];
     // Перетасовываем массив
-    this.shuffle(currentWords);
+    const shuffledWords = this.shuffle(currentWords);
     // Выбираем [последний]
     // Проигрываем звук
     this.playGameSound(`../../../assets/${this.currentPlayed.audio}`);
@@ -64,7 +67,7 @@ export default class Audiocall {
     // startButton.classList.toggle('purple-gradient');
     // startButton.classList.toggle('repeat');
     /* if (!gameMogeSwitch.checked) return; */
-    this.setAudiocallWrapper(currentWords);
+    this.setAudiocallWrapper(shuffledWords);
   }
 
   checkCorrectAnswer(e) {
@@ -74,9 +77,12 @@ export default class Audiocall {
     if (playableTarget && !playableTarget.classList.contains('already-checked')) {
     // выяснить какого слова касается карточка
     // если слово совпало:
-      if (playableTarget.innerHTML === this.currentPlayed.wordTranslate) {
+      if (playableTarget.dataset.word === this.currentPlayed.wordTranslate) {
         // добавляем галочку
         playableTarget.insertAdjacentHTML('beforeEnd', '<div class="correct"></div>');
+        // добавляем в массив угаладанных
+        console.log(this.currentPlayed);
+        this.arrayOfGuessed.push(this.currentPlayed);
         // если слов больше нету ->
         if (this.allWords.length === 0) {
           if (document.querySelector('.wrong') === null) {
@@ -85,7 +91,7 @@ export default class Audiocall {
             // проигрываем звук прохождения теста
             this.playGameSound('../../../assets/sounds/game-over.mp3'); /* success */
           } else {
-            this.mainArea.innerHTML = '<img src="Assets/img/failure.jpg" alt="failure">';
+            utils.getStatistic(this.statistic); // статистика, шо дает не понятно
             this.playGameSound('Assets/audio/failure.mp3');
           }
           // возврат в экран выбора категорий и return
@@ -111,6 +117,8 @@ export default class Audiocall {
       else {
         // добавляем пустую звездочку
         playableTarget.insertAdjacentHTML('beforeEnd', '<span class="wrong"></span>');
+        // добавляем в массив не угаладанных
+        this.arrayOfMissed.push(this.currentPlayed);
         // проигрываем звук поражения
         this.playGameSound('../../../assets/sounds/error.mp3');
         isError++;
@@ -140,7 +148,7 @@ export default class Audiocall {
 
   setAudiocallWord(currentWords) {
     console.log(currentWords);
-    this.wordsWrapper.innerHTML = currentWords.map((word) => `<div class="word" data-audiosrc="../../../assets/${word.word}">${word.wordTranslate}</div>`).join('');
+    this.wordsWrapper.innerHTML = currentWords.map((word) => `<div class="word" data-word="${word.wordTranslate}" data-audiosrc="../../../assets/${word.word}">${word.wordTranslate}</div>`).join('');
     this.wordsWrapper.onclick = (e) => {
       this.checkCorrectAnswer(e);
     };
