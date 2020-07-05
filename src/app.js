@@ -48,9 +48,12 @@ auth.authorized().then(authorized => {
     if (window.currentPage !== 'auth') {
       auth.authorized().then(authorized => {
         if (!authorized) {
+          window.logout = true;
           auth.showLoginPage();
         }
       });
     }
   }, 10000);
 });
+
+console.log(usersAppState);

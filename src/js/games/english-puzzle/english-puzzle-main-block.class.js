@@ -139,7 +139,7 @@ export default class EnglishPuzzleMainBlock {
       wordClick();
     } else {
       this.handingStatistic();
-      utils.getStatistic(this.statistic)
+      utils.getStatistic(this.statistic);
     }
   }
 
@@ -151,7 +151,7 @@ export default class EnglishPuzzleMainBlock {
         el.isLearned = false;
       }
     });
-     this.statistic.forEach(el => {
+    this.statistic.forEach(el => {
       if (el.isLearned) {
         this.usersAppState.updateProgressWord(el.id, true);
       } else {
@@ -160,5 +160,4 @@ export default class EnglishPuzzleMainBlock {
     });
     return this.statistic;
   }
-
 }
