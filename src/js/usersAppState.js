@@ -4,16 +4,18 @@ import moment from 'moment';
 export default class State {
   constructor() {
     // user options
+    this.trainingGoal = 2;
     this.wordsPerDay = 1;
-    this.cardsPerDay = 1;
-    this.username = '';
-    this.examplesUsing = false;
-    this.explanationExamples = false;
+    this.username = 'User';
+    this.examplesUsing = true;
+    this.explanationExamples = true;
     this.nightMode = false;
-    this.picturesWords = false;
-    this.transcription = false;
-    this.translateWord = false;
-    this.playAudio = false;
+    this.picturesWords = true;
+    this.transcription = true;
+    this.translateWord = true;
+    this.playAudio = true;
+    this.userLevel = 1;
+    this.userExp = 0;
     // game options
     this.learningWords = [];
     this.difficultWords = [];
@@ -218,20 +220,41 @@ export default class State {
       });
   }
 
+  getUserSettingsData(){
+    return {
+      wordsPerDay: this.wordsPerDay,
+      optional: {
+        trainingGoal: this.trainingGoal,
+        username: this.username,
+        examplesUsing: this.examplesUsing,
+        explanationExamples: this.explanationExamples,
+        nightMode: this.nightMode,
+        picturesWords: this.picturesWords,
+        transcription: this.transcription,
+        translateWord: this.translateWord,
+        playAudio: this.playAudio,
+        userLevel: this.userLevel,
+        userExp: this.userExp,
+      }
+    }
+  }
+
   saveSettings(settings) {
     console.log(settings, 'SAVE');
     let options = settings.optional;
     this.wordsPerDay = settings.wordsPerDay;
     if (options) {
-      this.cardsPerDay = options.cardsPerDay;
-      this.username = options.username;
-      this.nightMode = options.nightMode;
-      this.translateWord = options.translateWord;
-      this.explanationExamples = options.explanationExamples;
-      this.examplesUsing = options.examplesUsing;
-      this.transcription = options.transcription;
-      this.picturesWords = options.picturesWords;
-      this.playAudio = options.playAudio;
+      this.trainingGoal = options.trainingGoal || 2;
+      this.username = options.username || 'User';
+      this.nightMode = options.nightMode || false;
+      this.translateWord = options.translateWord || true;
+      this.explanationExamples = options.explanationExamples || true;
+      this.examplesUsing = options.examplesUsing || true;
+      this.transcription = options.transcription || true;
+      this.picturesWords = options.picturesWords || true;
+      this.playAudio = options.playAudio || true;
+      this.userLevel = options.userLevel || 1;
+      this.userExp = options.userExp || 0;
     }
   }
 
@@ -315,6 +338,14 @@ export default class State {
     return data;
   }
 
+  getTodayProgress() {
+    return this.userStatistics.optional[moment().format('MM D YYYY')].correctAnswers
+  }
+
+  getExperienceGoal() {
+    return this.trainingGoal * 10
+  }
+
   getNewWords() {
     // new word is the word when progress 0
     return this.learningWords.filter(word => word.optional.progress === 0).length;
@@ -322,7 +353,8 @@ export default class State {
 
   isNewWord(wordId) {
     // new word is the word when progress 0
-    return this.getAllWords().find(word => word.wordId === wordId).optional.progress === 0;
+    const word = this.getAllWords().find(word => word.wordId === wordId);
+    return word ? word.optional.progress === 0 : true;
   }
 
   getTrainingWords(count = 10) {
@@ -337,12 +369,22 @@ export default class State {
         card.forEach(word => {
           if (!words.includes(word) && words.length < count) {
             words.push(word);
-            this.createUserWord(word.id, index + 1);
+            this.createUserWord(word.id, index + 1)
+              .then(response => this.learningWords.push(response));
           }
         });
       });
     }
     return words;
+  }
+
+  increaseExperience() {
+    this.userExp += 1;
+    if (this.userExp >= 50) {
+      this.userLevel += 1;
+      this.userExp = 0;
+    }
+    this.setUserSettings(this.getUserSettingsData());
   }
 
   // UPDATE SINGLE USER OPTIONS
@@ -391,6 +433,28 @@ export default class State {
     });
   }
 
+  // update optional.learnedWord
+  updateLearnedWord(wordId, value) {
+    if (value) {
+      const index = this.learningWords.findIndex(word => word.wordId === wordId);
+      this.userWord = this.learningWords.splice(index, 1)[0];
+      this.learnedWords.push(this.userWord);
+    } else {
+      const index = this.learnedWords.findIndex(word => word.wordId === wordId);
+      this.userWord = this.learnedWords.splice(index, 1)[0];
+      this.learningWords.push(this.userWord);
+    }
+    this.userWord.optional.learnedWord = value;
+    const wordData = {
+      difficulty: this.userWord.difficulty,
+      optional: this.userWord.optional
+    };
+    return this.updateUserWord(wordId, wordData).then(response => {
+      console.log(response, 'updated learned word');
+      return response;
+    });
+  }
+
   // update optional.progress
   updateProgressWord(wordId, value) {
     this.userLearningWord = this.learningWords.find(word => word.wordId === wordId);
@@ -398,16 +462,17 @@ export default class State {
     this.userWord = this.userDifficultWord || this.userLearningWord;
     if (value) {
       this.userWord.optional.progress = this.userWord.optional.progress >= 5
-        ? this.userWord.optional.progress
-        : this.userWord.optional.progress + 1;
+                                        ? this.userWord.optional.progress
+                                        : this.userWord.optional.progress + 1;
       this.wordData = {
         difficulty: this.userWord.difficulty,
         optional: this.userWord.optional
       };
+      this.increaseExperience();
     } else {
       this.userWord.optional.progress = this.userWord.optional.progress <= -5
-        ? this.userWord.optional.progress
-        : this.userWord.optional.progress - 1;
+                                        ? this.userWord.optional.progress
+                                        : this.userWord.optional.progress - 1;
       this.wordData = {
         difficulty: this.userWord.difficulty,
         optional: this.userWord.optional
@@ -416,6 +481,10 @@ export default class State {
     // update difficulty if progress -5
     if (this.userWord.optional.progress <= -5) {
       this.updateDifficultWord(wordId, true);
+    }
+    // update learned if progress 5
+    if (this.userWord.optional.progress >= 5) {
+      this.updateLearnedWord(wordId, true);
     }
     // take stats here
     this.setUserStatistics(this.getStatisticsData(wordId, value));

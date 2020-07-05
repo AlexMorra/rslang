@@ -12,7 +12,7 @@ const GAMES = [
   {
     id: 'Savanna',
     icon: 'africa.png',
-    title: 'Savanna'
+    title: 'Саванна'
   },
   {
     id: 'Audio Challenge',

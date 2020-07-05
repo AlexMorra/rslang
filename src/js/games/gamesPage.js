@@ -1,10 +1,10 @@
 import GAMES from './gamesConstants';
 import EnglishPuzzle from './english-puzzle/english-puzzle';
 import SKIN from './skinWalkers/startWindow';
+import SAVANNA from './savanna/savanna';
 import Sprint from './sprint/sprint';
 import SpeakIt from './speak-it/speak-it';
 import * as utils from '../utils';
-
 export default class GamesPage {
   constructor() {
     this.element = null;
@@ -37,6 +37,11 @@ export default class GamesPage {
         break;
       case 'Speak It':
         new SpeakIt().showMainPage();
+        break;
+      case 'Savanna':
+        utils.destroy();
+        new SAVANNA().show();
+        break;
     }
   }
 

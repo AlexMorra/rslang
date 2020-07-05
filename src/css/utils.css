@@ -33,8 +33,10 @@
 
 .system-message {
     padding: 10px 15px;
-    background-color: #0b0b2a;
-    color: white;
+    background-color: white;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    box-shadow: 0 0 10px 0 gray;
 }
 
 /* Statistic */
