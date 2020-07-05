@@ -44,7 +44,7 @@
     box-sizing: border-box;
 }
 
-.into__button:hover {
+.english-puzzle__start-page__start-btn:hover {
   opacity: .9;
 }
 
@@ -107,7 +107,7 @@
 
 .english-puzzle-main__control-block__hints__audio-repeat {
   border: 0;
-  background-image: url(../../../assets/english-puzzle/sound.svg);
+  background-image: url(../../../assets/images/sound.svg);
   width: 50px;
   height: 50px;
   background-size: 80%;

@@ -1,5 +1,7 @@
 import { usersAppState } from '../app';
 import EnglishPuzzle from '../js/games/english-puzzle/english-puzzle';
+import Savanna from './games/savanna/savanna'
+import Sprint from './games/sprint/sprint'
 let mainArea = document.querySelector('.main-area');
 
 export function destroy() {
@@ -93,7 +95,7 @@ function createStatistic(statisticArray) {
           <p class="statistic__el__word">${el.word}</p>
           <p class="statistic__el__transcription">${el.transcription}</p>
           <p class="statistic__el__translate">${el.translate}</p>
-          <button id="${el.id}" class="statistic__el__delete" title="Удалить из словаря"></button>
+          <svg class="statistic__el__delete" id="${el.id}" title="Удалить из словаря" src="../assets/images/delete.svg"></svg>
         </div>
       `;
       notLearnedNode.append(statisticEl.content);
@@ -116,7 +118,9 @@ function addEventHandlerInStatistic() {
   deleteBtns.forEach(el => {
     el.addEventListener('click', () => {
       usersAppState.deleteUserWord(el.id, true);
+      systemMessage(`Слово удалено из словоря`, 'success');
       el.style.pointerEvents = 'none';
+      el.style.opacity = '0.2';
     });
   });
   const returnBtn = document.querySelector('.statistic__btn-container__return');
@@ -127,6 +131,28 @@ function addEventHandlerInStatistic() {
   const repeatBtn = document.querySelector('.statistic__btn-container__repeat');
   repeatBtn.addEventListener('click', () => {
     destroy();
-    new EnglishPuzzle().showMainPage();
+    console.log(window.currentPage)
+    switch (window.currentPage) {
+      case 'English Puzzle':
+        new EnglishPuzzle().showMainPage();
+        break;
+      case 'Sprint':
+        new Sprint(). getGameElements();
+        break;
+    /* case: 'SpeakIt':
+        new SpeakIt().showMainPage();
+        break; */
+      case 'Savanna':
+        new Savanna().startAgain();
+        break;
+      /* case: 'Skin Walker':
+        new EnglishPuzzle().showMainPage();
+        break; */
+      /* case: 'AudioChellange':
+        new EnglishPuzzle().showMainPage();
+        break; */
+        
+    }
+
   });
 }

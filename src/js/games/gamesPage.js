@@ -20,11 +20,10 @@ export default class GamesPage {
   cardClickHandler(e) {
     const game = e.target.id;
     console.log(game);
-
+    window.currentPage = e.target.id;
     switch (game) {
       case 'English Puzzle':
-        this.englishPuzzle = new EnglishPuzzle();
-        this.englishPuzzle.showStartPage();
+        new EnglishPuzzle().showStartPage();
         break;
       case 'Sprint':
         utils.destroy();

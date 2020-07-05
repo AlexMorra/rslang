@@ -63,7 +63,7 @@ export default class EnglishPuzzleMainBlock {
       const phraseElement = document.createElement('template');
       phraseElement.innerHTML = `
       <div class="english-puzzle-main__active-phrase__wrapper">
-        <div class="english-puzzle-main__active-phrase__wrapper__element" index="${i}" word="${this.arrayWords[this.currentStage - 1].textExampleArray[i]}" draggable="true">
+        <div class="english-puzzle-main__active-phrase__wrapper__element" index="${i}" draggable="true">
         ${this.arrayWords[this.currentStage - 1].textExampleArray[i]}</div>
       </div>
       `;
@@ -80,7 +80,7 @@ export default class EnglishPuzzleMainBlock {
     for (let i = 0; i < this.arrayWords[this.currentStage - 1].textExampleArray.length; i += 1) {
       const resultElement = document.createElement('template');
       resultElement.innerHTML = `
-      <div class="english-puzzle-main__result-block__element" isFree="true">
+      <div class="english-puzzle-main__result-block__element" word="${this.arrayWords[this.currentStage - 1].textExampleArray[i]}" isFree="true">
       </div>
       `;
       resultBlock.append(resultElement.content);
@@ -117,7 +117,7 @@ export default class EnglishPuzzleMainBlock {
   }
 
   nextStage() {
-    if (this.currentStage !== 10) {
+    if (this.currentStage !== 1) {
       const dntKnowBtn = document.querySelector('.english-puzzle-main__btn-block__dnt-know');
       const continuedBtn = document.querySelector('.english-puzzle-main__btn-block__continued');
       const checkBtn = document.querySelector('.english-puzzle-main__btn-block__check');
@@ -160,4 +160,5 @@ export default class EnglishPuzzleMainBlock {
     });
     return this.statistic;
   }
+
 }
