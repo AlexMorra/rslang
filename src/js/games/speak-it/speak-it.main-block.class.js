@@ -110,7 +110,7 @@ export default class SpeakItMainBlock {
 
   getNextStage() {
     if (this.currentStage === 10) {
-      utils.getStatistic(this.handingStatistic());
+      utils.getStatistic(this.statistic);
       this.currentStage += 1;
     } else {
       this.currentStage += 1;
@@ -195,17 +195,6 @@ export default class SpeakItMainBlock {
       this.getAudioError();
       this.getNextStage();
     }
-  }
-
-  handingStatistic() {
-    this.statistic.forEach(el => {
-      if (el.isLearned) {
-        usersAppState.updateProgressWord(el.id, true);
-      } else {
-        usersAppState.updateProgressWord(el.id, false);
-      }
-    });
-    return this.statistic;
   }
 
   getAudioSuccess() {
