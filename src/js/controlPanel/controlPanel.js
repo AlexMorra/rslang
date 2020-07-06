@@ -112,7 +112,7 @@ export default class ControlPanel extends wordsCardList {
                   <hr>
                   <div class="stats-part2">
                       <div class="total-word-practice">
-                          <div>Пройдено слов по практие</div>
+                          <div>Пройдено слов</div>
                           <span>${usersAppState.learnedWords.length}</span>
                       </div>
                       <div class="correct-repetitions">

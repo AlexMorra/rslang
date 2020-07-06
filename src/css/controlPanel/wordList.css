@@ -54,6 +54,17 @@
     cursor: pointer;
 }
 
+.word-list .word-list-row .word-transcription {
+    color: #605a56;
+}
+
 .word-list .word-list-row .dash {
     margin: 0 10px;
 }
+
+@media  (max-width : 400px) {
+    .word-list {
+        font-size: 0.8em;
+    }
+}
+
