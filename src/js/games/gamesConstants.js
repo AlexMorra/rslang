@@ -22,7 +22,7 @@ const GAMES = [
   {
     id: 'Sprint',
     icon: 'sprint.png',
-    title: 'Sprint'
+    title: 'Спринт'
   },
   {
     id: 'Skin Walker',
