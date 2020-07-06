@@ -10,16 +10,24 @@ console.log(usersAppState);
 export default class Audiocall {
   constructor() {
     this.mainArea = document.querySelector('.main-area');
-    // выбираем 50 елементов из массива слов
-    this.allWords = usersAppState.getTrainingWords(50);
-    this.wordsWrapper = '';
-    this.currentPlayed = '';
+    this.wordsWrapper = null;
+    this.currentPlayed = null;
+    this.startButton = null;
+    this.wordsListLength = 50;
+    this.allWords = usersAppState.getTrainingWords(this.wordsListLength);
+    this.intro = this.getIntro();
     this.arrayOfGuessed = [];
     this.arrayOfMissed = [];
+    this.startBell = new Audio('./assets/sounds/start-bell.wav');
+    this.errorSound = new Audio('./assets/sounds/error.mp3');
+    this.successSound = new Audio('./assets/sounds/success.mp3');
+    this.gameOverSound = new Audio('./assets/sounds/game-over.wav');
   }
 
   show() {
     utils.destroy();
+    // this.mainArea.append(this.intro);
+    // this.getIntro();
     this.handleStart();
   }
 
@@ -79,7 +87,7 @@ export default class Audiocall {
     // если слово совпало:
       if (playableTarget.dataset.word === this.currentPlayed.wordTranslate) {
         // добавляем галочку
-        playableTarget.insertAdjacentHTML('beforeEnd', '<div class="correct"></div>');
+        playableTarget.insertAdjacentHTML('beforeEnd', '<span class="correct"></span>');
         // добавляем в массив угаладанных
         console.log(this.currentPlayed);
         this.arrayOfGuessed.push(this.currentPlayed);
@@ -122,6 +130,27 @@ export default class Audiocall {
         // ожидание слова
       }
     }
+  }
+
+  getIntro() {
+    const introTemplate = `
+      <div class="intro">
+        <h1 class="intro__title">Аудиовызов</h1>
+        <p class="intro__description">Тренировка Аудиовызов развивает словарный запас.</br>
+          В процессе игры будут звучать английские слова, которые нужно угадать среди предлагаемых.</p>
+        <button class="into__button button">Начать</button>
+      </div>`.trim();
+
+    setTimeout(() => {
+      this.mainArea.innerHTML = introTemplate;
+    }, 400);
+  }
+
+  startButtonClickHandler() {
+    this.startButton.addEventListener('click', () => {
+      this.intro.remove();
+      this.startBell.play();
+    });
   }
 
   setAudiocallWrapper(currentWords) {

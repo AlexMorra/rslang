@@ -117,4 +117,20 @@ body {
  .into__button:hover {
      opacity: .9;
  }
+
+ @media (max-width: 700px) {
+    .word-wrapper {
+        display: flex;
+        flex-direction: column;
+        width: initial;
+    }
+
+    .wrong {
+        left: initial;
+    }
+
+    .correct {
+        left: initial;
+    }
+ }
  
