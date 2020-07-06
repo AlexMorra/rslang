@@ -12,7 +12,7 @@ export default class SpeakItHintsBlock {
     hintsBlock.innerHTML = `
     <div class="speak-it__main__hints-block">
       <button class="speak-it__main__hints-block__audio"></button>
-      <button class="speak-it__main__hints-block__transcription">transcription</button>
+      <button class="speak-it__main__hints-block__transcription"></button>
     </div>
     `;
     targetNode.append(hintsBlock.content);
