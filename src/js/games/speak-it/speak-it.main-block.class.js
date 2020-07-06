@@ -114,6 +114,7 @@ export default class SpeakItMainBlock {
     } else {
       this.currentStage += 1;
       const currentWord = document.querySelector(`[index="${this.currentStage - 1}"]`);
+      this.addAudioHandler();
       if (this.currentStage !== 1) {
         console.log(this.currentStage);
         const prevWord = document.querySelector(`[index="${this.currentStage - 2}"]`);
@@ -171,6 +172,7 @@ export default class SpeakItMainBlock {
         audio.preload = 'auto';
         audio.src = `https://raw.githubusercontent.com/yarkin13/rslang-data/master/${audioSrc}`;
         audio.play();
+        console.log('asd');
       }
       audioBtn.addEventListener('click', audioHandler.bind(this));
     }
