@@ -37,7 +37,8 @@ export default class ControlPanel extends wordsCardList {
     let cardsWrapper = template.querySelector('.cp-cards');
     let cardTemplate = document.createElement('template');
     Object.keys(wordCards).forEach(card => {
-      let userWordsInCard = usersAppState.getAllWords().filter(obj => obj.difficulty === card).length;
+      let userWordsInCard = usersAppState.getAllWords()
+        .filter(obj => obj.difficulty === card).length;
       cardTemplate.innerHTML = `
              <div class="cp-card" data-card="${card}">
                 <div class="card-title">Карточка ${card}</div>
@@ -57,6 +58,7 @@ export default class ControlPanel extends wordsCardList {
     let myChart = new Chart(ctx, {
       type: 'doughnut',
       data: {
+        labels: ['Текущий опыт', 'Осталось'],
         datasets: [{
           data: [usersAppState.getTodayProgress(), usersAppState.getTodayProgress() >= usersAppState.getExperienceGoal() ? 0
             : usersAppState.getExperienceGoal() - usersAppState.getTodayProgress()],
@@ -71,8 +73,12 @@ export default class ControlPanel extends wordsCardList {
           ],
           borderWidth: 1
         }]
+      },
+      options: {
+        legend: {
+          display: false
+        }
       }
-      // options: options
     });
   }
 
@@ -122,7 +128,7 @@ export default class ControlPanel extends wordsCardList {
               <div class="cp-stats-progress">
                   <h2 class="stats-title">Прогресс</h2>
                   <div class="day-progress-wrapper">
-                    <span class="day-progress-percent">24%</span>
+                    <span class="day-progress-percent"></span>
                     <canvas id="day-progress-chart" width="200" height="200"></canvas>
                   </div>
               </div>

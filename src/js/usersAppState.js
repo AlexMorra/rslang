@@ -309,7 +309,10 @@ export default class State {
       })
       .then(responseJson => {
         console.log(responseJson, 'GET USER STATISTICS');
-        if (responseJson) this.userStatistics = responseJson;
+        if (responseJson) {
+          this.userStatistics = responseJson;
+          this.getStatisticsData();
+        }
         return responseJson;
       });
   }
