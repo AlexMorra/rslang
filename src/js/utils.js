@@ -50,6 +50,13 @@ function createStatistic(statisticArray) {
     }
     return acc;
   }, 0);
+  statisticArray.forEach(el => {
+    if (el.isLearned) {
+      usersAppState.updateProgressWord(el.id, true);
+    } else {
+      usersAppState.updateProgressWord(el.id, false);
+    }
+  });
   const statisticNode = document.createElement('template');
   statisticNode.innerHTML = `
   <div class="tab-wrapper">
