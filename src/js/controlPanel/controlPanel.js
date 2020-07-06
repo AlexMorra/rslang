@@ -106,7 +106,7 @@ export default class ControlPanel extends wordsCardList {
                       </div>
                       <div class="best-series">
                           <div>Лучшая серия</div>
-                          <span>0</span>
+                          <span>${usersAppState.bestSeries}</span>
                       </div>
                   </div>
                   <hr>
