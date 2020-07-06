@@ -11,6 +11,7 @@ import Dictionary from './js/dictionary';
 import Account from './js/account';
 import GamesPage from './js/games/gamesPage';
 import TrainingCards from './js/trainingCards/trainingCards';
+// import Audiocall from './js/games/Audiocall/audiocall';
 import Team from './js/team/team';
 
 // INIT
@@ -38,7 +39,7 @@ auth.authorized().then(authorized => {
     setTimeout(() => {
       // uncomment if you want to delete all words. And refresh page :D
       // usersAppState.getAllWords().forEach(word => {
-      //   usersAppState.deleteUserWord(word.wordId).then(() => console.log('------------------'));
+      // usersAppState.deleteUserWord(word.wordId).then(() => console.log('------------------'));
       // });
     }, 2000);
   }
