@@ -101,10 +101,10 @@
 .speak-it__main__hints-block__audio {
   width: 37px;
   height: 37px;
-  background-image: url(../../../assets/icons/volume.svg);
+  background-image: url(../../../assets/images/sound.svg);
   background-repeat: no-repeat;
   background-position: center;
-  background-size: 100%;
+  background-size: 75%;
   border: 0;
   background-color: #ffffff;
 }
@@ -174,7 +174,9 @@
 }
 
 .active {
-  border: 2px solid #00c49d;
+  animation: wave 1s linear;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
 }
 
 .speak-it__main__main-block__image-block {
@@ -195,6 +197,7 @@
 }
 
 .speak-it__main__main-block__buttons-block__start-recognition, .speak-it__main__main-block__buttons-block__next {
+  position: relative;
   width: 150px;
   height: 50px;
   margin: 20px 30px;
@@ -223,3 +226,38 @@
   justify-content: center;
 }
 
+@keyframes wave {
+  0% {
+      background-color: #fff;
+  }
+  50% {
+      background-color: #b8c6ff;
+  }
+  100% {
+      background-color: #3c649f;
+  }
+}
+
+@keyframes speak {
+  0% {
+     opacity: 0;
+  }
+  100% {
+      opacity: 1;
+  }
+}
+
+.speak {
+  position: absolute;
+  right: 17px;
+  top: 18px;
+  height: 13px;
+  width: 13px;
+  border-radius: 50%;
+  background-color: rgba(255, 0, 0, 0.78);
+  box-shadow: 0 0 0px 3px white,
+              0 0 0px 5px rgba(255, 0, 0, 0.78);
+  animation: speak 1s linear;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+}

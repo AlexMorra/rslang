@@ -28,8 +28,11 @@ export default class SpeakItMainBlock {
       </div>
       <div class="speak-it__main__main-block__cards-block"></div>
       <div class="speak-it__main__main-block__buttons-block">
-        <button class="speak-it__main__main-block__buttons-block__start-recognition">Начать</button>
-        <button class="speak-it__main__main-block__buttons-block__next">Пропустить</button>
+        <button class="speak-it__main__main-block__buttons-block__start-recognition">
+          Начать
+          <span id="speak" class="speak" style="display:none"></span>
+        </button>
+        <button class="speak-it__main__main-block__buttons-block__next" style="display:none">Пропустить</button>
       </div>
     </div>
     `;
@@ -105,47 +108,56 @@ export default class SpeakItMainBlock {
   }
 
   getNextStage() {
-    if (this.currentStage !== 0) {
-      const currentCard = document.querySelector(`[index="${this.currentStage - 1}"]`);
-      currentCard.style.opacity = '0.5';
-      currentCard.style.border = '2px solid #f7cd92';
-      currentCard.children[0].classList.add('blocked');
-      currentCard.children[0].style.pointerEvents = 'none';
-    }
-    if (this.currentStage === 9) {
+    if (this.currentStage === 10) {
       utils.getStatistic(this.handingStatistic());
-    } else {
-      const input = document.querySelector('.speak-it__main__main-block__input');
       this.currentStage += 1;
-      const word = document.querySelector(`[index="${this.currentStage - 1}"]`);
-      word.classList.add('active');
+    } else {
+      this.currentStage += 1;
+      const currentWord = document.querySelector(`[index="${this.currentStage - 1}"]`);
+      if (this.currentStage !== 1) {
+        console.log(this.currentStage);
+        const prevWord = document.querySelector(`[index="${this.currentStage - 2}"]`);
+        currentWord.classList.add('active');
+        prevWord.classList.remove('active');
+      }
       this.getImage();
       this.getTranslate();
-      this.addAudioHandler();
-      input.value = '';
     }
   }
 
   addBtnHandler() {
-    const startRecognitionBtn = document.querySelector('.speak-it__main__main-block__buttons-block__start-recognition');
     const nextStageBtn = document.querySelector('.speak-it__main__main-block__buttons-block__next');
-    function startRecoginitionHandler() {
+    const speakIdentifier = document.getElementById('speak');
+    let attempts = 0;
+    const recognition = new webkitSpeechRecognition();
+    recognition.lang = 'en';
+    recognition.continuous = true;
+    const startRecognitionBtn = document.querySelector('.speak-it__main__main-block__buttons-block__start-recognition');
+    function startRecognitionHandler() {
+      startRecognitionBtn.style.pointerEvents = 'none';
+      speakIdentifier.style.display = 'block';
+      nextStageBtn.style.display = 'block';
+      const currentCard = document.querySelector(`[index="${this.currentStage - 1}"]`);
+      currentCard.classList.add('active');
       const input = document.querySelector('.speak-it__main__main-block__input');
-      const recognition = new webkitSpeechRecognition();
-      recognition.lang = 'en';
       recognition.start();
       recognition.onresult = (event) => {
-        let result = event.results[0][0].transcript.toLowerCase();
+        let result = event.results[attempts][0].transcript.toLowerCase();
+        if (this.currentStage === 11) {
+          recognition.stop();
+          return;
+        }
         input.value = result;
         this.checkResult();
-        setTimeout(() => input.value = '', 3000);
+        attempts += 1;
       };
     }
     function nextStageBtnHandler() {
+      this.changeCardStyle(false);
       this.getAudioError();
       this.getNextStage();
     }
-    startRecognitionBtn.addEventListener('click', startRecoginitionHandler.bind(this));
+    startRecognitionBtn.addEventListener('click', startRecognitionHandler.bind(this));
     nextStageBtn.addEventListener('click', nextStageBtnHandler.bind(this));
   }
 
@@ -166,12 +178,15 @@ export default class SpeakItMainBlock {
 
   checkResult() {
     const input = document.querySelector('.speak-it__main__main-block__input');
-    if (input.value === this.userWords[this.currentStage - 1].word) {
+    if (input.value.trim() === this.userWords[this.currentStage - 1].word) {
       this.statistic[this.currentStage - 1].isLearned = true;
-      this.getNextStage();
+      this.changeCardStyle(true);
       this.getAudioSuccess();
+      this.getNextStage();
     } else {
+      this.changeCardStyle(false);
       this.getAudioError();
+      this.getNextStage();
     }
   }
 
@@ -198,5 +213,15 @@ export default class SpeakItMainBlock {
     audio.preload = 'auto';
     audio.src = '../../../assets/sounds/error.mp3';
     audio.play();
+  }
+
+  changeCardStyle(value) {
+    const card = document.querySelector(`[index="${this.currentStage - 1}"]`);
+    if (value) {
+      card.style.backgroundColor = '#01AF61';
+    } else {
+      card.style.backgroundColor = '#da5b4c';
+    }
+    card.style.opacity = '0.5';
   }
 }

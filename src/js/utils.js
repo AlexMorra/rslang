@@ -115,7 +115,7 @@ function addEventHandlerInStatistic() {
   const deleteBtns = document.querySelectorAll('.statistic__el__delete');
   deleteBtns.forEach(el => {
     el.addEventListener('click', () => {
-      usersAppState.deleteUserWord(el.id, true);
+      usersAppState.updateDeletedWord(el.id, true);
       el.style.pointerEvents = 'none';
     });
   });
