@@ -12,7 +12,7 @@ export default class SpeakItHintsBlock {
     hintsBlock.innerHTML = `
     <div class="speak-it__main__hints-block">
       <button class="speak-it__main__hints-block__audio"></button>
-      <button class="speak-it__main__hints-block__transcription">transcription</button>
+      <button class="speak-it__main__hints-block__transcription"></button>
     </div>
     `;
     targetNode.append(hintsBlock.content);
@@ -22,7 +22,7 @@ export default class SpeakItHintsBlock {
     const audioBtn = document.querySelector('.speak-it__main__hints-block__audio');
     const transcriptionBtn = document.querySelector('.speak-it__main__hints-block__transcription');
     if (!usersAppState.playAudio) {
-      audioBtn.classList.add('blocked');
+      audioBtn.style.backgroundImage = 'url(../../../assets/images/sound-off.svg)';
     }
     if (!usersAppState.transcription) {
       transcriptionBtn.classList.add('blocked');

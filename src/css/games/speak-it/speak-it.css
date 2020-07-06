@@ -102,7 +102,18 @@
 .speak-it__main__hints-block__audio {
   width: 37px;
   height: 37px;
-  background-image: url(../../../assets/icons/volume.svg);
+  background-image: url(../../../assets/images/sound.svg);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 75%;
+  border: 0;
+  background-color: #ffffff;
+}
+
+.speak-it__main__hints-block__transcription {
+  width: 37px;
+  height: 37px;
+  background-image: url(../../../assets/images/transcription.svg);
   background-repeat: no-repeat;
   background-position: center;
   background-size: 100%;
@@ -145,11 +156,13 @@
   left: 0;
   width: 30%;
   height: 100%;
-  background-image: url(../../../assets/icons/volume.svg);
+  background-image: url(../../../assets/images/sound.svg);
   background-repeat: no-repeat;
   background-position: center;
   background-size: 50%;
 }
+
+
 
 .speak-it__main__main-block__cards-block__card__audio:hover {
   background-color: #f8f2ee;
@@ -175,7 +188,9 @@
 }
 
 .active {
-  border: 2px solid #00c49d;
+  animation: wave 1s linear;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
 }
 
 .speak-it__main__main-block__image-block {
@@ -196,6 +211,7 @@
 }
 
 .speak-it__main__main-block__buttons-block__start-recognition, .speak-it__main__main-block__buttons-block__next {
+  position: relative;
   width: 150px;
   height: 50px;
   margin: 20px 30px;
@@ -224,3 +240,66 @@
   justify-content: center;
 }
 
+@keyframes wave {
+  0% {
+      background-color: #fff;
+  }
+  50% {
+      background-color: #b8c6ff;
+  }
+  100% {
+      background-color: #3c649f;
+  }
+}
+
+.mic {
+  position: absolute;
+  right: -15px;
+  top: 8px;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: white;
+  border: 1px solid #103482;
+  outline: none;
+  cursor: pointer;
+  margin-right: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.pulse {
+ border: 1px solid #CCE6C1;
+ background-color: #CCE6C1;
+ border-radius: 50%;
+ animation: pulse 2s infinite;
+ z-index: 5;
+}
+
+@-webkit-keyframes pulse {
+ 0% {
+   -webkit-box-shadow: 0 0 0 0 #CCE6C1;
+ }
+ 70% {
+     -webkit-box-shadow: 0 0 0 8px #CCE6C150;
+ }
+ 100% {
+     -webkit-box-shadow: 0 0 0 0 #CCE6C199;
+ }
+}
+
+@keyframes pulse {
+ 0% {
+   -moz-box-shadow: 0 0 0 0 #CCE6C1;
+   box-shadow: 0 0 0 0 #CCE6C1;
+ }
+ 70% {
+     -moz-box-shadow: 0 0 0 8px #CCE6C150;
+     box-shadow: 0 0 0 8px #CCE6C150;
+ }
+ 100% {
+     -moz-box-shadow: 0 0 0 0 #CCE6C199;
+     box-shadow: 0 0 0 0 #CCE6C199;
+ }
+}

@@ -4,7 +4,7 @@ import Savanna from './games/savanna/savanna';
 import Sprint from './games/sprint/sprint';
 import SpeakIt from './games/speak-it/speak-it';
 import SkinWalker from './games/skinWalkers/startWindow';
-import AudioCall from './games/Audiocall/audiocall'
+import AudioCall from './games/Audiocall/audiocall';
 let mainArea = document.querySelector('.main-area');
 
 export function destroy() {
