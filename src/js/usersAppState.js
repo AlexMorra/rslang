@@ -348,8 +348,16 @@ export default class State {
     return this.userStatistics.optional[moment().format('MM D YYYY')].correctAnswers;
   }
 
+  getIncorrectAnswers() {
+    return this.userStatistics.optional[moment().format('MM D YYYY')].incorrectAnswers;
+  }
+
   getExperienceGoal() {
     return this.trainingGoal * 10;
+  }
+
+  getCorrectPercent() {
+    return (100 / (this.getIncorrectAnswers() + this.getTodayProgress()) * this.getTodayProgress()).toFixed(1);
   }
 
   getNewWords() {
