@@ -7,12 +7,15 @@ import { usersAppState } from '../../../app';
 export default class Sprint {
   constructor() {
     this.wordListLenght = 100;
+    this.startBell = new Audio('./assets/sounds/start-bell.wav');
+    this.gameOverSound = new Audio('./assets/sounds/game-over.wav');
     this.usersAppState = usersAppState;
     this.gameTime = 60; // seconds
     this.arrayWords = [];
     this.initStatistic = [];
     this.statistic = [];
     this.element = this.getGameWrapper();
+    this.soundBtn = this.getSoundButton();
     this.mainArea = document.querySelector('.main-area');
   }
 
@@ -27,6 +30,14 @@ export default class Sprint {
     const template = document.createElement('template');
     template.innerHTML = `
       <div class="tab-wrapper sprint-wrapper"></div>
+    `;
+    return template.content.children[0];
+  }
+
+  getSoundButton() {
+    const template = document.createElement('template');
+    template.innerHTML = `
+      <button class="sprint__soundBtn"></button>
     `;
     return template.content.children[0];
   }
@@ -49,12 +60,16 @@ export default class Sprint {
     this.timer.getElement().addEventListener('timer-end', () => {
       this.card.removeKeyEventsFromCardButtons();
       this.handingStatistic()
-        .then(() => utils.getStatistic(this.statistic))
+        .then(() => {
+          utils.getStatistic(this.statistic);
+        })
         .catch(console.error);
     });
     this.element.append(this.timer.getElement());
     this.element.append(this.counter.getElement());
     this.element.append(this.card.getElement());
+    this.element.append(this.soundBtn);
+    this.startBell.play();
     this.addMenuClickHandler();
   }
 
@@ -73,9 +88,8 @@ export default class Sprint {
     const promises = this.statistic.map(el => {
       if (el.isLearned) {
         return this.usersAppState.updateProgressWord(el.id, true);
-      } else {
-        return this.usersAppState.updateProgressWord(el.id, false);
       }
+      return this.usersAppState.updateProgressWord(el.id, false);
     });
     return Promise.all(promises);
   }

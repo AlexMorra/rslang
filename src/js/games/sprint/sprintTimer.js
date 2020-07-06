@@ -1,5 +1,6 @@
 export default class SprintTimer {
   constructor(time = 5) {
+    this.gameOverSound = new Audio('./assets/sounds/game-over.wav');
     this.time = time;
     this.intervalId = null;
     this.element = this.createElement();
@@ -40,6 +41,7 @@ export default class SprintTimer {
   destroy() {
     this.element.dispatchEvent(new CustomEvent('timer-end'));
     clearInterval(this.intervalId);
+    this.gameOverSound.play();
   }
 
   clearInterval() {
