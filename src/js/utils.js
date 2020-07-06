@@ -128,7 +128,7 @@ function addEventHandlerInStatistic() {
   const deleteBtns = document.querySelectorAll('.statistic__el__delete');
   deleteBtns.forEach(el => {
     el.addEventListener('click', () => {
-      usersAppState.deleteUserWord(el.id, true);
+      usersAppState.updateDeletedWord(el.id, true);
       systemMessage('Слово удалено из словоря', 'success');
       el.style.pointerEvents = 'none';
       el.style.opacity = '0.2';
