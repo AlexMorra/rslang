@@ -1,11 +1,20 @@
 .skinwalker__start {
     background-image: url('../../../../assets/icons/bg-10.png');
     background-repeat: no-repeat;
+    background-size: cover;
     transition: all 1s ease;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
     width: 100vw;
     height: 100vh;
-    position: relative;
     overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 .skinwalker__start__intro {
