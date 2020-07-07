@@ -41,32 +41,36 @@ export default class Dictionary {
     };
     switch (navId) {
       case 'nav-learning-words':
-        console.log('learning');
-        this.currentTab = 'learning';
-        this.returnToDictionaryBtn.style.display = 'none';
-        this.inputWordSearch.removeAttribute('style');
-        this.getWordsList(usersAppState.learningWords);
-        activeToggle();
+        if (this.currentTab !== 'learning') {
+          this.currentTab = 'learning';
+          this.returnToDictionaryBtn.style.display = 'none';
+          this.inputWordSearch.removeAttribute('style');
+          this.getWordsList(usersAppState.learningWords);
+          activeToggle();
+        }
         break;
       case 'nav-difficult-words':
-        console.log('difficult');
-        this.currentTab = 'difficult';
-        this.getWordsList(usersAppState.difficultWords);
-        activeToggle();
+        if (this.currentTab !== 'difficult') {
+          this.currentTab = 'difficult';
+          this.getWordsList(usersAppState.difficultWords);
+          activeToggle();
+        }
         break;
       case 'nav-deleted-words':
-        console.log('deleted-words');
-        this.currentTab = 'deleted';
-        this.deleteWordsBtn.style.display = 'none';
-        this.inputWordSearch.removeAttribute('style');
-        this.getWordsList(usersAppState.deletedWords);
-        activeToggle();
+        if (this.currentTab !== 'deleted') {
+          this.currentTab = 'deleted';
+          this.deleteWordsBtn.style.display = 'none';
+          this.inputWordSearch.removeAttribute('style');
+          this.getWordsList(usersAppState.deletedWords);
+          activeToggle();
+        }
         break;
       case 'nav-learned-words':
-        console.log('learned-words');
-        this.currentTab = 'learned';
-        this.getWordsList(usersAppState.learnedWords);
-        activeToggle();
+        if (this.currentTab !== 'learned') {
+          this.currentTab = 'learned';
+          this.getWordsList(usersAppState.learnedWords);
+          activeToggle();
+        }
         break;
     }
   }

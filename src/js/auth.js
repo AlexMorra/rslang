@@ -41,10 +41,11 @@ export default class Auth {
     if (this.emailValidator(email) && this.passwordValidator(password)) {
       console.log('validate true');
       this.loginUser(email, password).then(response => {
-        console.log(response);
-        localStorage.setItem('token', response.token);
-        localStorage.setItem('user_id', response.userId);
-        this.loginSuccess();
+        if (response) {
+          localStorage.setItem('token', response.token);
+          localStorage.setItem('user_id', response.userId);
+          this.loginSuccess();
+        }
       });
     }
   }
@@ -74,11 +75,14 @@ export default class Auth {
       body: user
     })
       .then(response => {
-        if (!response.ok) { throw Error(response.statusText); }
-        return response.json();
-      })
-      .then(responseJson => responseJson)
-      .catch(error => console.log(error));
+        if (response.ok) {
+          return response.json();
+        } if (response.status === 403) {
+          utils.systemMessage('Неверный адрес электронной почты или пароль', 'error');
+        } else {
+          utils.systemMessage('Что-то пошло не так', 'error');
+        }
+      });
   }
 
   createUser(email, password) {
@@ -91,10 +95,14 @@ export default class Auth {
       },
       body: user
     })
-      .then(response => response.json())
-      .then(responseJson => {
-        console.log(responseJson);
-        this.createSuccess();
+      .then(response => {
+        if (response.ok) {
+          utils.systemMessage('Пользователь успешно создан', 'success');
+          this.createSuccess();
+        } else {
+          utils.systemMessage('Пользователь уже существует', 'error');
+        }
+        return response.json();
       });
   }
 
@@ -105,7 +113,7 @@ export default class Auth {
   }
 
   loginSuccess() {
-    menu.show();
+    if (!window.logout) menu.show();
     window.currentPage = null;
     let userLoginPage = document.querySelector('.user-login-page');
     if (userLoginPage) userLoginPage.remove();

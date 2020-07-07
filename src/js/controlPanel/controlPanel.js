@@ -1,3 +1,5 @@
+import moment from 'moment';
+import Chart from 'chart.js';
 import wordCards from '../wordCards';
 import * as utils from '../utils';
 import wordsCardList from './wordsCardList';
@@ -13,6 +15,7 @@ export default class ControlPanel extends wordsCardList {
       let controlPanelTab = this.beforeCreate(this.getTemplate());
       let controlPanel = controlPanelTab.querySelector('.control-panel');
       this.mainArea.append(controlPanelTab);
+      this.getDayProgress();
       controlPanel.addEventListener('click', this.controlPanelHandler.bind(this));
     }, 400);
   }
@@ -34,7 +37,8 @@ export default class ControlPanel extends wordsCardList {
     let cardsWrapper = template.querySelector('.cp-cards');
     let cardTemplate = document.createElement('template');
     Object.keys(wordCards).forEach(card => {
-      let userWordsInCard = usersAppState.getAllWords().filter(obj => obj.difficulty === card).length;
+      let userWordsInCard = usersAppState.getAllWords()
+        .filter(obj => obj.difficulty === card).length;
       cardTemplate.innerHTML = `
              <div class="cp-card" data-card="${card}">
                 <div class="card-title">Карточка ${card}</div>
@@ -44,6 +48,38 @@ export default class ControlPanel extends wordsCardList {
       cardsWrapper.append(cardTemplate.content);
     });
     return template;
+  }
+
+  getDayProgress() {
+    let dayProgressPercent = document.querySelector('.day-progress-percent');
+    let percent = usersAppState.getTodayProgress() * 100 / usersAppState.getExperienceGoal();
+    dayProgressPercent.textContent = `${percent >= 100 ? 100 : percent.toFixed(1)}%`;
+    let ctx = document.getElementById('day-progress-chart');
+    let myChart = new Chart(ctx, {
+      type: 'doughnut',
+      data: {
+        labels: ['Текущий опыт', 'Осталось'],
+        datasets: [{
+          data: [usersAppState.getTodayProgress(), usersAppState.getTodayProgress() >= usersAppState.getExperienceGoal() ? 0
+            : usersAppState.getExperienceGoal() - usersAppState.getTodayProgress()],
+          backgroundColor: [
+            'rgba(54,162,235,0.6)',
+            'rgba(54,162,235,0.11)'
+          ],
+          borderColor: [
+            'rgba(54,162,235,0.6)',
+            'rgba(54,162,235,0.6)'
+            // 'rgba(255, 99, 132, 1)',
+          ],
+          borderWidth: 1
+        }]
+      },
+      options: {
+        legend: {
+          display: false
+        }
+      }
+    });
   }
 
   getTemplate() {
@@ -62,7 +98,7 @@ export default class ControlPanel extends wordsCardList {
           </div>
           <div class="cp-stats">
               <div class="cp-stats-today">
-                  <h2 class="stats-title">Сегодня</h2>
+                  <h2 class="stats-title">Статистика</h2>
                   <div class="stats-part1">
                       <div class="word-for-practice">
                           <div>Слова для практики</div>
@@ -70,18 +106,18 @@ export default class ControlPanel extends wordsCardList {
                       </div>
                       <div class="best-series">
                           <div>Лучшая серия</div>
-                          <span>0</span>
+                          <span>${usersAppState.bestSeries}</span>
                       </div>
                   </div>
                   <hr>
                   <div class="stats-part2">
                       <div class="total-word-practice">
-                          <div>Пройдено слов по практие</div>
-                          <span>0</span>
+                          <div>Пройдено слов</div>
+                          <span>${usersAppState.learnedWords.length}</span>
                       </div>
                       <div class="correct-repetitions">
-                          <div>Правильные повторы</div>
-                          <span>0%</span>
+                          <div>Правильные ответы</div>
+                          <span>${usersAppState.getCorrectPercent()}%</span>
                       </div>
                       <div class="new-words">
                           <div>Новые слова</div>
@@ -90,7 +126,11 @@ export default class ControlPanel extends wordsCardList {
                   </div>
               </div>
               <div class="cp-stats-progress">
-                  <h2 class="stats-title">Прогресс</h2>
+                  <h2 class="stats-title">Ежедневная цель</h2>
+                  <div class="day-progress-wrapper">
+                    <span class="day-progress-percent"></span>
+                    <canvas id="day-progress-chart" width="200" height="200"></canvas>
+                  </div>
               </div>
           </div>
           <div class="cp-cards">
