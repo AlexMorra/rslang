@@ -4,6 +4,7 @@ import Savanna from './games/savanna/savanna';
 import Sprint from './games/sprint/sprint';
 import SpeakIt from './games/speak-it/speak-it';
 import SkinWalker from './games/skinWalkers/startWindow';
+import AudioCall from './games/Audiocall/audiocall';
 let mainArea = document.querySelector('.main-area');
 
 export function destroy() {
@@ -49,6 +50,13 @@ function createStatistic(statisticArray) {
     }
     return acc;
   }, 0);
+  statisticArray.forEach(el => {
+    if (el.isLearned) {
+      usersAppState.updateProgressWord(el.id, true);
+    } else {
+      usersAppState.updateProgressWord(el.id, false);
+    }
+  });
   const statisticNode = document.createElement('template');
   statisticNode.innerHTML = `
   <div class="tab-wrapper">
@@ -128,7 +136,7 @@ function addEventHandlerInStatistic() {
   const deleteBtns = document.querySelectorAll('.statistic__el__delete');
   deleteBtns.forEach(el => {
     el.addEventListener('click', () => {
-      usersAppState.deleteUserWord(el.id, true);
+      usersAppState.updateDeletedWord(el.id, true);
       systemMessage('Слово удалено из словоря', 'success');
       el.style.pointerEvents = 'none';
       el.style.opacity = '0.2';
@@ -159,9 +167,9 @@ function addEventHandlerInStatistic() {
       case 'Skin Walker':
         new SkinWalker().getButtonsListTemplate();
         break;
-      /* case 'AudioChellange':
-        new EnglishPuzzle().showMainPage();
-        break; */
+      case 'Audio Challenge':
+        new AudioCall().handleStart();
+        break;
     }
   });
 }

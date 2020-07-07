@@ -154,24 +154,26 @@
 }
 
 /* PROGRESS BAR */
-
-.day-progress-wrapper {
-    position: relative;
-    margin: 10px auto;
-    height: 200px;
-    width: 200px;
-}
-
 .cp-stats-progress {
     display: flex;
     flex-direction: column;
     flex: 1;
 }
 
+.day-progress-wrapper {
+    display: flex;
+    position: relative;
+    margin: 10px auto;
+    height: 200px;
+    width: 200px;
+}
+
 .day-progress-percent {
+    display: flex;
+    top: 45%;
     position: absolute;
-    top: 46% !important;
-    left: 39% !important;
+    width: 100%;
+    justify-content: center;
     font-size: 1.5em;
-    color: inherit!important;
+    font-weight: 600;
 }

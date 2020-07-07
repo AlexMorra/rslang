@@ -1,5 +1,6 @@
 export default class SprintTimer {
   constructor(time = 5) {
+    this.gameOverSound = new Audio('./assets/sounds/game-over.wav');
     this.time = time;
     this.intervalId = null;
     this.element = this.createElement();
@@ -11,9 +12,9 @@ export default class SprintTimer {
     template.classList.add('.sprint__timer');
     template.innerHTML = `
       <div class="sprint__timer-wrap">
-        <div class="time j-time">${this.time}</div>
+        <div class="sprint__timer-time j-time">${this.time}</div>
         <svg>
-          <circle r="18" cx="20" cy="20"></circle>
+          <circle r="40" cx="50" cy="50"></circle>
         </svg>
       </div>
     `;
@@ -39,6 +40,11 @@ export default class SprintTimer {
 
   destroy() {
     this.element.dispatchEvent(new CustomEvent('timer-end'));
+    clearInterval(this.intervalId);
+    this.gameOverSound.play();
+  }
+
+  clearInterval() {
     clearInterval(this.intervalId);
   }
 }

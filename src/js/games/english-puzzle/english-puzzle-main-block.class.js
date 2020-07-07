@@ -151,13 +151,6 @@ export default class EnglishPuzzleMainBlock {
         el.isLearned = false;
       }
     });
-    this.statistic.forEach(el => {
-      if (el.isLearned) {
-        this.usersAppState.updateProgressWord(el.id, true);
-      } else {
-        this.usersAppState.updateProgressWord(el.id, false);
-      }
-    });
     return this.statistic;
   }
 }
