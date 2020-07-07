@@ -162,11 +162,13 @@ export default class SkinWalkerStartGame {
   }
 
   getUserWordDictionary() {
+    this.wordListDictionary.sort(() => Math.random() - 0.5);
     this.sortDictionary = this.wordListDictionary.slice(0, this.difficultLevel);
     return this.getGamesTemplate();
   }
 
   getAllRandomDictionary() {
+    this.wordAllListDictionary.sort(() => Math.random() - 0.5);
     this.sortDictionary = this.wordAllListDictionary.slice(0, this.difficultLevel);
     return this.getGamesTemplate();
   }
