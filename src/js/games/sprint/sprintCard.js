@@ -1,5 +1,5 @@
 export default class SprintCard {
-  constructor(counter, initStatistic, statistic, timer, wordList) {
+  constructor(counter, initStatistic, statistic, timer, wordList, soundOn) {
     this.timer = timer;
     this.wordList = wordList;
     this.wordListRangeStart = 0;
@@ -7,7 +7,7 @@ export default class SprintCard {
     this.counter = counter;
     this.initStatistic = initStatistic;
     this.statistic = statistic;
-    this.soundOn = true;
+    this.soundOn = soundOn;
     this.errorSound = new Audio('./assets/sounds/error.mp3');
     this.successSound = new Audio('./assets/sounds/success.mp3');
     this.answers = 0;
@@ -110,7 +110,9 @@ export default class SprintCard {
   }
 
   resetAnswers() {
-    this.errorSound.play();
+    if (this.soundOn) {
+      this.errorSound.play();
+    }
     this.correctAnswers = 0;
     this.cur = 10;
     this.statistic.push(this.initStatistic[this.answers - 1]);
@@ -118,7 +120,9 @@ export default class SprintCard {
   }
 
   updateAnswersAndStatistic() {
-    this.successSound.play();
+    if (this.soundOn) {
+      this.successSound.play();
+    }
     if (this.correctAnswers === 4) {
       this.cur *= this.multiplier;
       this.correctAnswers = 0;
