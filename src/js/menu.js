@@ -34,6 +34,7 @@ export default class Menu extends statistics {
     const touchedStats = this.userStats.contains(e.target) || navId === 'main-stats';
     if (!touchedMenu) this.menuNav.classList.remove('open');
     if (!touchedStats) this.userStats.classList.remove('open-stats');
+    if (touchedMenu) window.currentPage = navId;
 
     switch (navId) {
       case 'main-stats':
