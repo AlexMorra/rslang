@@ -11,7 +11,6 @@ import Dictionary from './js/dictionary';
 import Account from './js/account';
 import GamesPage from './js/games/gamesPage';
 import TrainingCards from './js/trainingCards/trainingCards';
-// import Audiocall from './js/games/Audiocall/audiocall';
 import Team from './js/team/team';
 
 // INIT

@@ -78,6 +78,7 @@ body {
  
  .word {
     position: relative;
+    cursor: pointer;
  }
 
  .correct {
