@@ -10,31 +10,28 @@ console.log(usersAppState);
 export default class Audiocall {
   constructor() {
     this.mainArea = document.querySelector('.main-area');
-    // выбираем 50 елементов из массива слов
-    this.allWords = usersAppState.getTrainingWords(50);
-    this.wordsWrapper = '';
+    this.wordsWrapper = null;
     this.currentPlayed = null;
-    this.arrayOfGuessed = [];
-    this.arrayOfMissed = [];
+    this.startButton = null;
+    this.errors = 0;
+    this.wordsListLength = 50;
+    this.allWords = usersAppState.getTrainingWords(this.wordsListLength);
+    this.startBell = new Audio('./assets/sounds/start-bell.wav');
+    this.errorSound = new Audio('./assets/sounds/error.mp3');
+    this.successSound = new Audio('./assets/sounds/success.mp3');
+    this.gameOverSound = new Audio('./assets/sounds/game-over.wav');
+    this.statistics = [];
   }
 
   show() {
     utils.destroy();
-    this.handleStart();
-  }
-
-  winamp(e) {
-    const playableTarget = e.target.closest('.flip-card');
-    let volumeSlider = document.querySelector('#volume');
-    if (playableTarget && !gameModeSwitch.checked) {
-      let mp3 = new Audio(playableTarget.dataset.audiosrc);
-      // mp3.volume = volumeSlider.value / (volumeSlider.max - volumeSlider.min);
-      mp3.play();
-    }
+    // this.mainArea.append(this.intro);
+    this.getIntro();
+    // this.handleStart();
   }
 
   playGameSound(url) {
-    let volumeSlider = document.querySelector('#volume');
+    const volumeSlider = document.querySelector('#volume');
     const mp3 = new Audio(url);
     // mp3.volume = (volumeSlider.value) / (volumeSlider.max);
     mp3.play();
@@ -52,7 +49,6 @@ export default class Audiocall {
   }
 
   handleStart() {
-    console.log(this.allWords);
     // выбор 50 елементов из массива слов вынес на уровень выше так как выбрать нужно единожды
     // запускаем стартовую страницу с выборкой 5 первых слов
     const currentWords = this.allWords.splice(0, 5);
@@ -71,61 +67,77 @@ export default class Audiocall {
   }
 
   checkCorrectAnswer(e) {
-    var isError = 0;
     const playableTarget = e.target.closest('.word');
-    console.log(playableTarget.innerHTML);
     if (playableTarget && !playableTarget.classList.contains('already-checked')) {
     // выяснить какого слова касается карточка
     // если слово совпало:
       if (playableTarget.dataset.word === this.currentPlayed.wordTranslate) {
         // добавляем галочку
-        playableTarget.insertAdjacentHTML('beforeEnd', '<div class="correct"></div>');
+        playableTarget.insertAdjacentHTML('beforeEnd', '<span class="correct"></span>');
         // добавляем в массив угаладанных
-        console.log(this.currentPlayed);
-        this.arrayOfGuessed.push(this.currentPlayed);
+        this.addToStatistic(this.currentPlayed, true);
+        usersAppState.updateProgressWord(this.currentPlayed.id, true);
         // если слов больше нету ->
         if (this.allWords.length === 0) {
-          if (document.querySelector('.wrong') === null) {
-            // показываем картинку
-            this.mainArea.innerHTML = '<img src="Assets/img/crashbirthday.jpg" alt="success">';
-            // проигрываем звук прохождения теста
-            this.playGameSound('../../../assets/sounds/game-over.mp3'); /* success */
-          } else {
-            utils.getStatistic(this.statistic); // статистика, шо дает не понятно
-            this.playGameSound('Assets/audio/failure.mp3');
-          }
+          // проигрываем звук прохождения теста
+          this.playGameSound('../../../assets/sounds/game-over.mp3'); /* success */
           // возврат в экран выбора категорий и return
-          // startButton.classList.add('purple-gradient');
-          // startButton.classList.remove('repeat');
           setTimeout(() => {
-            // this.mainContentGenerator();
-            // this.menuOutlineGenerator(0);
-            // this.nonGameMode();
-          }, 2500);
-          return;
+            this.showResults();
+          }, 500);
+          // return;
         }
         // проигрываем звук победы
         this.playGameSound('../../../assets/sounds/success.mp3');
-        // берем следующее слово
-        // Проигрываем следуюций звук
-        // (Взято из handleStart)
+        // берем следующею пару слов
         setTimeout(() => {
           this.handleStart();
         }, 900);
       }
       // ---- если слово НЕ совпало----:
       else {
-        // добавляем пустую звездочку
+        // добавляем хрестик
         playableTarget.insertAdjacentHTML('beforeEnd', '<span class="wrong"></span>');
         // добавляем в массив не угаладанных
-        this.arrayOfMissed.push(this.currentPlayed);
+        this.errors += 1;
+        this.addToStatistic(this.currentPlayed);
+        usersAppState.updateProgressWord(this.currentPlayed.id, false);
         // проигрываем звук поражения
         this.playGameSound('../../../assets/sounds/error.mp3');
-        isError++;
-        console.log(isError);
+        console.log(this.errors);
         // ожидание слова
       }
     }
+  }
+
+  getIntro() {
+    const introTemplate = `
+      <div class="tab-wrapper audiocall">
+        <div class="intro">
+          <h1 class="intro__title">Аудиовызов</h1>
+          <p class="intro__description">Тренировка Аудиовызов развивает словарный запас.</br>
+            В процессе игры будут звучать английские слова, которые нужно угадать среди предлагаемых.</p>
+          <button class="into__button button">Начать</button>
+        </div>
+      </div>`.trim();
+
+    setTimeout(() => {
+      this.mainArea.innerHTML = introTemplate;
+      const button = document.querySelector('.into__button');
+      button.addEventListener('click', (event) => {
+        if (event.target.tagName === 'BUTTON') {
+          this.handleStart();
+        }
+      });
+    }, 400);
+  }
+
+  startButtonClickHandler() {
+    this.startButton.addEventListener('click', () => {
+      this.getIntro().remove();
+      this.startBell.play();
+      this.handleStart();
+    });
   }
 
   setAudiocallWrapper(currentWords) {
@@ -135,7 +147,7 @@ export default class Audiocall {
         <h1 class="intro__title">Аудиовызов</h1>
         <div class="word-wrapper">
         </div>
-        <button class="into__button answer">Не знаю</button>
+        <button class="into__button">Не знаю</button>
       </div>
     </div>
     `;
@@ -152,6 +164,24 @@ export default class Audiocall {
     this.wordsWrapper.onclick = (e) => {
       this.checkCorrectAnswer(e);
     };
+  }
+
+  addToStatistic(el, isLearned = false) {
+    const question = {
+      id: el.id,
+      word: el.word,
+      translate: el.wordTranslate,
+      isLearned: isLearned,
+      audioSrc: el.audio,
+      transcription: el.transcription
+    };
+
+    this.statistics.push(question);
+  }
+
+  showResults() {
+    this.gameOverSound.play();
+    utils.getStatistic(this.statistics);
   }
 
   // startButton.onclick = () => {
