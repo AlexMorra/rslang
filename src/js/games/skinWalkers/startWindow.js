@@ -14,6 +14,7 @@ export default class SkinWalkerStartGame {
     this.difficult = null;
     this.difficultLevel = null;
     this.userWodLevelChoise = null;
+    this.sortDictionary = [];
   }
 
   show() {
@@ -109,12 +110,44 @@ export default class SkinWalkerStartGame {
     return template.content;
   }
 
-  getGamesTemplate(sortDictionary) {
+  getRepeatWordTemplate(word) {
+    const template = document.createElement('template');
+    template.innerHTML = `
+    <li class="skinwalker__word" data-id="${word.wordId}" data-audio="../assets/${word.wordAudio}">
+      <p class="skinwalker__word__repeat">${word.wordWord}</p>
+    </li>
+    <li class="skinwalker__word" data-id="${word.wordId}" data-audio="../assets/${word.wordAudio}">
+      <p class="skinwalker__word__repeat">${word.wordWordTranslate}</p>
+    </li>
+    `;
+    return template.content;
+  }
+
+  getRepeatGamesTemplate() {
     this.wordWrapper = document.querySelector('.skinwalker__word__list');
 
     const fragment = document.createDocumentFragment();
 
-    sortDictionary.forEach((word) => {
+    this.sortDictionary.forEach((word) => {
+      fragment.append(this.getRepeatWordTemplate(word));
+    });
+
+    this.wordWrapper.append(fragment);
+    const allWord = this.wordWrapper.querySelectorAll('li');
+    this.wordWrapper.innerHTML = '';
+    const sortAllWord = Array.from(allWord);
+    sortAllWord.sort(() => Math.random() - 0.5);
+    sortAllWord.forEach((li) => {
+      this.wordWrapper.innerHTML += `${li.outerHTML}`;
+    });
+  }
+
+  getGamesTemplate() {
+    this.wordWrapper = document.querySelector('.skinwalker__word__list');
+
+    const fragment = document.createDocumentFragment();
+
+    this.sortDictionary.forEach((word) => {
       fragment.append(this.getWordTemplate(word));
     });
 
@@ -129,21 +162,18 @@ export default class SkinWalkerStartGame {
   }
 
   getUserWordDictionary() {
-    this.wordListDictionary.sort(() => Math.random() - 0.5);
-    const sortDictionary = this.wordListDictionary.slice(0, this.difficultLevel);
-    return this.getGamesTemplate(sortDictionary);
+    this.sortDictionary = this.wordListDictionary.slice(0, this.difficultLevel);
+    return this.getGamesTemplate();
   }
 
   getAllRandomDictionary() {
-    this.wordAllListDictionary.sort(() => Math.random() - 0.5);
-    const sortDictionary = this.wordAllListDictionary.slice(0, this.difficultLevel);
-    return this.getGamesTemplate(sortDictionary);
+    this.sortDictionary = this.wordAllListDictionary.slice(0, this.difficultLevel);
+    return this.getGamesTemplate();
   }
 
   getMixWordDictionary() {
-    this.wordListMixDictionary.sort(() => Math.random() - 0.5);
-    const sortDictionary = this.wordListMixDictionary;
-    return this.getGamesTemplate(sortDictionary);
+    this.sortDictionary = this.wordListMixDictionary;
+    return this.getGamesTemplate();
   }
 
   getButtonsListTemplate() {
@@ -306,9 +336,18 @@ export default class SkinWalkerStartGame {
           this.getButtonsListTemplate();
         }
         if (target.classList.contains('skinwalker__finish__end')) {
-          console.log('clicl');
+          this.skinWalkerRepeatHandler();
         }
       });
+    }
+  }
+
+  greenRepeatCardCount() {
+    const green = this.mainArea.querySelectorAll('.skinwalker_green');
+    // const gameCount = this.mainArea.querySelector('.skinwalker__game__count');
+
+    if (green.length === this.difficultLevel * 2) {
+      console.log('the best');
     }
   }
 
@@ -341,6 +380,7 @@ export default class SkinWalkerStartGame {
       this.getMixWordListDictionary();
       this.getMixWordDictionary();
     }
+
     gameZone.addEventListener(('click'), (event) => {
       let target = event.target;
       if (target.tagName === 'LI' && !target.classList.contains('skinwalker_rotate')) {
@@ -367,6 +407,60 @@ export default class SkinWalkerStartGame {
               if (!li.classList.contains('skinwalker_green')) {
                 setTimeout(() => {
                   li.classList.remove('skinwalker_rotate');
+                }, 600);
+              }
+            });
+          }
+          countClick = 0;
+        }
+      }
+    });
+  }
+
+  skinWalkerRepeatHandler() {
+    let countAll = 0;
+    const skinwalkerRepeat = `
+      <div class="tab-wrapper">
+        <div class="skinwalker__game__zone">
+          <ul class="skinwalker__word__list"></ul>
+        </div>
+      </div>
+    `;
+    this.mainArea.innerHTML = skinwalkerRepeat;
+
+    let countClick = 0;
+    let targetIdFirst = '';
+    const gameZone = document.querySelector('.skinwalker__word__list');
+    this.getRepeatGamesTemplate();
+    gameZone.addEventListener(('click'), (event) => {
+      let target = event.target;
+      if (target.tagName === 'LI' && !target.classList.contains('skinwalker_animation')) {
+        countAll += 1;
+        const audio = new Audio();
+        audio.src = target.dataset.audio;
+        audio.play();
+
+        if (target.tagName === 'LI' && countClick < 1) {
+          target.classList.add('skinwalker_animation');
+          countClick += 1;
+          targetIdFirst = target.dataset.id;
+        } else if (target.tagName === 'LI' && countClick === 1) {
+          target.classList.add('skinwalker_animation');
+          if (targetIdFirst === target.dataset.id) {
+            document.querySelectorAll('.skinwalker_animation').forEach((li) => {
+              setTimeout(() => {
+                li.classList.remove('skinwalker_animation');
+                li.classList.add('skinwalker_green');
+                this.greenRepeatCardCount(countAll);
+              }, 300);
+            });
+          } else {
+            document.querySelectorAll('.skinwalker_animation').forEach((li) => {
+              if (!li.classList.contains('skinwalker_green')) {
+                li.classList.add('skinwalker-error');
+                setTimeout(() => {
+                  li.classList.remove('skinwalker_animation');
+                  li.classList.remove('skinwalker-error');
                 }, 600);
               }
             });

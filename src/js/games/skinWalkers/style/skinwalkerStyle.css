@@ -164,12 +164,13 @@
     width: 800px;
     perspective: 1000;
     background-color: white;
-    border-radius: 10px;
+    border-radius: 20px;
     margin: 10px 0;
+    box-shadow: 0px 0px 5px 5px rgba(221, 221, 221, 1);
 }
 
 .skinwalker__word {
-    width: 135px;
+    width: 160px;
     height: 40px;
     background: #CCE6C1;
     margin: 10px;
@@ -186,7 +187,8 @@
 }
 
 .skinwalker__word__title-back,
-.skinwalker__word__title-front {
+.skinwalker__word__title-front,
+.skinwalker__word__repeat {
     width: 100%;
     height: 100%;
     display: flex;
@@ -200,7 +202,7 @@
 }
 
 .skinwalker__shirt {
-    width: 135px;
+    width: 160px;
 }
 
 .skinwalker__word__title-front img {
@@ -216,9 +218,30 @@
     transform: rotateY(180deg);
 }
 
+.skinwalker-error {
+    background-color: red;
+    color: white;
+}
+
 .skinwalker_green {
     background: #698d59;
 }
+
+.skinwalker_animation {
+    animation: opacity 1s ease infinite;
+}
+
+@keyframes opacity{
+    0% {
+        opacity: 1;
+    }
+    50% {
+        opacity: .5;
+    }
+    100% {
+        opacity: 1;
+    }
+ }
 
 .skinwalker__finish__buttons {
     width: 100%;
@@ -234,6 +257,11 @@
     background-color: #1a3b71;
     outline: none;
     width: 140px;
+}
+
+.skinwalker__game__count {
+    width: 100%;
+    text-align: center;
 }
 
 @media(max-width:1600px) {
@@ -264,6 +292,13 @@
     .skinwalker__start__intro {
         padding: 0;
         text-align: center;
+    }
+    .skinwalker__word {
+        margin: 10px 5px;
+        width: 145px;
+    }
+    .skinwalker__shirt {
+        width: 145px;
     }
 }
 
