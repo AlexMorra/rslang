@@ -64,7 +64,7 @@ export default class GamesPage {
       <li id="${game.id}" class="card">
           <div class="card__top-part">
               <div class="card__image-wrapper">
-                  <img class="card__image" src="../assets/icons/${game.icon}">
+                  <img class="card__image" src="../assets/images/game-icons/${game.icon}">
               </div>
           </div>
           <h3 class="card__title">${game.title}</h3>
