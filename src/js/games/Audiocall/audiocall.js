@@ -87,7 +87,7 @@ export default class Audiocall {
     const shuffledWords = this.shuffle(currentWords);
     // Выбираем [последний]
     // Проигрываем звук
-    this.playGameSound(`../../../assets/${this.currentObject.audio}`);
+    this.playGameSound(`./assets/${this.currentObject.audio}`);
     // Вешаем обработчик на контейнер
     // Превращаем "старт" в "повтор" / Прячем "старт", показываем "повтор"
     // startButton.classList.toggle('purple-gradient');
@@ -110,7 +110,7 @@ export default class Audiocall {
         // если слов больше нету ->
         if (this.allWords.length === 0) {
           // проигрываем звук прохождения теста
-          if (this.soundOn) this.playGameSound('../../../assets/sounds/game-over.wav'); /* success */
+          if (this.soundOn) this.playGameSound('./assets/sounds/game-over.wav'); /* success */
           // возврат в экран выбора категорий и return
           setTimeout(() => {
             this.showResults();
@@ -118,7 +118,7 @@ export default class Audiocall {
           return;
         }
         // проигрываем звук победы
-        if (this.soundOn) this.playGameSound('../../../assets/sounds/success.mp3');
+        if (this.soundOn) this.playGameSound('./assets/sounds/success.mp3');
         // берем следующею пару слов
         setTimeout(() => {
           this.handleStart();
@@ -136,7 +136,7 @@ export default class Audiocall {
           usersAppState.updateProgressWord(this.currentObject.id, false);
         }
         // проигрываем звук поражения
-        if (this.soundOn) this.playGameSound('../../../assets/sounds/error.mp3');
+        if (this.soundOn) this.playGameSound('./assets/sounds/error.mp3');
         // ожидание слова
       }
     }
@@ -161,7 +161,7 @@ export default class Audiocall {
       this.setAudiocallWord(currentWords);
       const button = document.querySelector('.into__button');
       button.addEventListener('click', (event) => {
-        if (event.target.tagName === 'BUTTON') this.playGameSound(`../../../assets/${this.currentObject.audio}`);
+        if (event.target.tagName === 'BUTTON') this.playGameSound(`./assets/${this.currentObject.audio}`);
       });
       this.sound.addEventListener('click', () => {
         this.toggleSoundState();
@@ -171,7 +171,7 @@ export default class Audiocall {
 
   setAudiocallWord(currentWords) {
     console.log(currentWords);
-    this.wordsWrapper.innerHTML = currentWords.map((word) => `<div class="word" data-word="${word.wordTranslate}" data-audiosrc="../../../assets/${word.word}">${word.wordTranslate}</div>`).join('');
+    this.wordsWrapper.innerHTML = currentWords.map((word) => `<div class="word" data-word="${word.wordTranslate}" data-audiosrc="./assets/${word.word}">${word.wordTranslate}</div>`).join('');
     this.wordsWrapper.onclick = (e) => {
       this.checkCorrectAnswer(e);
     };
