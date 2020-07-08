@@ -7,14 +7,12 @@ import { usersAppState } from '../../../app';
 export default class Sprint {
   constructor() {
     this.wordListLenght = 100;
-    this.startBell = new Audio('./assets/sounds/start-bell.wav');
     this.usersAppState = usersAppState;
     this.gameTime = 60; // seconds
     this.arrayWords = [];
     this.initStatistic = [];
     this.statistic = [];
     this.element = this.getGameWrapper();
-    this.soundBtn = this.getSoundButton();
     this.mainArea = document.querySelector('.main-area');
   }
 
@@ -33,18 +31,8 @@ export default class Sprint {
     return template.content.children[0];
   }
 
-  getSoundButton() {
-    const template = document.createElement('template');
-    template.innerHTML = `
-      <button class="sprint__soundBtn j-sound"></button>
-    `;
-    return template.content.children[0];
-  }
-
   initializeGame() {
     this.getArrayWords();
-    this.initSoundBtnHandler();
-    this.soundOn = true;
     this.counter = new SprintCounter();
     this.timer = new SprintTimer(this.gameTime);
     this.card = new SprintCard(
@@ -52,8 +40,7 @@ export default class Sprint {
       this.initStatistic,
       this.statistic,
       this.timer,
-      this.arrayWords,
-      this.soundOn
+      this.arrayWords
     );
   }
 
@@ -62,38 +49,45 @@ export default class Sprint {
     setTimeout(() => {
       this.mainArea.append(this.getGameWrapper());
       this.initializeGame();
+      if (usersAppState.appSound === true) {
+        const audio = new Audio('./assets/sounds/start-bell.wav');
+        audio.preload = 'auto';
+        audio.play();
+      }
+      const wrapper = document.querySelector('.tab-wrapper');
       this.timer.getElement().addEventListener('timer-end', () => {
+        wrapper.innerHTML = '';
         this.card.removeKeyEventsFromCardButtons();
+        if (usersAppState.appSound === true) {
+          const audio = new Audio('./assets/sounds/game-over.wav');
+          audio.preload = 'auto';
+          audio.play();
+        }
+        this.checkArray();
+        this.handingStatistic();
         utils.getStatistic(this.statistic);
       });
-      const wrapper = document.querySelector('.tab-wrapper');
       wrapper.append(this.timer.getElement());
       wrapper.append(this.counter.getElement());
       wrapper.append(this.card.getElement());
-      wrapper.append(this.soundBtn);
-      this.startBell.play();
       this.addMenuClickHandler();
     }, 400);
-  }
-
-  toggleSoundState() {
-    this.soundOn = !this.soundOn;
-    this.soundBtn.classList.toggle('off');
-  }
-
-  initSoundBtnHandler() {
-    this.soundBtn.addEventListener('click', () => {
-      this.toggleSoundState();
-    });
   }
 
   addMenuClickHandler() {
     const menu = document.querySelector('.nav-menu');
     menu.addEventListener('click', (event) => {
       const target = event.target;
-      if (target.tagName === 'LI') {
+      if (target.id === 'nav-control-panel'
+        || target.id === 'nav-training' || target.id === 'nav-dictionary'
+        || target.id === 'nav-games' || target.id === 'nav-account'
+        || target.id === 'nav-team' || target.id === 'nav-logout') {
         this.timer.clearInterval();
         this.card.removeKeyEventsFromCardButtons();
+      }
+      const wrapper = document.querySelector('.tab-wrapper');
+      if (wrapper.innerHTML !== '') {
+        wrapper.innerHTML = '';
       }
     });
   }
@@ -137,5 +131,21 @@ export default class Sprint {
       this.element.innerHTML = '';
       this.getGameElements();
     });
+  }
+
+  checkArray() {
+    if (this.statistic.length === 0) {
+      this.statistic.push(this.initStatistic[0]);
+    }
+  }
+
+  handingStatistic() {
+    const promises = this.statistic.map(el => {
+      if (el.isLearned) {
+        return this.usersAppState.updateProgressWord(el.id, true);
+      }
+      return this.usersAppState.updateProgressWord(el.id, false);
+    });
+    return Promise.all(promises);
   }
 }
