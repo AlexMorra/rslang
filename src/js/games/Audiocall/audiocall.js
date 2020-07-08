@@ -16,6 +16,7 @@ export default class Audiocall {
     this.errors = 0;
     this.currentError = false;
     this.wordsListLength = 50;
+    this.soundOn = true;
     this.allWords = usersAppState.getTrainingWords(this.wordsListLength);
     this.startBell = new Audio('./assets/sounds/start-bell.wav');
     this.errorSound = new Audio('./assets/sounds/error.mp3');
@@ -26,15 +27,11 @@ export default class Audiocall {
 
   show() {
     utils.destroy();
-    // this.mainArea.append(this.intro);
     this.getIntro();
-    // this.handleStart();
   }
 
   playGameSound(url) {
-    const volumeSlider = document.querySelector('#volume');
     const mp3 = new Audio(url);
-    // mp3.volume = (volumeSlider.value) / (volumeSlider.max);
     mp3.play();
   }
 
@@ -47,6 +44,15 @@ export default class Audiocall {
       [newArray[m], newArray[i]] = [newArray[i], newArray[m]];
     }
     return newArray;
+  }
+
+  toggleSoundState() {
+    if (this.soundOn) {
+      this.soundOn = false;
+    } else {
+      this.soundOn = true;
+    }
+    this.sound.classList.toggle('off');
   }
 
   getIntro() {
@@ -104,7 +110,7 @@ export default class Audiocall {
         // если слов больше нету ->
         if (this.allWords.length === 0) {
           // проигрываем звук прохождения теста
-          if (usersAppState.playAudio) this.playGameSound('../../../assets/sounds/game-over.wav'); /* success */
+          if (this.soundOn) this.playGameSound('../../../assets/sounds/game-over.wav'); /* success */
           // возврат в экран выбора категорий и return
           setTimeout(() => {
             this.showResults();
@@ -112,7 +118,7 @@ export default class Audiocall {
           return;
         }
         // проигрываем звук победы
-        if (usersAppState.playAudio) this.playGameSound('../../../assets/sounds/success.mp3');
+        if (this.soundOn) this.playGameSound('../../../assets/sounds/success.mp3');
         // берем следующею пару слов
         setTimeout(() => {
           this.handleStart();
@@ -130,24 +136,16 @@ export default class Audiocall {
           usersAppState.updateProgressWord(this.currentObject.id, false);
         }
         // проигрываем звук поражения
-        if (usersAppState.playAudio) this.playGameSound('../../../assets/sounds/error.mp3');
-        console.log(this.errors);
+        if (this.soundOn) this.playGameSound('../../../assets/sounds/error.mp3');
         // ожидание слова
       }
     }
   }
 
-  startButtonClickHandler() {
-    this.startButton.addEventListener('click', () => {
-      this.getIntro().remove();
-      this.startBell.play();
-      this.handleStart();
-    });
-  }
-
   setAudiocallWrapper(currentWords) {
     const audiocallTemplate = `
     <div class="tab-wrapper audiocall">
+      <div class="sound ${this.soundOn ? '' : 'off'}"></div>
       <div class="intro">
         <h1 class="intro__title">Аудиовызов</h1>
         <div class="word-wrapper">
@@ -159,10 +157,14 @@ export default class Audiocall {
     setTimeout(() => {
       this.mainArea.innerHTML = audiocallTemplate;
       this.wordsWrapper = document.querySelector('.word-wrapper');
+      this.sound = document.querySelector('.sound');
       this.setAudiocallWord(currentWords);
       const button = document.querySelector('.into__button');
       button.addEventListener('click', (event) => {
         if (event.target.tagName === 'BUTTON') this.playGameSound(`../../../assets/${this.currentObject.audio}`);
+      });
+      this.sound.addEventListener('click', () => {
+        this.toggleSoundState();
       });
     }, 400);
   }
