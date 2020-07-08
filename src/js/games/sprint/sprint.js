@@ -8,7 +8,6 @@ export default class Sprint {
   constructor() {
     this.wordListLenght = 100;
     this.startBell = new Audio('./assets/sounds/start-bell.wav');
-    this.gameOverSound = new Audio('./assets/sounds/game-over.wav');
     this.usersAppState = usersAppState;
     this.gameTime = 60; // seconds
     this.arrayWords = [];
@@ -37,13 +36,15 @@ export default class Sprint {
   getSoundButton() {
     const template = document.createElement('template');
     template.innerHTML = `
-      <button class="sprint__soundBtn"></button>
+      <button class="sprint__soundBtn j-sound"></button>
     `;
     return template.content.children[0];
   }
 
   initializeGame() {
     this.getArrayWords();
+    this.initSoundBtnHandler();
+    this.soundOn = true;
     this.counter = new SprintCounter();
     this.timer = new SprintTimer(this.gameTime);
     this.card = new SprintCard(
@@ -51,26 +52,39 @@ export default class Sprint {
       this.initStatistic,
       this.statistic,
       this.timer,
-      this.arrayWords
+      this.arrayWords,
+      this.soundOn
     );
   }
 
   getGameElements() {
-    this.initializeGame();
-    this.timer.getElement().addEventListener('timer-end', () => {
-      this.card.removeKeyEventsFromCardButtons();
-      this.handingStatistic()
-        .then(() => {
-          utils.getStatistic(this.statistic);
-        })
-        .catch(console.error);
+    utils.destroy();
+    setTimeout(() => {
+      this.mainArea.append(this.getGameWrapper());
+      this.initializeGame();
+      this.timer.getElement().addEventListener('timer-end', () => {
+        this.card.removeKeyEventsFromCardButtons();
+        utils.getStatistic(this.statistic);
+      });
+      const wrapper = document.querySelector('.tab-wrapper');
+      wrapper.append(this.timer.getElement());
+      wrapper.append(this.counter.getElement());
+      wrapper.append(this.card.getElement());
+      wrapper.append(this.soundBtn);
+      this.startBell.play();
+      this.addMenuClickHandler();
+    }, 400);
+  }
+
+  toggleSoundState() {
+    this.soundOn = !this.soundOn;
+    this.soundBtn.classList.toggle('off');
+  }
+
+  initSoundBtnHandler() {
+    this.soundBtn.addEventListener('click', () => {
+      this.toggleSoundState();
     });
-    this.element.append(this.timer.getElement());
-    this.element.append(this.counter.getElement());
-    this.element.append(this.card.getElement());
-    this.element.append(this.soundBtn);
-    this.startBell.play();
-    this.addMenuClickHandler();
   }
 
   addMenuClickHandler() {
@@ -82,16 +96,6 @@ export default class Sprint {
         this.card.removeKeyEventsFromCardButtons();
       }
     });
-  }
-
-  handingStatistic() {
-    const promises = this.statistic.map(el => {
-      if (el.isLearned) {
-        return this.usersAppState.updateProgressWord(el.id, true);
-      }
-      return this.usersAppState.updateProgressWord(el.id, false);
-    });
-    return Promise.all(promises);
   }
 
   getArrayWords() {
