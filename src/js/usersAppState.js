@@ -458,11 +458,12 @@ export default class State {
       this.userWord = this.learnedWords.splice(index, 1)[0];
       this.learningWords.push(this.userWord);
     }
-    this.userWord.optional.learnedWord = value;
     const wordData = {
       difficulty: this.userWord.difficulty,
       optional: this.userWord.optional
     };
+    if (!value) wordData.optional.progress = 0;
+    this.userWord.optional.learnedWord = value;
     return this.updateUserWord(wordId, wordData).then(response => {
       console.log(response, 'updated learned word');
       return response;

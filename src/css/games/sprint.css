@@ -51,6 +51,7 @@ li {
 
 .sprint__intro-description {
     font-weight: 300;
+    padding: 0 20px;
 }
 
 .sprint__counter {
@@ -178,6 +179,7 @@ li {
     display: flex;
     justify-content: center;
     align-items: center;
+    position: relative !important;
 }
 
 .sprint__timer-wrap {
@@ -213,37 +215,60 @@ li {
     fill: none;
 }
 
+.sprint__soundBtn.off {
+    background: url("../../assets/images/sound-off.svg") no-repeat center;
+}
+
+.sprint__soundBtn {
+    cursor: pointer;
+    border: none;
+    outline: none;
+    transition: all .15s ease;
+    background: url("../../assets/images/sound.svg") no-repeat center;
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    padding: 18px;
+    box-sizing: border-box;
+    z-index: 30;
+}
+
 @media (min-width: 320px) and (max-width: 800px) {
-    .sprint__intro, .sprint__wrapper {
-        margin-left: 55px !important;
-    }
     .sprint__card {
         width: 70%;
         max-width: 500px;
     }
     .sprint__timer-wrap {
-        left: calc(50% + 275px);
-        top: calc(50% + -100px);
-        height: 40px;
-        width: 40px;
+        transform: scale(0.5);
+        left: 70%;
+        top: calc(50% - 240px);
     }
-    .sprint__timer-wrap .sprint__timer-time {
-        line-height: 400px;
+    .sprint__timer-time {
+        transform: scale(2);
     }
+}
 
-    .sprint__timer-wrap svg {
-        position: absolute;
-        top: 0;
-        right: 0;
-        width: 40px;
-        height: 400px;
-        transform: rotateY(-180deg) rotateZ(-90deg);
+@media (min-width: 401px) and (max-width: 800px) {
+    .sprint__intro {
+        margin-left: 55px;
+    }
+    .sprint__intro-description {
+        margin: 0 0 58px;
+        padding: 0 55px;
+    }
+    .sprint__card, .sprint__counter {
+        margin-left: 55px;
     }
 }
 
 @media (min-width: 320px) and (max-width: 400px) {
     .sprint__intro, .sprint__wrapper {
-        margin-left: 0 !important;;
+        margin-left: 0 !important;
+    }
+    .sprint__timer-wrap {
+        left: 55%;
     }
 }
 
