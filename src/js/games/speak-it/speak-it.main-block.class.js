@@ -201,14 +201,14 @@ export default class SpeakItMainBlock {
   getAudioSuccess() {
     const audio = new Audio();
     audio.preload = 'auto';
-    audio.src = '../../../assets/sounds/success.mp3';
+    audio.src = './assets/sounds/success.mp3';
     audio.play();
   }
 
   getAudioError() {
     const audio = new Audio();
     audio.preload = 'auto';
-    audio.src = '../../../assets/sounds/error.mp3';
+    audio.src = './assets/sounds/error.mp3';
     audio.play();
   }
 
