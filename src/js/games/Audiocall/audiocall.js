@@ -80,12 +80,12 @@ export default class Audiocall {
         // если слов больше нету ->
         if (this.allWords.length === 0) {
           // проигрываем звук прохождения теста
-          this.playGameSound('../../../assets/sounds/game-over.mp3'); /* success */
+          this.playGameSound('../../../assets/sounds/game-over.wav'); /* success */
           // возврат в экран выбора категорий и return
           setTimeout(() => {
             this.showResults();
           }, 500);
-          // return;
+          return;
         }
         // проигрываем звук победы
         this.playGameSound('../../../assets/sounds/success.mp3');
@@ -181,6 +181,7 @@ export default class Audiocall {
 
   showResults() {
     this.gameOverSound.play();
+    console.log(this.statistics);
     utils.getStatistic(this.statistics);
   }
 

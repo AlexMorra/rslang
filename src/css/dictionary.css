@@ -78,6 +78,25 @@
     background-color: rgba(0, 137, 255, 0.66);
 }
 
+/* LEARN AGAIN BTN */
+
+.dictionary .learn-again-words {
+    padding: 8px 14px;
+    cursor: pointer;
+    color: #605a56;
+    background-color: #0089ff8a;
+    border: none;
+    border-radius: 5px;
+}
+
+.dictionary .learn-again-words:focus {
+    outline: none;
+}
+
+.dictionary .learn-again-words:hover {
+    background-color: #30a5005e;
+}
+
 .dictionary .word-transcription {
     color: #605a56;
     letter-spacing: 1px;
@@ -130,7 +149,7 @@
 }
 
 .dictionary-difficult-words {
-    background-color: #eace0099;
+        background-color: #eace0099;
     margin-right: 10px;
 }
 
