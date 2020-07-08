@@ -102,7 +102,7 @@ export default class GamesPage {
     template.innerHTML = `
       <li class="team-list__person person">
         <div class="person__photo person__photo--${index}">
-          <img class="person__image" src="../assets/images/team/${person.image}">
+          <img class="person__image" src="./assets/images/team/${person.image}">
         </div>
         <div class="person__desc">              
           <span class="person__fullname">${person.fullname}</span>
