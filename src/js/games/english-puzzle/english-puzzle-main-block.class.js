@@ -41,7 +41,6 @@ export default class EnglishPuzzleMainBlock {
       el.textExample = el.textExample.replace(/<b>/gm, '').replace(/<\/b>/gm, '');
       el.textExampleArray = el.textExample.split(' ');
     });
-    console.log(this.arrayWords);
     this.statistic = this.arrayWords.map(el => {
       return {
         id: el.id,
@@ -54,7 +53,6 @@ export default class EnglishPuzzleMainBlock {
         transcription: el.transcription
       };
     });
-    console.log(this.statistic);
   }
 
   getPhraseBlock() {
@@ -151,6 +149,14 @@ export default class EnglishPuzzleMainBlock {
         el.isLearned = false;
       }
     });
+    this.statistic.forEach(el => {
+      if (el.isLearned) {
+        usersAppState.updateProgressWord(el.id, true);
+      } else {
+        usersAppState.updateProgressWord(el.id, false);
+      }
+    });
+
     return this.statistic;
   }
 }

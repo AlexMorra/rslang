@@ -3,7 +3,6 @@ import './css/style.css';
 import './js/usersAppState';
 import './js/menu';
 import './js/account';
-import GAMES from './js/games/gamesConstants';
 import Auth from './js/auth';
 import State from './js/usersAppState';
 import Menu from './js/menu';
@@ -56,15 +55,4 @@ auth.authorized().then(authorized => {
       });
     }
   }, 10000);
-});
-
-window.addEventListener('click', () => {
-  const games = GAMES.reduce((games, obj) => [...games, obj.id], []);
-  const navMenu = document.querySelector('.nav-menu');
-
-  if (games.includes(window.currentPage)) {
-    navMenu.style.width = '0px';
-  } else {
-    navMenu.removeAttribute('style');
-  }
 });
