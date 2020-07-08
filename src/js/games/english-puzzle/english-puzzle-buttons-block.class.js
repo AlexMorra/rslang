@@ -17,6 +17,7 @@ export default class EnglishPuzzleButtonsBlock {
     const resultCells = document.querySelectorAll('.english-puzzle-main__result-block__element');
     const continuedBtn = document.querySelector('.english-puzzle-main__btn-block__continued');
     const dntKnowBtn = document.querySelector('.english-puzzle-main__btn-block__dnt-know');
+    let result;
     resultCells.forEach(el => {
       if (el.getAttribute('word') === el.children[0].innerHTML.trim()) {
         el.children[0].style.backgroundColor = '#01AF61';
