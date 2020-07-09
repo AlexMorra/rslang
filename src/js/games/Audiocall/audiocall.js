@@ -3,8 +3,6 @@ import { usersAppState } from '../../../app';
 import TrainingCards from '../../../js/trainingCards/trainingCards';
 import * as utils from '../../utils';
 
-// export let usersAppState = new State();
-
 console.log(usersAppState);
 
 export default class Audiocall {
@@ -161,7 +159,9 @@ export default class Audiocall {
       this.setAudiocallWord(currentWords);
       const button = document.querySelector('.into__button');
       button.addEventListener('click', (event) => {
-        if (event.target.tagName === 'BUTTON') this.playGameSound(`./assets/${this.currentObject.audio}`);
+        if (event.target.tagName === 'BUTTON') {
+          this.playGameSound(`./assets/${this.currentObject.audio}`);
+        }
       });
       this.sound.addEventListener('click', () => {
         this.toggleSoundState();
@@ -171,7 +171,7 @@ export default class Audiocall {
 
   setAudiocallWord(currentWords) {
     console.log(currentWords);
-    this.wordsWrapper.innerHTML = currentWords.map((word) => `<div class="word" data-word="${word.wordTranslate}" data-audiosrc="./assets/${word.word}">${word.wordTranslate}</div>`).join('');
+    this.wordsWrapper.innerHTML = currentWords.map((word) => `<div class="word" data-word="${word.wordTranslate}" data-ifcorrect="${word.wordTranslate === this.currentObject.wordTranslate ? 'correct' : ''}">${word.wordTranslate}</div>`).join('');
     this.wordsWrapper.onclick = (e) => {
       this.checkCorrectAnswer(e);
     };
