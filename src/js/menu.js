@@ -2,6 +2,7 @@ import * as utils from './utils';
 import moment from 'moment';
 import { usersAppState } from '../app';
 import statistics from './statistics';
+import GAMES from './games/gamesConstants';
 
 export default class Menu extends statistics {
   constructor(controlPanel, account, auth, dictionary, games, training, team) {
@@ -76,6 +77,16 @@ export default class Menu extends statistics {
         utils.destroy();
         this.team.show();
       default:
+    }
+
+    // FIXME
+
+    const games = GAMES.reduce((games, obj) => [...games, obj.id], []);
+    const navMenu = document.querySelector('.nav-menu');
+    if (games.includes(window.currentPage)) {
+      navMenu.style.width = '0px';
+    } else {
+      navMenu.removeAttribute('style');
     }
   }
 
