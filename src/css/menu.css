@@ -16,11 +16,11 @@
     width: 230px!important;
 }
 
-.nav-menu li {
+.nav-menu li:not(.app-sound) {
     cursor: pointer;
 }
 
-.nav-menu li:hover {
+.nav-menu li:hover:not(.app-sound):not(.nav-header) {
     background-color: #f8f2ee;
 }
 
@@ -51,6 +51,18 @@
 .menu-icon,
 .nav-name {
     pointer-events: none;
+}
+
+.nav-sound {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    margin: 20px 55px;
+}
+
+.nav-sound > span {
+    font-weight: 900;
+    margin-right: 90px;
 }
 
 @media  (max-width : 400px) {

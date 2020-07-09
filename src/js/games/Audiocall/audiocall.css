@@ -78,6 +78,7 @@ body {
  
  .word {
     position: relative;
+    cursor: pointer;
  }
 
  .correct {
@@ -99,6 +100,31 @@ body {
     background: url(../../../assets/icons/cross.svg) no-repeat center 50%;
     background-size: cover;
  }
+
+ .sound {
+    cursor: pointer;
+    background: none;
+    border: none;
+    outline: none;
+    transition: all .15s ease;
+    background: url("../../../assets/images/sound-white.svg");
+    background-position: center;
+    background-repeat: no-repeat;
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    padding: 18px;
+    box-sizing: border-box;
+    z-index: 30;
+}
+
+.sound.off {
+  background: url("../../../assets/images/sound-off-white.svg");
+  background-position: center;
+  background-repeat: no-repeat;
+}
 
 
  .into__button {
