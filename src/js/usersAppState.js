@@ -373,7 +373,7 @@ export default class State {
 
   getTrainingWords(count = 10) {
     // return words and add from cards to the user dictionary if words not enough
-    let words = this.learningWords.slice()
+    let words = [...this.learningWords, ...this.difficultWords].slice()
       .sort(() => 0.5 - Math.random()).slice(0, count)
       .map(obj => {
         return wordCards[obj.difficulty].find(word => word.id === obj.wordId);
@@ -383,6 +383,7 @@ export default class State {
         card.forEach(word => {
           if (!words.includes(word) && words.length < count) {
             words.push(word);
+            console.log(word.id);
             this.createUserWord(word.id, index + 1)
               .then(response => this.learningWords.push(response));
           }
@@ -427,12 +428,15 @@ export default class State {
 
   // update optional.difficultWord
   updateDifficultWord(wordId, value) {
+    const indexLearned = this.learningWords.findIndex(word => word.wordId === wordId);
+    const indexDifficult = this.difficultWords.findIndex(word => word.wordId === wordId);
+
     if (value) {
-      const index = this.learningWords.findIndex(word => word.wordId === wordId);
-      this.userWord = this.learningWords.splice(index, 1)[0];
-      this.difficultWords.push(this.userWord);
-    } else {
-      const index = this.difficultWords.findIndex(word => word.wordId === wordId);
+      if (indexLearned !== -1) {
+        this.userWord = this.learningWords.splice(indexLearned, 1)[0];
+        this.difficultWords.push(this.userWord);
+      }
+    } else if (indexDifficult !== -1) {
       this.userWord = this.difficultWords.splice(index, 1)[0];
       this.learningWords.push(this.userWord);
     }
@@ -473,7 +477,9 @@ export default class State {
   // update optional.progress
   updateProgressWord(wordId, value) {
     this.userLearningWord = this.learningWords.find(word => word.wordId === wordId);
+    console.log(this.userLearningWord);
     this.userDifficultWord = this.difficultWords.find(word => word.wordId === wordId);
+    console.log(this.userDifficultWord);
     this.userWord = this.userDifficultWord || this.userLearningWord;
     if (value) {
       this.bestSeries += 1;
