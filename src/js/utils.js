@@ -52,9 +52,12 @@ function createStatistic(statisticArray) {
   }, 0);
   statisticArray.forEach(el => {
     if (el.isLearned) {
-      usersAppState.updateProgressWord(el.id, true);
+      usersAppState.updateForceRepeatWord(el.id, false);
+      usersAppState.forceRepeat = false;
     } else {
-      usersAppState.updateProgressWord(el.id, false);
+      // height priority word training
+      usersAppState.forceRepeat = true;
+      usersAppState.updateForceRepeatWord(el.id, true);
     }
   });
   const statisticNode = document.createElement('template');

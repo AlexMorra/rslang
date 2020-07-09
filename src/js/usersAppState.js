@@ -105,7 +105,8 @@ export default class State {
         deletedWord: false,
         learnedWord: false,
         progress: 0,
-        lastAction: moment().format('MM D YYYY HH:mm')
+        lastAction: moment().format('MM D YYYY HH:mm'),
+        forceRepeat: false
       }
     };
     let token = localStorage.getItem('token');
@@ -387,11 +388,23 @@ export default class State {
 
   getTrainingWords(count = 10) {
     // return words and add from cards to the user dictionary if words not enough
+    let heightPriorityWords = [...this.learningWords, ...this.difficultWords].filter(word => word.optional.forceRepeat);
     let words = [...this.learningWords, ...this.difficultWords].slice()
-      .sort(() => 0.5 - Math.random()).slice(0, count)
+      .filter(word => !word.optional.forceRepeat)
+      .sort(() => 0.5 - Math.random()).slice(0, count - heightPriorityWords.length)
       .map(obj => {
         return wordCards[obj.difficulty].find(word => word.id === obj.wordId);
       });
+    heightPriorityWords = heightPriorityWords.map(obj => {
+      return wordCards[obj.difficulty].find(word => word.id === obj.wordId);
+    });
+    // console.log(heightPriorityWords.length, 'PRIORITY');
+    // console.log(heightPriorityWords);
+    // console.log(words.length, 'WORDS');
+    // console.log(words);
+    words = words.concat(heightPriorityWords);
+    // console.log(words.length);
+    // console.log(words);
     if (words.length < count) {
       Object.values(wordCards).forEach((card, index) => {
         card.forEach(word => {
@@ -488,12 +501,25 @@ export default class State {
     });
   }
 
+  // update optional.forceRepeat
+  updateForceRepeatWord(wordId, value) {
+    this.userWord = [...this.learningWords, this.difficultWords]
+      .find(word => word.wordId === wordId);
+    this.wordData = {
+      difficulty: this.userWord.difficulty,
+      optional: this.userWord.optional
+    };
+    this.wordData.optional.forceRepeat = value;
+    return this.updateUserWord(wordId, this.wordData).then(response => {
+      console.log(response, 'lol kek cheburek');
+      return response;
+    });
+  }
+
   // update optional.progress
   updateProgressWord(wordId, value) {
     this.userLearningWord = this.learningWords.find(word => word.wordId === wordId);
-    console.log(this.userLearningWord);
     this.userDifficultWord = this.difficultWords.find(word => word.wordId === wordId);
-    console.log(this.userDifficultWord);
     this.userWord = this.userDifficultWord || this.userLearningWord;
     if (value) {
       this.bestSeries += 1;
