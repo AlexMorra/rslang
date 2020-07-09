@@ -26,6 +26,16 @@ export default class State {
     this.userStatistics = {};
   }
 
+  // repeatWord(id) {
+  //   const word = this.getAllWords().find(word => word.wordId === id);
+  //   console.log(word);
+  //   console.log(word.optional.lastAction);
+  //   let date1 = word.optional.lastAction;
+  //   let date2 = moment().format('MM D YYYY HH:mm');
+  //   let total = (new Date(date2) - new Date(date1)) / 60000;
+  //   console.log(total);
+  // }
+
   getAllWords() {
     return [
       ...this.learningWords,
@@ -93,7 +103,8 @@ export default class State {
         difficultWord: false,
         deletedWord: false,
         learnedWord: false,
-        progress: 0
+        progress: 0,
+        lastAction: moment().format('MM D YYYY HH:mm')
       }
     };
     let token = localStorage.getItem('token');
@@ -513,6 +524,7 @@ export default class State {
     this.setUserSettings(this.getUserSettingsData());
     // take stats here
     this.setUserStatistics(this.getStatisticsData(wordId, value));
+    this.wordData.optional.lastAction = moment().format('MM D YYYY HH:mm');
     return this.updateUserWord(wordId, this.wordData).then(response => {
       console.log(response, 'update progress');
       return response;

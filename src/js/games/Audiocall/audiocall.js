@@ -87,7 +87,7 @@ export default class Audiocall {
     const shuffledWords = this.shuffle(currentWords);
     // Выбираем [последний]
     // Проигрываем звук
-    this.playGameSound(`../../../assets/${this.currentObject.audio}`);
+    this.playGameSound(`./assets/${this.currentObject.audio}`);
     // Вешаем обработчик на контейнер
     // Превращаем "старт" в "повтор" / Прячем "старт", показываем "повтор"
     // startButton.classList.toggle('purple-gradient');
@@ -110,7 +110,7 @@ export default class Audiocall {
         // если слов больше нету ->
         if (this.allWords.length === 0) {
           // проигрываем звук прохождения теста
-          if (this.soundOn) this.playGameSound('../../../assets/sounds/game-over.wav'); /* success */
+          if (this.soundOn) this.playGameSound('./assets/sounds/game-over.wav'); /* success */
           // возврат в экран выбора категорий и return
           setTimeout(() => {
             this.showResults();
