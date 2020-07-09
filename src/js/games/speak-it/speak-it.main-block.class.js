@@ -6,6 +6,7 @@ export default class SpeakItMainBlock {
     this.userWords = [];
     this.statistic = [];
     this.currentStage = 0;
+    this.recognition = new webkitSpeechRecognition();
   }
 
   getMainBlock() {
@@ -14,6 +15,7 @@ export default class SpeakItMainBlock {
     this.getCards();
     this.getNextStage();
     this.addBtnHandler();
+    this.checkCurrentPosition();
   }
 
   createMainBlock() {
@@ -111,7 +113,7 @@ export default class SpeakItMainBlock {
   getNextStage() {
     if (this.currentStage === 10) {
       utils.getStatistic(this.statistic);
-      this.currentStage += 1;
+      this.recognition.stop();
     } else {
       this.currentStage += 1;
       const currentWord = document.querySelector(`[index="${this.currentStage - 1}"]`);
@@ -130,9 +132,8 @@ export default class SpeakItMainBlock {
     const nextStageBtn = document.querySelector('.speak-it__main__main-block__buttons-block__next');
     const speakIdentifier = document.querySelector('.mic');
     let attempts = 0;
-    const recognition = new webkitSpeechRecognition();
-    recognition.lang = 'en';
-    recognition.continuous = true;
+    this.recognition.lang = 'en';
+    this.recognition.continuous = true;
     const startRecognitionBtn = document.querySelector('.speak-it__main__main-block__buttons-block__start-recognition');
     function startRecognitionHandler() {
       startRecognitionBtn.style.pointerEvents = 'none';
@@ -141,18 +142,14 @@ export default class SpeakItMainBlock {
       const currentCard = document.querySelector(`[index="${this.currentStage - 1}"]`);
       currentCard.classList.add('active');
       const input = document.querySelector('.speak-it__main__main-block__input');
-      recognition.start();
-      recognition.onresult = (event) => {
+      this.recognition.start();
+      this.recognition.onresult = (event) => {
         let result = event.results[attempts][0].transcript.toLowerCase();
-        if (this.currentStage === 11) {
-          recognition.stop();
-          return;
-        }
         input.value = result;
         this.checkResult();
         attempts += 1;
       };
-      recognition.onaudioend = function () {
+      this.recognition.onaudioend = function () {
         speakIdentifier.style.display = 'none';
         startRecognitionBtn.style.pointerEvents = 'auto';
         currentCard.classList.remove('active');
@@ -160,6 +157,9 @@ export default class SpeakItMainBlock {
       };
     }
     function nextStageBtnHandler() {
+      if (this.currentStage === 11) return;
+      console.log(this.userWords[this.currentStage - 1].id);
+      usersAppState.updateProgressWord(this.userWords[this.currentStage - 1].id, false);
       this.changeCardStyle(false);
       this.getAudioError();
       this.getNextStage();
@@ -187,11 +187,13 @@ export default class SpeakItMainBlock {
     const input = document.querySelector('.speak-it__main__main-block__input');
     if (input.value.trim() === this.userWords[this.currentStage - 1].word) {
       this.statistic[this.currentStage - 1].isLearned = true;
+      usersAppState.updateProgressWord(this.userWords[this.currentStage - 1].id, true);
       this.changeCardStyle(true);
       this.getAudioSuccess();
       this.getNextStage();
     } else {
       this.changeCardStyle(false);
+      usersAppState.updateProgressWord(this.userWords[this.currentStage - 1].id, false);
       this.getAudioError();
       this.getNextStage();
     }
@@ -200,14 +202,14 @@ export default class SpeakItMainBlock {
   getAudioSuccess() {
     const audio = new Audio();
     audio.preload = 'auto';
-    audio.src = '../../../assets/sounds/success.mp3';
+    audio.src = './assets/sounds/success.mp3';
     audio.play();
   }
 
   getAudioError() {
     const audio = new Audio();
     audio.preload = 'auto';
-    audio.src = '../../../assets/sounds/error.mp3';
+    audio.src = './assets/sounds/error.mp3';
     audio.play();
   }
 
@@ -219,5 +221,14 @@ export default class SpeakItMainBlock {
       card.style.backgroundColor = '#da5b4c';
     }
     card.style.opacity = '0.5';
+  }
+
+  checkCurrentPosition() {
+    const checkInterval = setInterval(() => {
+      if (window.currentPage !== 'Speak It') {
+        this.recognition.stop();
+        clearInterval(checkInterval);
+      }
+    }, 2000);
   }
 }

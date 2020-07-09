@@ -36,7 +36,8 @@ export default class Account {
         username: username,
         trainingGoal: goal,
         userLevel: usersAppState.userLevel,
-        userExp: usersAppState.userExp
+        userExp: usersAppState.userExp,
+        appSound: usersAppState.appSound
       }
     };
     this.idCheckboxOptions.forEach(el => {

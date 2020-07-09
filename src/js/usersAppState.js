@@ -17,6 +17,7 @@ export default class State {
     this.userLevel = 1;
     this.userExp = 0;
     this.bestSeries = 0;
+    this.appSound = true;
     // game options
     this.learningWords = [];
     this.difficultWords = [];
@@ -25,6 +26,16 @@ export default class State {
     // statistics
     this.userStatistics = {};
   }
+
+  // repeatWord(id) {
+  //   const word = this.getAllWords().find(word => word.wordId === id);
+  //   console.log(word);
+  //   console.log(word.optional.lastAction);
+  //   let date1 = word.optional.lastAction;
+  //   let date2 = moment().format('MM D YYYY HH:mm');
+  //   let total = (new Date(date2) - new Date(date1)) / 60000;
+  //   console.log(total);
+  // }
 
   getAllWords() {
     return [
@@ -93,7 +104,8 @@ export default class State {
         difficultWord: false,
         deletedWord: false,
         learnedWord: false,
-        progress: 0
+        progress: 0,
+        lastAction: moment().format('MM D YYYY HH:mm')
       }
     };
     let token = localStorage.getItem('token');
@@ -236,7 +248,8 @@ export default class State {
         playAudio: this.playAudio,
         userLevel: this.userLevel,
         userExp: this.userExp,
-        bestSeries: this.bestSeries
+        bestSeries: this.bestSeries,
+        appSound: this.appSound
       }
     };
   }
@@ -258,6 +271,7 @@ export default class State {
       this.userLevel = options.userLevel === undefined ? 1 : options.userLevel;
       this.userExp = options.userExp === undefined ? 0 : options.userExp;
       this.bestSeries = options.bestSeries === undefined ? 0 : options.bestSeries;
+      this.appSound = options.appSound === undefined ? true : options.appSound;
     }
   }
 
@@ -373,7 +387,7 @@ export default class State {
 
   getTrainingWords(count = 10) {
     // return words and add from cards to the user dictionary if words not enough
-    let words = this.learningWords.slice()
+    let words = [...this.learningWords, ...this.difficultWords].slice()
       .sort(() => 0.5 - Math.random()).slice(0, count)
       .map(obj => {
         return wordCards[obj.difficulty].find(word => word.id === obj.wordId);
@@ -383,6 +397,7 @@ export default class State {
         card.forEach(word => {
           if (!words.includes(word) && words.length < count) {
             words.push(word);
+            console.log(word.id);
             this.createUserWord(word.id, index + 1)
               .then(response => this.learningWords.push(response));
           }
@@ -427,12 +442,15 @@ export default class State {
 
   // update optional.difficultWord
   updateDifficultWord(wordId, value) {
+    const indexLearned = this.learningWords.findIndex(word => word.wordId === wordId);
+    const indexDifficult = this.difficultWords.findIndex(word => word.wordId === wordId);
+
     if (value) {
-      const index = this.learningWords.findIndex(word => word.wordId === wordId);
-      this.userWord = this.learningWords.splice(index, 1)[0];
-      this.difficultWords.push(this.userWord);
-    } else {
-      const index = this.difficultWords.findIndex(word => word.wordId === wordId);
+      if (indexLearned !== -1) {
+        this.userWord = this.learningWords.splice(indexLearned, 1)[0];
+        this.difficultWords.push(this.userWord);
+      }
+    } else if (indexDifficult !== -1) {
       this.userWord = this.difficultWords.splice(index, 1)[0];
       this.learningWords.push(this.userWord);
     }
@@ -473,7 +491,9 @@ export default class State {
   // update optional.progress
   updateProgressWord(wordId, value) {
     this.userLearningWord = this.learningWords.find(word => word.wordId === wordId);
+    console.log(this.userLearningWord);
     this.userDifficultWord = this.difficultWords.find(word => word.wordId === wordId);
+    console.log(this.userDifficultWord);
     this.userWord = this.userDifficultWord || this.userLearningWord;
     if (value) {
       this.bestSeries += 1;
@@ -507,6 +527,7 @@ export default class State {
     this.setUserSettings(this.getUserSettingsData());
     // take stats here
     this.setUserStatistics(this.getStatisticsData(wordId, value));
+    this.wordData.optional.lastAction = moment().format('MM D YYYY HH:mm');
     return this.updateUserWord(wordId, this.wordData).then(response => {
       console.log(response, 'update progress');
       return response;

@@ -96,13 +96,13 @@ export default class SkinWalkerStartGame {
     template.innerHTML = `
       <li class="skinwalker__word" data-id="${word.wordId}" data-audio="../assets/${word.wordAudio}">
         <p class="skinwalker__word__title-front">
-          <img class="skinwalker__shirt" src="../assets/icons/shirtword.jpg">
+          <img class="skinwalker__shirt" src="./assets/icons/shirtword.jpg">
         </p>
         <p class="skinwalker__word__title-back">${word.wordWord}</p>
       </li>
       <li class="skinwalker__word" data-id="${word.wordId}" data-audio="../assets/${word.wordAudio}">
         <p class="skinwalker__word__title-front">
-          <img class="skinwalker__shirt" src="../assets/icons/shirtword.jpg">
+          <img class="skinwalker__shirt" src="./assets/icons/shirtword.jpg">
         </p>
         <p class="skinwalker__word__title-back">${word.wordWordTranslate}</p>
       </li>`;

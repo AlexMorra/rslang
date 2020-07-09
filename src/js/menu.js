@@ -2,6 +2,7 @@ import * as utils from './utils';
 import moment from 'moment';
 import { usersAppState } from '../app';
 import statistics from './statistics';
+import GAMES from './games/gamesConstants';
 
 export default class Menu extends statistics {
   constructor(controlPanel, account, auth, dictionary, games, training, team) {
@@ -16,6 +17,7 @@ export default class Menu extends statistics {
     this.body = document.querySelector('body');
     this.menuTemplate = this.getTemplate();
     this.menuNav = null;
+    this.appSoundBtn = null;
   }
 
   show() {
@@ -23,9 +25,11 @@ export default class Menu extends statistics {
     this.menuNav = menuTemplate.querySelector('.nav-menu');
     this.userStats = menuTemplate.querySelector('.user-stats');
     this.statsWidth = menuTemplate.querySelector('.stats-width');
+    this.appSoundBtn = menuTemplate.querySelector('#app-sound');
     this.body.prepend(menuTemplate);
     window.addEventListener('click', this.menuHandler.bind(this));
     this.statsWidth.addEventListener('click', this.statsWidthHandler.bind(this));
+    this.appSoundBtn.addEventListener('change', this.appSoundHandler.bind(this));
   }
 
   menuHandler(e) {
@@ -34,6 +38,7 @@ export default class Menu extends statistics {
     const touchedStats = this.userStats.contains(e.target) || navId === 'main-stats';
     if (!touchedMenu) this.menuNav.classList.remove('open');
     if (!touchedStats) this.userStats.classList.remove('open-stats');
+    if (touchedMenu) window.currentPage = navId;
 
     switch (navId) {
       case 'main-stats':
@@ -47,6 +52,7 @@ export default class Menu extends statistics {
         break;
       case 'nav-header':
         this.menuNav.classList.toggle('open');
+        this.appSoundBtn.checked = usersAppState.appSound;
         break;
       case 'nav-control-panel':
         utils.destroy();
@@ -75,8 +81,24 @@ export default class Menu extends statistics {
       case 'nav-team':
         utils.destroy();
         this.team.show();
+        break;
       default:
     }
+
+    // FIXME
+
+    const games = GAMES.reduce((games, obj) => [...games, obj.id], []);
+    const navMenu = document.querySelector('.nav-menu');
+    if (games.includes(window.currentPage)) {
+      navMenu.style.width = '0px';
+    } else {
+      navMenu.removeAttribute('style');
+    }
+  }
+
+  appSoundHandler() {
+    usersAppState.appSound = this.appSoundBtn.checked;
+    usersAppState.setUserSettings(usersAppState.getUserSettingsData());
   }
 
   statsWidthHandler() {
@@ -138,6 +160,15 @@ export default class Menu extends statistics {
           <li id="nav-logout" class="nav-logout">
               <i class="fas fa-sign-out-alt menu-icon" title="Выход"></i>
               <span class="nav-name">Выход</span>
+          </li>
+          <li class="app-sound" id="nav-app-sound">
+            <label class="nav-sound">
+              <span>Звук</span>
+              <span class="checkbox-wrapper">
+                  <input type="checkbox" id="app-sound" class="checkbox">
+                  <span class="checkbox-style"></span>
+              </span>
+            </label>
           </li>
       </ul>
     </nav>
