@@ -17,6 +17,7 @@ export default class State {
     this.userLevel = 1;
     this.userExp = 0;
     this.bestSeries = 0;
+    this.appSound = true;
     // game options
     this.learningWords = [];
     this.difficultWords = [];
@@ -247,7 +248,8 @@ export default class State {
         playAudio: this.playAudio,
         userLevel: this.userLevel,
         userExp: this.userExp,
-        bestSeries: this.bestSeries
+        bestSeries: this.bestSeries,
+        appSound: this.appSound
       }
     };
   }
@@ -269,6 +271,7 @@ export default class State {
       this.userLevel = options.userLevel === undefined ? 1 : options.userLevel;
       this.userExp = options.userExp === undefined ? 0 : options.userExp;
       this.bestSeries = options.bestSeries === undefined ? 0 : options.bestSeries;
+      this.appSound = options.appSound === undefined ? true : options.appSound;
     }
   }
 
