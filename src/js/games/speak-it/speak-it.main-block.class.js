@@ -158,6 +158,7 @@ export default class SpeakItMainBlock {
     }
     function nextStageBtnHandler() {
       if (this.currentStage === 11) return;
+      console.log(this.userWords[this.currentStage - 1].id);
       usersAppState.updateProgressWord(this.userWords[this.currentStage - 1].id, false);
       this.changeCardStyle(false);
       this.getAudioError();
