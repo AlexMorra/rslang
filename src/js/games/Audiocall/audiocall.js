@@ -122,7 +122,7 @@ export default class Audiocall {
             return;
           }
           // проигрываем звук победы
-          if (this.soundOn) this.successSound.play();
+          if (this.soundOn) this.playGameSound('./assets/sounds/success.mp3');
           // берем следующею пару слов
           setTimeout(() => {
             utils.destroy();
@@ -141,7 +141,7 @@ export default class Audiocall {
             usersAppState.updateProgressWord(this.currentObject.id, false);
           }
           // проигрываем звук поражения
-          if (this.soundOn) this.errorSound.play();
+          if (this.soundOn) this.playGameSound('./assets/sounds/error.mp3');
         // ожидание слова
         }
       }
