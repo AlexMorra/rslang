@@ -215,26 +215,6 @@ li {
     fill: none;
 }
 
-.sprint__soundBtn.off {
-    background: url("../../assets/images/sound-off.svg") no-repeat center;
-}
-
-.sprint__soundBtn {
-    cursor: pointer;
-    border: none;
-    outline: none;
-    transition: all .15s ease;
-    background: url("../../assets/images/sound.svg") no-repeat center;
-    width: 20px;
-    height: 20px;
-    position: absolute;
-    bottom: 10px;
-    right: 10px;
-    padding: 18px;
-    box-sizing: border-box;
-    z-index: 30;
-}
-
 @media (min-width: 320px) and (max-width: 800px) {
     .sprint__card {
         width: 70%;
@@ -251,9 +231,6 @@ li {
 }
 
 @media (min-width: 401px) and (max-width: 800px) {
-    .sprint__intro {
-        margin-left: 55px;
-    }
     .sprint__intro-description {
         margin: 0 0 58px;
         padding: 0 55px;

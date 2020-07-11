@@ -1,6 +1,5 @@
 export default class SprintTimer {
   constructor(time = 5) {
-    this.gameOverSound = new Audio('./assets/sounds/game-over.wav');
     this.time = time;
     this.intervalId = null;
     this.element = this.createElement();
@@ -35,13 +34,17 @@ export default class SprintTimer {
       } else {
         this.destroy();
       }
+      // if (this.time === 6 && usersAppState.appSound === true) {
+      //   const audio = new Audio('./assets/sounds/sprint-timer.mp3');
+      //   audio.preload = 'auto';
+      //   audio.play();
+      // }
     }, 1000);
   }
 
   destroy() {
-    this.element.dispatchEvent(new CustomEvent('timer-end'));
     clearInterval(this.intervalId);
-    this.gameOverSound.play();
+    this.element.dispatchEvent(new CustomEvent('timer-end'));
   }
 
   clearInterval() {
