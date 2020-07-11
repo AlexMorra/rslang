@@ -1,3 +1,5 @@
+import { usersAppState } from '../../../app';
+
 export default class EnglishPuzzleButtonsBlock {
   getButtonsBlock() {
     const targetNode = document.querySelector('.english-puzzle-main');
@@ -50,16 +52,20 @@ export default class EnglishPuzzleButtonsBlock {
   }
 
   getSuccessSound() {
-    const audio = new Audio();
-    audio.preload = 'auto';
-    audio.src = './assets/sounds/success.mp3';
-    audio.play();
+    if (usersAppState.appSound) {
+      const audio = new Audio();
+      audio.preload = 'auto';
+      audio.src = './assets/sounds/success.mp3';
+      audio.play();
+    }
   }
 
   getErrorSound() {
-    const audio = new Audio();
-    audio.preload = 'auto';
-    audio.src = './assets/sounds/error.mp3';
-    audio.play();
+    if (usersAppState.appSound) {
+      const audio = new Audio();
+      audio.preload = 'auto';
+      audio.src = './assets/sounds/error.mp3';
+      audio.play();
+    }
   }
 }

@@ -3,8 +3,6 @@ import { usersAppState } from '../../../app';
 import TrainingCards from '../../../js/trainingCards/trainingCards';
 import * as utils from '../../utils';
 
-// export let usersAppState = new State();
-
 console.log(usersAppState);
 
 export default class Audiocall {
@@ -15,6 +13,7 @@ export default class Audiocall {
     this.startButton = null;
     this.errors = 0;
     this.currentError = false;
+    this.alreadyGuessed = false;
     this.wordsListLength = 50;
     this.soundOn = true;
     this.allWords = usersAppState.getTrainingWords(this.wordsListLength);
@@ -71,6 +70,7 @@ export default class Audiocall {
       const button = document.querySelector('.into__button');
       button.addEventListener('click', (event) => {
         if (event.target.tagName === 'BUTTON') {
+          utils.destroy();
           this.handleStart();
         }
       });
@@ -97,47 +97,53 @@ export default class Audiocall {
   }
 
   checkCorrectAnswer(e) {
-    const playableTarget = e.target.closest('.word');
-    if (playableTarget && !playableTarget.classList.contains('already-checked')) {
-    // выяснить какого слова касается карточка
-    // если слово совпало:
-      if (playableTarget.dataset.word === this.currentObject.wordTranslate) {
-        // добавляем галочку
-        playableTarget.insertAdjacentHTML('beforeEnd', '<span class="correct"></span>');
-        // добавляем в массив угаладанных
-        this.addToStatistic(this.currentObject, true);
-        usersAppState.updateProgressWord(this.currentObject.id, true);
-        // если слов больше нету ->
-        if (this.allWords.length === 0) {
+    if (!this.alreadyGuessed) {
+      const playableTarget = e.target.closest('.word');
+      if (playableTarget && !playableTarget.classList.contains('already-checked')) {
+        // выяснить какого слова касается карточка
+        // если слово совпало:
+        if (playableTarget.dataset.word === this.currentObject.wordTranslate) {
+          this.alreadyGuessed = true;
+          // добавляем галочку
+          playableTarget.insertAdjacentHTML('beforeEnd', '<span class="correct"></span>');
+          // добавляем в массив угададанных, если раннее пользователь не ошибся
+          if (!this.currentError) {
+            this.addToStatistic(this.currentObject, true);
+            usersAppState.updateProgressWord(this.currentObject.id, true);
+          }
+          // если слов больше нету ->
+          if (this.allWords.length === 0) {
           // проигрываем звук прохождения теста
-          if (this.soundOn) this.playGameSound('./assets/sounds/game-over.wav'); /* success */
-          // возврат в экран выбора категорий и return
+            // возврат в экран выбора категорий и return
+            setTimeout(() => {
+              utils.destroy();
+              this.showResults();
+            }, 500);
+            return;
+          }
+          // проигрываем звук победы
+          if (this.soundOn) this.successSound.play();
+          // берем следующею пару слов
           setTimeout(() => {
-            this.showResults();
-          }, 500);
-          return;
+            utils.destroy();
+            this.handleStart();
+          }, 600);
         }
-        // проигрываем звук победы
-        if (this.soundOn) this.playGameSound('../../../assets/sounds/success.mp3');
-        // берем следующею пару слов
-        setTimeout(() => {
-          this.handleStart();
-        }, 900);
-      }
-      // ---- если слово НЕ совпало----:
-      else {
+        // ---- если слово НЕ совпало----:
+        else {
         // добавляем хрестик
-        playableTarget.insertAdjacentHTML('beforeEnd', '<span class="wrong"></span>');
-        // добавляем в массив не угаладанных
-        if (!this.currentError) {
-          this.currentError = true;
-          this.errors += 1;
-          this.addToStatistic(this.currentObject);
-          usersAppState.updateProgressWord(this.currentObject.id, false);
-        }
-        // проигрываем звук поражения
-        if (this.soundOn) this.playGameSound('../../../assets/sounds/error.mp3');
+          playableTarget.insertAdjacentHTML('beforeEnd', '<span class="wrong"></span>');
+          // добавляем в массив не угаладанных
+          if (!this.currentError) {
+            this.currentError = true;
+            this.errors += 1;
+            this.addToStatistic(this.currentObject);
+            usersAppState.updateProgressWord(this.currentObject.id, false);
+          }
+          // проигрываем звук поражения
+          if (this.soundOn) this.errorSound.play();
         // ожидание слова
+        }
       }
     }
   }
@@ -161,7 +167,9 @@ export default class Audiocall {
       this.setAudiocallWord(currentWords);
       const button = document.querySelector('.into__button');
       button.addEventListener('click', (event) => {
-        if (event.target.tagName === 'BUTTON') this.playGameSound(`../../../assets/${this.currentObject.audio}`);
+        if (event.target.tagName === 'BUTTON') {
+          this.playGameSound(`./assets/${this.currentObject.audio}`);
+        }
       });
       this.sound.addEventListener('click', () => {
         this.toggleSoundState();
@@ -170,8 +178,8 @@ export default class Audiocall {
   }
 
   setAudiocallWord(currentWords) {
-    console.log(currentWords);
-    this.wordsWrapper.innerHTML = currentWords.map((word) => `<div class="word" data-word="${word.wordTranslate}" data-audiosrc="../../../assets/${word.word}">${word.wordTranslate}</div>`).join('');
+    this.alreadyGuessed = false;
+    this.wordsWrapper.innerHTML = currentWords.map((word) => `<div class="word" data-word="${word.wordTranslate}" data-ifcorrect="${word.wordTranslate === this.currentObject.wordTranslate ? 'correct' : ''}">${word.wordTranslate}</div>`).join('');
     this.wordsWrapper.onclick = (e) => {
       this.checkCorrectAnswer(e);
     };

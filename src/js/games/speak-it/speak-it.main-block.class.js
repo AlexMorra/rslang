@@ -122,6 +122,7 @@ export default class SpeakItMainBlock {
         const prevWord = document.querySelector(`[index="${this.currentStage - 2}"]`);
         currentWord.classList.add('active');
         prevWord.classList.remove('active');
+        prevWord.style.pointerEvents = 'none';
       }
       this.getImage();
       this.getTranslate();
@@ -200,17 +201,21 @@ export default class SpeakItMainBlock {
   }
 
   getAudioSuccess() {
-    const audio = new Audio();
-    audio.preload = 'auto';
-    audio.src = './assets/sounds/success.mp3';
-    audio.play();
+    if (usersAppState.appSound) {
+      const audio = new Audio();
+      audio.preload = 'auto';
+      audio.src = './assets/sounds/success.mp3';
+      audio.play();
+    }
   }
 
   getAudioError() {
-    const audio = new Audio();
-    audio.preload = 'auto';
-    audio.src = './assets/sounds/error.mp3';
-    audio.play();
+    if (usersAppState.appSound) {
+      const audio = new Audio();
+      audio.preload = 'auto';
+      audio.src = './assets/sounds/error.mp3';
+      audio.play();
+    }
   }
 
   changeCardStyle(value) {
