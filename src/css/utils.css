@@ -5,6 +5,12 @@
     background-color: #A07E4F;
 }
 
+.night-mode img:not(.card__image),
+.night-mode .speak-it__main__main-block__image-block,
+.night-mode .course-icon {
+  filter: invert(100%);
+}
+
 /* DESTROY TAB */
 .destroy {
     transition: all 0.4s ease;
