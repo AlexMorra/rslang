@@ -81,6 +81,12 @@ body {
     cursor: pointer;
  }
 
+ .word:hover {
+    /* background: repeating-linear-gradient(-60deg, #fff 0, #fff 1px, transparent 1px, transparent 5px); */
+    background: #fff4;
+    border-radius: 4px;
+    }
+
  .correct {
     position: absolute;
     top: 1px;
