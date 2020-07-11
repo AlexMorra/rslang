@@ -81,6 +81,11 @@ body {
     cursor: pointer;
  }
 
+ .word:hover {
+    background: #fff4;
+    border-radius: 4px;
+    }
+
  .correct {
     position: absolute;
     top: 1px;
