@@ -243,9 +243,9 @@ export default class SkinWalkerStartGame {
   checkLevelButton(skinwalkerHandlerLevelCheck) {
     skinwalkerHandlerLevelCheck.addEventListener(('click'), (event) => {
       const target = event.target;
-      skinwalkerHandlerLevelCheck.querySelectorAll('.skinwalker__checkbox_description').forEach(button => {
-        button.classList.remove('skinwalker__checkbox_active');
-        if (target.classList.contains('skinwalker__checkbox_description')) {
+      if (target.classList.contains('skinwalker__checkbox_description')) {
+        skinwalkerHandlerLevelCheck.querySelectorAll('.skinwalker__checkbox_description').forEach(button => {
+          button.classList.remove('skinwalker__checkbox_active');
           target.classList.add('skinwalker__checkbox_active');
           const choiceActiveDifficult = document.querySelector('.skinwalker__checkbox_active');
           this.difficult = choiceActiveDifficult.dataset.level;
@@ -263,8 +263,8 @@ export default class SkinWalkerStartGame {
           nextChoice.addEventListener(('click'), () => {
             this.buttonsAddChecked();
           });
-        }
-      });
+        });
+      }
     });
   }
 
@@ -278,6 +278,7 @@ export default class SkinWalkerStartGame {
     const buttonsBlockGame = `
     <div class="tab-wrapper">
         <div class="games__skinwalkers__start">
+          <p class="skinwalker__start__description"></p>
           <div class="skinwalker__settings__window">
             <div class="skinwalker__title">
               <p>Сейчас в Вашем словаре ${this.usWords.length} слов</p>
@@ -321,18 +322,30 @@ export default class SkinWalkerStartGame {
     }
     skinwalkerBlockChoise.addEventListener(('click'), (event) => {
       const target = event.target;
-      skinwalkerBlockChoise.querySelectorAll('.skinwalker__buttons__block_checked').forEach(button => {
-        button.classList.remove('skinwalker__checkbox_active');
-        if (target.classList.contains('skinwalker__buttons__block_checked')) {
-          target.classList.add('skinwalker__checkbox_active');
-          const choiceActiveWordSelect = document.querySelector('.skinwalker__checkbox_active');
-          this.choiseWords = choiceActiveWordSelect.dataset.words;
-        }
-        if (target.classList.contains('skinwalker__game__start-button-prev')) {
-          this.getButtonsListTemplate();
-        }
-      });
-      this.getSecondChoise();
+      const descriptionChoise = this.mainArea.querySelector('.skinwalker__start__description');
+      if (target.classList.contains('skinwalker__buttons__block_checked')) {
+        skinwalkerBlockChoise.querySelectorAll('.skinwalker__buttons__block_checked').forEach(button => {
+          button.classList.remove('skinwalker__checkbox_active');
+          if (target.classList.contains('skinwalker__buttons__block_checked')) {
+            target.classList.add('skinwalker__checkbox_active');
+            const choiceActiveWordSelect = document.querySelector('.skinwalker__checkbox_active');
+            this.choiseWords = choiceActiveWordSelect.dataset.words;
+            if (this.choiseWords === 'random') {
+              descriptionChoise.textContent = 'Для игры будут подобраны случайные слова, которые добавятся в словарь для изучения!';
+            }
+            if (this.choiseWords === 'mywords') {
+              descriptionChoise.textContent = 'В игре будут учавствовать только те слова, которые добавлены в словарь для изучения!';
+            }
+            if (this.choiseWords === 'mix') {
+              descriptionChoise.textContent = 'В игре будет часть слов из добавленных в словарь для изучения, и часть случайно подобранных, которые добавятся в словарь для изучения!';
+            }
+          }
+        });
+        this.getSecondChoise();
+      }
+      if (target.classList.contains('skinwalker__game__start-button-prev')) {
+        this.getButtonsListTemplate();
+      }
     });
   }
 
@@ -381,8 +394,11 @@ export default class SkinWalkerStartGame {
   skinWalkerHandler() {
     let countAll = 0;
     const skinwalkerBegin = `
-      <div class="tab-wrapper">
+      <div class="tab-wrapper skinwalker__game">
         <div class="skinwalker__game__zone">
+          <div class="skinwalker__button__game__zone">
+            <button class="skinwalker__sound-button"></button>
+          </div>
           <div class="skinwalker__game__count skinwalker__none-opacity"></div>
           <ul class="skinwalker__word__list"></ul>
           <div class="skinwalker__finish__buttons skinwalker__none-opacity">
@@ -394,6 +410,7 @@ export default class SkinWalkerStartGame {
     `;
 
     this.mainArea.innerHTML = skinwalkerBegin;
+    this.checkToSound();
 
     let countClick = 0;
     let targetIdFirst = '';
@@ -413,9 +430,11 @@ export default class SkinWalkerStartGame {
       let target = event.target;
       if (target.tagName === 'LI' && !target.classList.contains('skinwalker_rotate')) {
         countAll += 1;
-        const audio = new Audio();
-        audio.src = target.dataset.audio;
-        audio.play();
+        if (usersAppState.appSound) {
+          const audio = new Audio();
+          audio.src = target.dataset.audio;
+          audio.play();
+        }
 
         if (target.tagName === 'LI' && countClick < 1) {
           target.classList.add('skinwalker_rotate');
@@ -445,16 +464,27 @@ export default class SkinWalkerStartGame {
     });
   }
 
+  checkToSound() {
+    if (usersAppState.appSound) {
+      const soundButton = this.mainArea.querySelector('.skinwalker__sound-button');
+      soundButton.style.opacity = 1;
+    }
+  }
+
   skinWalkerRepeatHandler() {
     let countAll = 0;
     const skinwalkerRepeat = `
-      <div class="tab-wrapper">
+      <div class="tab-wrapper skinwalker__game">
         <div class="skinwalker__game__zone">
+          <div class="skinwalker__button__game__zone">
+            <button class="skinwalker__sound-button"></button>
+          </div>
           <ul class="skinwalker__word__list"></ul>
         </div>
       </div>
     `;
     this.mainArea.innerHTML = skinwalkerRepeat;
+    this.checkToSound();
     let countClick = 0;
     let targetIdFirst = '';
     const gameZone = document.querySelector('.skinwalker__word__list');
@@ -463,7 +493,7 @@ export default class SkinWalkerStartGame {
       let target = event.target;
       if (target.tagName === 'LI' && !target.classList.contains('skinwalker_animation')) {
         countAll += 1;
-        if (target.dataset.audio) {
+        if (usersAppState.appSound && target.dataset.audio) {
           const audio = new Audio();
           audio.src = target.dataset.audio;
           audio.play();
@@ -481,6 +511,8 @@ export default class SkinWalkerStartGame {
             this.sortDictionary[index].targetIdCountClick += 1;
             if (this.sortDictionary[index].targetIdCountClick === 2) {
               this.sortDictionary[index].isLearned = true;
+              console.log('index:', this.sortDictionary[index]);
+              console.log('targetIdFirst', targetIdFirst);
               usersAppState.updateProgressWord(targetIdFirst, true);
             }
             document.querySelectorAll('.skinwalker_animation').forEach((li) => {
