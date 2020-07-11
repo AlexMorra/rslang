@@ -17,6 +17,10 @@ export default class Audiocall {
     this.wordsListLength = 50;
     this.soundOn = true;
     this.allWords = usersAppState.getTrainingWords(this.wordsListLength);
+    this.startBell = new Audio('./assets/sounds/start-bell.wav');
+    this.errorSound = new Audio('./assets/sounds/error.mp3');
+    this.successSound = new Audio('./assets/sounds/success.mp3');
+    this.gameOverSound = new Audio('./assets/sounds/game-over.wav');
     this.statistics = [];
   }
 
@@ -110,7 +114,6 @@ export default class Audiocall {
           // если слов больше нету ->
           if (this.allWords.length === 0) {
           // проигрываем звук прохождения теста
-            if (this.soundOn) this.playGameSound('./assets/sounds/game-over.wav'); /* success */
             // возврат в экран выбора категорий и return
             setTimeout(() => {
               utils.destroy();
@@ -119,7 +122,7 @@ export default class Audiocall {
             return;
           }
           // проигрываем звук победы
-          if (this.soundOn) this.playGameSound('./assets/sounds/success.mp3');
+          if (this.soundOn) this.successSound.play();
           // берем следующею пару слов
           setTimeout(() => {
             utils.destroy();
@@ -138,7 +141,7 @@ export default class Audiocall {
             usersAppState.updateProgressWord(this.currentObject.id, false);
           }
           // проигрываем звук поражения
-          if (this.soundOn) this.playGameSound('./assets/sounds/error.mp3');
+          if (this.soundOn) this.errorSound.play();
         // ожидание слова
         }
       }
