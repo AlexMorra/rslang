@@ -1,5 +1,7 @@
+import { usersAppState } from '../../../app';
+
 export default class SprintCard {
-  constructor(counter, initStatistic, statistic, timer, wordList, soundOn) {
+  constructor(counter, initStatistic, statistic, timer, wordList) {
     this.timer = timer;
     this.wordList = wordList;
     this.wordListRangeStart = 0;
@@ -7,9 +9,6 @@ export default class SprintCard {
     this.counter = counter;
     this.initStatistic = initStatistic;
     this.statistic = statistic;
-    this.soundOn = soundOn;
-    this.errorSound = new Audio('./assets/sounds/error.mp3');
-    this.successSound = new Audio('./assets/sounds/success.mp3');
     this.answers = 0;
     this.correctAnswers = 0;
     this.allCorrectAnswers = 0;
@@ -24,7 +23,8 @@ export default class SprintCard {
     this.translation = this.element.querySelector('.j-translation');
     this.addWordAndTranslateToCard();
     this.addClickEventsToCardButtons();
-    this.addKeyEventsToCardButtons();
+    this.keyHandler = this.onKeyDown.bind(this);
+    document.addEventListener('keydown', this.keyHandler);
   }
 
   getElement() {
@@ -78,7 +78,7 @@ export default class SprintCard {
 
   addClickEventsToCardButtons() {
     const btnGroup = this.element.querySelector('.sprint__card-btn');
-    btnGroup.addEventListener('click', (event) => {
+    btnGroup.addEventListener('mousedown', (event) => {
       const target = event.target;
       if ((target.classList.contains('j-falseBtn') && this.isSame === false) || (target.classList.contains('j-trueBtn') && this.isSame === true)) {
         this.updateAnswersAndStatistic();
@@ -91,11 +91,7 @@ export default class SprintCard {
   }
 
   removeKeyEventsFromCardButtons() {
-    document.removeEventListener('keydown', this.onKeyDown.bind(this));
-  }
-
-  addKeyEventsToCardButtons() {
-    document.addEventListener('keydown', this.onKeyDown.bind(this));
+    document.removeEventListener('keydown', this.keyHandler);
   }
 
   onKeyDown(event) {
@@ -110,8 +106,10 @@ export default class SprintCard {
   }
 
   resetAnswers() {
-    if (this.soundOn) {
-      this.errorSound.play();
+    if (usersAppState.appSound === true) {
+      const audio = new Audio('./assets/sounds/error.mp3');
+      audio.preload = 'auto';
+      audio.play();
     }
     this.correctAnswers = 0;
     this.cur = 10;
@@ -120,8 +118,10 @@ export default class SprintCard {
   }
 
   updateAnswersAndStatistic() {
-    if (this.soundOn) {
-      this.successSound.play();
+    if (usersAppState.appSound === true) {
+      const audio = new Audio('./assets/sounds/success.mp3');
+      audio.preload = 'auto';
+      audio.play();
     }
     if (this.correctAnswers === 4) {
       this.cur *= this.multiplier;
@@ -150,7 +150,7 @@ export default class SprintCard {
       this.info.innerHTML = '';
     } else {
       indicator.children[childNumber].innerHTML = `
-        <img class="sprint__card-main-indicator-item-img" alt='' src='../../../assets/icons/sprint_check-mark.png'>
+        <img class="sprint__card-main-indicator-item-img" alt='' src='./assets/icons/sprint_check-mark.png'>
       `;
       this.highlightCard();
       if (this.cur > 10) {
