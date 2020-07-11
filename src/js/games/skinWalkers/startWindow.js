@@ -14,6 +14,7 @@ export default class SkinWalkerStartGame {
     this.difficult = null;
     this.difficultLevel = null;
     this.userWodLevelChoise = null;
+    this.sortDictionary = [];
   }
 
   show() {
@@ -61,11 +62,14 @@ export default class SkinWalkerStartGame {
     this.usWords.forEach(obj => {
       const word = wordCards[obj.difficulty].find(item => item.id === obj.wordId);
       this.wordListDictionary.push({
-        wordId: word.id,
-        wordAudio: word.audio,
-        wordGroup: word.group,
-        wordWord: word.word,
-        wordWordTranslate: word.wordTranslate
+        id: word.id,
+        audioSrc: word.audio,
+        word: word.word,
+        translate: word.wordTranslate,
+        isLearned: false,
+        transcription: word.transcription,
+        targetIdCountClick: 0,
+        group: word.group
       });
     });
   }
@@ -74,11 +78,14 @@ export default class SkinWalkerStartGame {
   getAllWordListDictionary() {
     wordCards[1].forEach(word => {
       this.wordAllListDictionary.push({
-        wordId: word.id,
-        wordAudio: word.audio,
-        wordGroup: word.group,
-        wordWord: word.word,
-        wordWordTranslate: word.wordTranslate
+        id: word.id,
+        audioSrc: word.audio,
+        word: word.word,
+        translate: word.wordTranslate,
+        isLearned: false,
+        transcription: word.transcription,
+        targetIdCountClick: 0,
+        group: word.group
       });
     });
   }
@@ -94,27 +101,59 @@ export default class SkinWalkerStartGame {
   getWordTemplate(word) {
     const template = document.createElement('template');
     template.innerHTML = `
-      <li class="skinwalker__word" data-id="${word.wordId}" data-audio="../assets/${word.wordAudio}">
+      <li class="skinwalker__word" data-id="${word.id}" data-audio="./assets/${word.audioSrc}">
         <p class="skinwalker__word__title-front">
           <img class="skinwalker__shirt" src="./assets/icons/shirtword.jpg">
         </p>
-        <p class="skinwalker__word__title-back">${word.wordWord}</p>
+        <p class="skinwalker__word__title-back">${word.word}</p>
       </li>
-      <li class="skinwalker__word" data-id="${word.wordId}" data-audio="../assets/${word.wordAudio}">
+      <li class="skinwalker__word" data-id="${word.id}" data-audio="./assets/${word.audioSrc}">
         <p class="skinwalker__word__title-front">
           <img class="skinwalker__shirt" src="./assets/icons/shirtword.jpg">
         </p>
-        <p class="skinwalker__word__title-back">${word.wordWordTranslate}</p>
+        <p class="skinwalker__word__title-back">${word.translate}</p>
       </li>`;
     return template.content;
   }
 
-  getGamesTemplate(sortDictionary) {
+  getRepeatWordTemplate(word) {
+    const template = document.createElement('template');
+    template.innerHTML = `
+    <li class="skinwalker__word" data-id="${word.id}" data-audio="./assets/${word.audioSrc}">
+      <p class="skinwalker__word__repeat">${word.word}</p>
+    </li>
+    <li class="skinwalker__word" data-id="${word.id}">
+      <p class="skinwalker__word__repeat">${word.translate}</p>
+    </li>
+    `;
+    return template.content;
+  }
+
+  getRepeatGamesTemplate() {
     this.wordWrapper = document.querySelector('.skinwalker__word__list');
 
     const fragment = document.createDocumentFragment();
 
-    sortDictionary.forEach((word) => {
+    this.sortDictionary.forEach((word) => {
+      fragment.append(this.getRepeatWordTemplate(word));
+    });
+
+    this.wordWrapper.append(fragment);
+    const allWord = this.wordWrapper.querySelectorAll('li');
+    this.wordWrapper.innerHTML = '';
+    const sortAllWord = Array.from(allWord);
+    sortAllWord.sort(() => Math.random() - 0.5);
+    sortAllWord.forEach((li) => {
+      this.wordWrapper.innerHTML += `${li.outerHTML}`;
+    });
+  }
+
+  getGamesTemplate() {
+    this.wordWrapper = document.querySelector('.skinwalker__word__list');
+
+    const fragment = document.createDocumentFragment();
+
+    this.sortDictionary.forEach((word) => {
       fragment.append(this.getWordTemplate(word));
     });
 
@@ -130,20 +169,37 @@ export default class SkinWalkerStartGame {
 
   getUserWordDictionary() {
     this.wordListDictionary.sort(() => Math.random() - 0.5);
-    const sortDictionary = this.wordListDictionary.slice(0, this.difficultLevel);
-    return this.getGamesTemplate(sortDictionary);
+    this.sortDictionary = this.wordListDictionary.slice(0, this.difficultLevel);
+    this.sortDictionary.forEach(word => {
+      this.uploadLerningWords(word.id, word.group);
+    });
+    return this.getGamesTemplate();
   }
 
   getAllRandomDictionary() {
     this.wordAllListDictionary.sort(() => Math.random() - 0.5);
-    const sortDictionary = this.wordAllListDictionary.slice(0, this.difficultLevel);
-    return this.getGamesTemplate(sortDictionary);
+    this.sortDictionary = this.wordAllListDictionary.slice(0, this.difficultLevel);
+    this.sortDictionary.forEach(word => {
+      this.uploadLerningWords(word.id, word.group);
+    });
+    return this.getGamesTemplate();
   }
 
   getMixWordDictionary() {
-    this.wordListMixDictionary.sort(() => Math.random() - 0.5);
-    const sortDictionary = this.wordListMixDictionary;
-    return this.getGamesTemplate(sortDictionary);
+    this.sortDictionary = this.wordListMixDictionary;
+    this.sortDictionary.forEach(word => {
+      this.uploadLerningWords(word.id, word.group);
+    });
+    return this.getGamesTemplate();
+  }
+
+  uploadLerningWords(id, group) {
+    const words = [...usersAppState.learningWords, ...usersAppState.difficultWords];
+    const exists = words.some(word => word.wordId === id);
+    if (!exists) {
+      usersAppState.createUserWord(id, group + 1)
+        .then(response => usersAppState.learningWords.push(response));
+    }
   }
 
   getButtonsListTemplate() {
@@ -187,9 +243,9 @@ export default class SkinWalkerStartGame {
   checkLevelButton(skinwalkerHandlerLevelCheck) {
     skinwalkerHandlerLevelCheck.addEventListener(('click'), (event) => {
       const target = event.target;
-      skinwalkerHandlerLevelCheck.querySelectorAll('.skinwalker__checkbox_description').forEach(button => {
-        button.classList.remove('skinwalker__checkbox_active');
-        if (target.classList.contains('skinwalker__checkbox_description')) {
+      if (target.classList.contains('skinwalker__checkbox_description')) {
+        skinwalkerHandlerLevelCheck.querySelectorAll('.skinwalker__checkbox_description').forEach(button => {
+          button.classList.remove('skinwalker__checkbox_active');
           target.classList.add('skinwalker__checkbox_active');
           const choiceActiveDifficult = document.querySelector('.skinwalker__checkbox_active');
           this.difficult = choiceActiveDifficult.dataset.level;
@@ -207,8 +263,8 @@ export default class SkinWalkerStartGame {
           nextChoice.addEventListener(('click'), () => {
             this.buttonsAddChecked();
           });
-        }
-      });
+        });
+      }
     });
   }
 
@@ -222,6 +278,7 @@ export default class SkinWalkerStartGame {
     const buttonsBlockGame = `
     <div class="tab-wrapper">
         <div class="games__skinwalkers__start">
+          <p class="skinwalker__start__description"></p>
           <div class="skinwalker__settings__window">
             <div class="skinwalker__title">
               <p>Сейчас в Вашем словаре ${this.usWords.length} слов</p>
@@ -265,18 +322,30 @@ export default class SkinWalkerStartGame {
     }
     skinwalkerBlockChoise.addEventListener(('click'), (event) => {
       const target = event.target;
-      skinwalkerBlockChoise.querySelectorAll('.skinwalker__buttons__block_checked').forEach(button => {
-        button.classList.remove('skinwalker__checkbox_active');
-        if (target.classList.contains('skinwalker__buttons__block_checked')) {
-          target.classList.add('skinwalker__checkbox_active');
-          const choiceActiveWordSelect = document.querySelector('.skinwalker__checkbox_active');
-          this.choiseWords = choiceActiveWordSelect.dataset.words;
-          this.getSecondChoise();
-        }
-        if (target.classList.contains('skinwalker__game__start-button-prev')) {
-          this.getButtonsListTemplate();
-        }
-      });
+      const descriptionChoise = this.mainArea.querySelector('.skinwalker__start__description');
+      if (target.classList.contains('skinwalker__buttons__block_checked')) {
+        skinwalkerBlockChoise.querySelectorAll('.skinwalker__buttons__block_checked').forEach(button => {
+          button.classList.remove('skinwalker__checkbox_active');
+          if (target.classList.contains('skinwalker__buttons__block_checked')) {
+            target.classList.add('skinwalker__checkbox_active');
+            const choiceActiveWordSelect = document.querySelector('.skinwalker__checkbox_active');
+            this.choiseWords = choiceActiveWordSelect.dataset.words;
+            if (this.choiseWords === 'random') {
+              descriptionChoise.textContent = 'Для игры будут подобраны случайные слова, которые добавятся в словарь для изучения!';
+            }
+            if (this.choiseWords === 'mywords') {
+              descriptionChoise.textContent = 'В игре будут учавствовать только те слова, которые добавлены в словарь для изучения!';
+            }
+            if (this.choiseWords === 'mix') {
+              descriptionChoise.textContent = 'В игре будет часть слов из добавленных в словарь для изучения, и часть случайно подобранных, которые добавятся в словарь для изучения!';
+            }
+          }
+        });
+        this.getSecondChoise();
+      }
+      if (target.classList.contains('skinwalker__game__start-button-prev')) {
+        this.getButtonsListTemplate();
+      }
     });
   }
 
@@ -285,7 +354,9 @@ export default class SkinWalkerStartGame {
     secondChoice.classList.remove('skinwalker-events');
     secondChoice.classList.add('skinwalker-opacity');
     secondChoice.addEventListener(('click'), () => {
-      this.skinWalkerHandler();
+      setTimeout(() => {
+        this.skinWalkerHandler();
+      }, 400);
     });
   }
 
@@ -306,17 +377,28 @@ export default class SkinWalkerStartGame {
           this.getButtonsListTemplate();
         }
         if (target.classList.contains('skinwalker__finish__end')) {
-          console.log('clicl');
+          this.skinWalkerRepeatHandler();
         }
       });
+    }
+  }
+
+  greenRepeatCardCount() {
+    const green = this.mainArea.querySelectorAll('.skinwalker_green');
+
+    if (green.length === this.difficultLevel * 2) {
+      utils.getStatistic(this.sortDictionary);
     }
   }
 
   skinWalkerHandler() {
     let countAll = 0;
     const skinwalkerBegin = `
-      <div class="tab-wrapper">
+      <div class="tab-wrapper skinwalker__game">
         <div class="skinwalker__game__zone">
+          <div class="skinwalker__button__game__zone">
+            <button class="skinwalker__sound-button"></button>
+          </div>
           <div class="skinwalker__game__count skinwalker__none-opacity"></div>
           <ul class="skinwalker__word__list"></ul>
           <div class="skinwalker__finish__buttons skinwalker__none-opacity">
@@ -326,7 +408,9 @@ export default class SkinWalkerStartGame {
         </div>
       </div>
     `;
+
     this.mainArea.innerHTML = skinwalkerBegin;
+    this.checkToSound();
 
     let countClick = 0;
     let targetIdFirst = '';
@@ -341,13 +425,16 @@ export default class SkinWalkerStartGame {
       this.getMixWordListDictionary();
       this.getMixWordDictionary();
     }
+
     gameZone.addEventListener(('click'), (event) => {
       let target = event.target;
       if (target.tagName === 'LI' && !target.classList.contains('skinwalker_rotate')) {
         countAll += 1;
-        const audio = new Audio();
-        audio.src = target.dataset.audio;
-        audio.play();
+        if (usersAppState.appSound) {
+          const audio = new Audio();
+          audio.src = target.dataset.audio;
+          audio.play();
+        }
 
         if (target.tagName === 'LI' && countClick < 1) {
           target.classList.add('skinwalker_rotate');
@@ -368,6 +455,82 @@ export default class SkinWalkerStartGame {
                 setTimeout(() => {
                   li.classList.remove('skinwalker_rotate');
                 }, 600);
+              }
+            });
+          }
+          countClick = 0;
+        }
+      }
+    });
+  }
+
+  checkToSound() {
+    if (usersAppState.appSound) {
+      const soundButton = this.mainArea.querySelector('.skinwalker__sound-button');
+      soundButton.style.opacity = 1;
+    }
+  }
+
+  skinWalkerRepeatHandler() {
+    let countAll = 0;
+    const skinwalkerRepeat = `
+      <div class="tab-wrapper skinwalker__game">
+        <div class="skinwalker__game__zone">
+          <div class="skinwalker__button__game__zone">
+            <button class="skinwalker__sound-button"></button>
+          </div>
+          <ul class="skinwalker__word__list"></ul>
+        </div>
+      </div>
+    `;
+    this.mainArea.innerHTML = skinwalkerRepeat;
+    this.checkToSound();
+    let countClick = 0;
+    let targetIdFirst = '';
+    const gameZone = document.querySelector('.skinwalker__word__list');
+    this.getRepeatGamesTemplate();
+    gameZone.addEventListener(('click'), (event) => {
+      let target = event.target;
+      if (target.tagName === 'LI' && !target.classList.contains('skinwalker_animation')) {
+        countAll += 1;
+        if (usersAppState.appSound && target.dataset.audio) {
+          const audio = new Audio();
+          audio.src = target.dataset.audio;
+          audio.play();
+        }
+        if (target.tagName === 'LI' && countClick < 1) {
+          target.classList.add('skinwalker_animation');
+          countClick += 1;
+          targetIdFirst = target.dataset.id;
+          let index = this.sortDictionary.findIndex(el => el.id === targetIdFirst);
+          this.sortDictionary[index].targetIdCountClick += 1;
+        } else if (target.tagName === 'LI' && countClick === 1) {
+          target.classList.add('skinwalker_animation');
+          if (targetIdFirst === target.dataset.id) {
+            let index = this.sortDictionary.findIndex(el => el.id === targetIdFirst);
+            this.sortDictionary[index].targetIdCountClick += 1;
+            if (this.sortDictionary[index].targetIdCountClick === 2) {
+              this.sortDictionary[index].isLearned = true;
+              console.log('index:', this.sortDictionary[index]);
+              console.log('targetIdFirst', targetIdFirst);
+              usersAppState.updateProgressWord(targetIdFirst, true);
+            }
+            document.querySelectorAll('.skinwalker_animation').forEach((li) => {
+              setTimeout(() => {
+                li.classList.remove('skinwalker_animation');
+                li.classList.add('skinwalker_green');
+                this.greenRepeatCardCount(countAll);
+              }, 300);
+            });
+          } else {
+            document.querySelectorAll('.skinwalker_animation').forEach((li) => {
+              if (!li.classList.contains('skinwalker_green')) {
+                li.classList.add('skinwalker-error');
+                setTimeout(() => {
+                  li.classList.remove('skinwalker_animation');
+                  li.classList.remove('skinwalker-error');
+                }, 600);
+                usersAppState.updateProgressWord(targetIdFirst, false);
               }
             });
           }
