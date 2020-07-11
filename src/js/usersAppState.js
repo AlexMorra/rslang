@@ -387,14 +387,22 @@ export default class State {
   }
 
   getTrainingWords(count = 10) {
+    this.words = [];
+
     // return words and add from cards to the user dictionary if words not enough
     let heightPriorityWords = [...this.learningWords, ...this.difficultWords].filter(word => word.optional.forceRepeat);
-    let words = [...this.learningWords, ...this.difficultWords].slice()
-      .filter(word => !word.optional.forceRepeat)
-      .sort(() => 0.5 - Math.random()).slice(0, count - heightPriorityWords.length)
-      .map(obj => {
-        return wordCards[obj.difficulty].find(word => word.id === obj.wordId);
-      });
+    let test = (count - heightPriorityWords.length) < 0 ? 0 : count - heightPriorityWords.length;
+    if (test) {
+      this.words = [...this.learningWords, ...this.difficultWords].slice()
+        .filter(word => !word.optional.forceRepeat)
+        .sort(() => 0.5 - Math.random()).slice(0, test)
+        .map(obj => {
+          return wordCards[obj.difficulty].find(word => word.id === obj.wordId);
+        });
+    } else {
+      heightPriorityWords = heightPriorityWords.sort(() => 0.5 - Math.random()).slice(0, count);
+    }
+
     heightPriorityWords = heightPriorityWords.map(obj => {
       return wordCards[obj.difficulty].find(word => word.id === obj.wordId);
     });
@@ -402,14 +410,14 @@ export default class State {
     // console.log(heightPriorityWords);
     // console.log(words.length, 'WORDS');
     // console.log(words);
-    words = words.concat(heightPriorityWords);
+    this.words = this.words.concat(heightPriorityWords);
     // console.log(words.length);
     // console.log(words);
-    if (words.length < count) {
+    if (this.words.length < count) {
       Object.values(wordCards).forEach((card, index) => {
         card.forEach(word => {
-          if (!words.includes(word) && words.length < count) {
-            words.push(word);
+          if (!this.words.includes(word) && this.words.length < count) {
+            this.words.push(word);
             console.log(word.id);
             this.createUserWord(word.id, index + 1)
               .then(response => this.learningWords.push(response));
@@ -417,7 +425,7 @@ export default class State {
         });
       });
     }
-    return words;
+    return this.words;
   }
 
   increaseExperience() {

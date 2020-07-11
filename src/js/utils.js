@@ -140,7 +140,7 @@ function addEventHandlerInStatistic() {
   deleteBtns.forEach(el => {
     el.addEventListener('click', () => {
       usersAppState.updateDeletedWord(el.id, true);
-      systemMessage('Слово удалено из словоря', 'success');
+      systemMessage('Слово удалено из словаря', 'success');
       el.style.pointerEvents = 'none';
       el.style.opacity = '0.2';
     });
