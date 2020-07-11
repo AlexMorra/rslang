@@ -7,6 +7,7 @@ import GAMES from './games/gamesConstants';
 export default class Menu extends statistics {
   constructor(controlPanel, account, auth, dictionary, games, training, team) {
     super();
+    this.mainArea = document.querySelector('.main-area');
     this.controlPanel = controlPanel;
     this.dictionary = dictionary;
     this.account = account;
@@ -71,6 +72,7 @@ export default class Menu extends statistics {
         this.account.show();
         break;
       case 'nav-logout':
+        this.mainArea.innerHTML = '';
         window.logout = true;
         this.auth.logout();
         break;
