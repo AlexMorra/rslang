@@ -50,15 +50,15 @@ function createStatistic(statisticArray) {
     }
     return acc;
   }, 0);
-    statisticArray.forEach(el => {	
-    if (el.isLearned) {	
-      usersAppState.updateForceRepeatWord(el.id, false);	
-      usersAppState.forceRepeat = false;	
-    } else {	
-      // height priority word training	
-      usersAppState.forceRepeat = true;	
-      usersAppState.updateForceRepeatWord(el.id, true);	
-    }	
+  statisticArray.forEach(el => {
+    if (el.isLearned) {
+      usersAppState.updateForceRepeatWord(el.id, false);
+      usersAppState.forceRepeat = false;
+    } else {
+      // height priority word training
+      usersAppState.forceRepeat = true;
+      usersAppState.updateForceRepeatWord(el.id, true);
+    }
   });
   const statisticNode = document.createElement('template');
   statisticNode.innerHTML = `
