@@ -1,6 +1,5 @@
 import wordCards from '../../wordCards';
 import { usersAppState } from '../../../app';
-import Dictionary from '../../dictionary';
 import * as utils from '../../utils';
 
 export default class SkinWalkerStartGame {
@@ -209,7 +208,6 @@ export default class SkinWalkerStartGame {
           <div class="skinwalker__settings__window">
             <div class="skinwalker__title">
               <p>Сейчас в Вашем словаре ${this.usWords.length} слов</p>
-              <p class="skinwalker__title__link">добавить слова из словаря</p>
               <p class="skinwalker__title__choise__level"></p>
             </div>
             <p class="skinwalker__buttons__description">Выберите условия для начала игры:</p>
@@ -225,19 +223,9 @@ export default class SkinWalkerStartGame {
     `;
     setTimeout(() => {
       this.mainArea.innerHTML = buttonsBlock;
-      const skinwalkerReturnDictionary = document.querySelector('.skinwalker__title__link');
       const skinwalkerHandlerLevelCheck = document.querySelector('.skinwalker__checkbox');
-      this.skinWalkerBackToMenu(skinwalkerReturnDictionary);
       this.checkLevelButton(skinwalkerHandlerLevelCheck);
     }, 400);
-  }
-
-  skinWalkerBackToMenu(skinwalkerReturnDictionary) {
-    skinwalkerReturnDictionary.addEventListener('click', () => {
-      const Diary = new Dictionary();
-      utils.destroy();
-      Diary.show();
-    });
   }
 
   checkLevelButton(skinwalkerHandlerLevelCheck) {
@@ -282,7 +270,6 @@ export default class SkinWalkerStartGame {
           <div class="skinwalker__settings__window">
             <div class="skinwalker__title">
               <p>Сейчас в Вашем словаре ${this.usWords.length} слов</p>
-              <p class="skinwalker__title__link">добавить слова из словаря</p>
               <p class="skinwalker__title__choise__level"></p>
             </div>
             <p class="skinwalker__buttons__description">Выберите условия для начала игры:</p>
