@@ -36,14 +36,12 @@ export default class Auth {
   }
 
   loginHandler(e) {
-    console.log('IN');
     e.preventDefault();
     let inputEmail = document.getElementById('login-email');
     let inputPassword = document.getElementById('login-password');
     let email = inputEmail.value;
     let password = inputPassword.value;
     if (this.emailValidator(email) && this.passwordValidator(password)) {
-      console.log('validate true');
       this.loginUser(email, password).then(response => {
         if (response) {
           localStorage.setItem('token', response.token);
@@ -61,7 +59,6 @@ export default class Auth {
     let email = inputEmail.value;
     let password = inputPassword.value;
     if (this.emailValidator(email) && this.passwordValidator(password)) {
-      console.log('validate true');
       this.createUser(email, password);
     }
   }
@@ -129,7 +126,6 @@ export default class Auth {
     });
     usersAppState.getUserSettings().then(nightMode => {
       if (nightMode) {
-        console.log('AUTH - GET USER SETTINGS');
         let body = document.querySelector('body');
         body.classList.add('night-mode');
       }
@@ -166,12 +162,10 @@ export default class Auth {
         return result;
       })
       .catch(error => {
-        console.log(error);
       });
   }
 
   passwordVisibility() {
-    console.log('PASSWORD VISIBILITY');
     let passwordVisibilityBtn = document.querySelector('.show-password');
     let passwordInput = document.getElementById('login-password')
       || document.getElementById('create-password');

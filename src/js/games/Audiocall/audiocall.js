@@ -1,9 +1,5 @@
-import wordCards from '../../wordCards';
 import { usersAppState } from '../../../app';
-import TrainingCards from '../../../js/trainingCards/trainingCards';
 import * as utils from '../../utils';
-
-console.log(usersAppState);
 
 export default class Audiocall {
   constructor() {
@@ -200,7 +196,6 @@ export default class Audiocall {
 
   showResults() {
     this.gameOverSound.play();
-    console.log(this.statistics);
     utils.getStatistic(this.statistics);
   }
 

@@ -23,7 +23,6 @@ export default class Account {
   }
 
   optionsHandler(e) {
-    console.log('OPTIONS CHANGE');
     // init the night mode before saving
     this.nightModeHandler(e);
 

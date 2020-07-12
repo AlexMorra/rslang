@@ -65,11 +65,9 @@ export default class State {
         return response.json();
       })
       .then(responseJson => {
-        console.log(responseJson, 'GET USER SETTINGS');
         this.saveSettings(responseJson);
         return this.nightMode;
-      })
-      .catch(error => console.log(error));
+      });
   }
 
   setUserSettings(settings) {
@@ -91,11 +89,9 @@ export default class State {
         return response.json();
       })
       .then(responseJson => {
-        console.log(responseJson, 'SET USER SETTINGS');
         this.saveSettings(responseJson);
         return responseJson;
-      })
-      .catch(error => console.log(error));
+      });
   }
 
   createUserWord(wordId, difficulty) {
@@ -124,7 +120,6 @@ export default class State {
     })
       .then(response => response.json())
       .then(responseJson => {
-        console.log(responseJson, 'CREATE USER WORD');
         return responseJson;
       });
   }
@@ -144,7 +139,6 @@ export default class State {
     })
       .then(response => response.json())
       .then(responseJson => {
-        console.log(responseJson, 'UPDATE USER WORD');
         return responseJson;
       });
   }
@@ -163,7 +157,6 @@ export default class State {
     })
       .then(response => response.json())
       .then(responseJson => {
-        console.log(responseJson, 'GET USER WORDS');
         responseJson.forEach(word => {
           if (word.optional.deletedWord) {
             this.deletedWords.push(word);
@@ -192,8 +185,6 @@ export default class State {
     })
       .then(response => response.json())
       .then(responseJson => {
-        console.log('WORD');
-        // console.log(responseJson, 'GET USER WORDDDD');
         return responseJson;
       });
   }
@@ -211,7 +202,6 @@ export default class State {
       }
     })
       .then(response => {
-        console.log(response, 'DELETED ------');
         return response;
       });
   }
@@ -229,8 +219,6 @@ export default class State {
     })
       .then(response => response.json())
       .then(responseJson => {
-        console.log('WORD');
-        // console.log(responseJson, 'GET USER WORDDDD');
         return responseJson;
       });
   }
@@ -258,7 +246,6 @@ export default class State {
   }
 
   saveSettings(settings) {
-    console.log(settings, 'SAVE');
     let options = settings.optional;
     this.wordsPerDay = settings.wordsPerDay;
     if (options) {
@@ -295,7 +282,6 @@ export default class State {
       .then(response => response.json())
       .then(responseJson => {
         this.userStatistics = responseJson;
-        console.log(responseJson, 'SET USER STATISTICS');
         return responseJson;
       });
   }
@@ -330,7 +316,6 @@ export default class State {
         }
       })
       .then(responseJson => {
-        console.log(responseJson, 'GET USER STATISTICS');
         if (responseJson) {
           this.userStatistics = responseJson;
           this.getStatisticsData();
@@ -342,7 +327,6 @@ export default class State {
   getStatisticsData(value) {
     let date = moment().format('MM D YYYY');
     if (!this.userStatistics.optional[date]) {
-      console.log(this.userStatistics);
       this.userStatistics.optional[date] = {
         correctAnswers: 0,
         incorrectAnswers: 0,
@@ -453,7 +437,6 @@ export default class State {
       optional: this.userWord.optional
     };
     return this.updateUserWord(wordId, wordData).then(response => {
-      console.log(response, 'updated delete word');
       return response;
     });
   }
@@ -478,7 +461,6 @@ export default class State {
       optional: this.userWord.optional
     };
     return this.updateUserWord(wordId, wordData).then(response => {
-      console.log(response, 'update difficult word');
       return response;
     });
   }
@@ -501,7 +483,6 @@ export default class State {
     if (!value) wordData.optional.progress = 0;
     this.userWord.optional.learnedWord = value;
     return this.updateUserWord(wordId, wordData).then(response => {
-      console.log(response, 'updated learned word');
       return response;
     });
   }
@@ -516,7 +497,6 @@ export default class State {
     };
     this.wordData.optional.forceRepeat = value;
     return this.updateUserWord(wordId, this.wordData).then(response => {
-      console.log(response, 'lol kek cheburek');
       return response;
     });
   }
@@ -560,7 +540,6 @@ export default class State {
     this.setUserStatistics(this.getStatisticsData(value));
     this.wordData.optional.lastAction = moment().format('MM D YYYY HH:mm');
     return this.updateUserWord(wordId, this.wordData).then(response => {
-      console.log(response, 'update progress');
       return response;
     });
   }

@@ -45,7 +45,6 @@ export function dragAndDrop() {
       draggingItem.parentNode.append(this.children[0]);
       this.append(draggingItem);
       this.setAttribute('isFree', false);
-      console.log(this);
     } else {
       this.append(draggingItem);
       this.classList.remove('hovered');

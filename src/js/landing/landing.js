@@ -277,7 +277,6 @@ export default class Landing {
 
   navigationClickHandler() {
     this.nav.addEventListener('click', (event) => {
-      console.log(event.target);
       if (event.target.classList.contains('navigation__item-link')) {
         this.nav.classList.toggle('header__navigation--open');
       }

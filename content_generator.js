@@ -513,7 +513,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const statStorage = dataStorage.slice(1).flat().map(element => element = {
       word: element.word, translation: element.translation, clickCount: 0, guessedCount: 0, missedCount: 0
     });
-    console.log(statStorage);
     const tableContainer = document.createElement('table');
     tableContainer.innerHTML = statStorage.map((object, index) => `
       <tr class="tr">
@@ -686,7 +685,6 @@ document.addEventListener('DOMContentLoaded', () => {
         // проигрываем звук поражения
         playGameSound('Assets/audio/error.mp3');
         isError++;
-        console.log(isError);
         // ожидание слова
       }
     }
