@@ -6,6 +6,7 @@
 @import "layout/slider.css";
 @import "layout/games.css";
 @import "layout/footer.css";
+@import "layout/tiny-slider.css";
 
 *, ::after, ::before {
     box-sizing: border-box;

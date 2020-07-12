@@ -14,6 +14,8 @@ export default class Landing {
     this.navTop = null;
     this.navButton = null;
     this.team = null;
+    this.enterButtons = null;
+    this.slider = null;
   }
 
   show() {
@@ -57,8 +59,8 @@ export default class Landing {
                     Собачка <span class="dog icon"></span> говорит "Do you speak english?"
                 </p> -->
                 <div class="registration__button-wrapper">
-                    <a class="button registration__button registration__button--new" type="button">Зарегистрироваться</a>
-                    <a class="button registration__button" type="button">Войти</a>
+                  <a class="button registration__button registration__button--new" type="button">Зарегистрироваться</a>
+                  <a class="button registration__button registration__button--enter" type="button">Войти</a>
                 </div>
               </div>    
             </section>
@@ -73,22 +75,32 @@ export default class Landing {
             
                 <section class="about-app__item about-app__item-01" data-index="0">
                     <h4 class="about-app__item-title">Методика интервального повторения</h4>
-                    <p class="about-app__desc">В Lingvist используются нейронные сети для быстрой и точной оценки имеющегося словарного запаса, чтобы вы проходили обучение в соответствии со своим уровнем знаний.</p>
+                    <p class="about-app__desc">В RSLang используется методика интервального повторения.
+                     Данная методика основана на действиях и выборе пользователя.
+                     При выборе слов и промежуточных тренировках (в играх, либо изучении) слова «созревают» и вновь попадают на изучение.
+                      С нашим приложением, Вы не забудете ничего.</p>
                 </section>
             
                 <section class="about-app__item about-app__item-02" data-index="1">
                     <h4 class="about-app__item-title">Словарь</h4>
-                    <p class="about-app__desc">Учите новые слова быстро и проверяйте имеющийся словарный запас в соответствующем контексте реальных условий.</p>
+                    <p class="about-app__desc">Словарь RSLang – позволяет пользователю самому выбирать слова для изучения.
+                      Процесс изучения полностью регулируется пользователем. Возможность добавлять, удалять или повторять слова также,
+                        при желании, доступно пользователю, либо доверьтесь нашему приложению, оно это делает самостоятельно на очень высоком уровне.</p>
                 </section>
             
                 <section class="about-app__item about-app__item-03" data-index="2">
                     <h4 class="about-app__item-title">Игры</h4>
-                    <p class="about-app__desc">Завершите наш общий курс или выберите конкретные курсы в списке спецкурсов на разные темы.</p>
+                    <p class="about-app__desc">Игры в RSLang – имеют очень важное значение. Это не просто приятное времяпрепровождение,
+                     но и эффективный инструмент изучения новых слов, а также на подсознательном уровне закрепляет знания уже изученных слов.
+                     Играйте с удовольствием, ведь это полезно и приятно.</p>
                 </section>
             
                 <section class="about-app__item about-app__item-04" data-index="3">
                     <h4 class="about-app__item-title">Статистика</h4>
-                    <p class="about-app__desc">Завершите наш общий курс или выберите конкретные курсы в списке спецкурсов на разные темы.</p>
+                    <p class="about-app__desc">Сложный алгоритм статистики RSLang регулирует методику интервального повторения слов пользователя.
+                     Помогает определить слова необходимые для повторного изучения, либо определяет способность пользователя перейти к изучению новых.
+                      Благодаря статистике и нашему алгоритму RSLang, пользователь сможет в сжатые сроки развить свой словарный запах,
+                     а также без особого дискомфорта начать общаться на английском языке.</p>
                 </section>
             
                 <div class="about-app__pagination">
@@ -228,6 +240,7 @@ export default class Landing {
     this.navButton = document.getElementById('menuToggle');
     this.nav = document.querySelector('.header__navigation');
     this.team = document.querySelector('.team-list');
+    this.enterButtons = document.querySelector('.registration__button-wrapper');
   }
 
   aboutAppClickHandler() {
@@ -285,7 +298,7 @@ export default class Landing {
         <div class="person__photo person__photo--${index}">
           <img class="person__image" src="./assets/images/team/${person.image}">
         </div>
-        <div class="person__desc">              
+        <div class="person__desc person__desc--${index}">              
           <span class="person__fullname">${person.fullname}</span>
           <span class="person__role">${person.title}</span>  
           <div class="person__link-wrapper">
@@ -303,37 +316,59 @@ export default class Landing {
     return template.content;
   }
 
+  enterButtonClickHandler() {
+    this.enterButtons.addEventListener('click', (event) => {
+      console.log('click')
+       if (event.target.classList.contains('registration__button--enter')) {
+         console.log('enter')
+       }
+
+       if (event.target.classList.contains('registration__button--new')) {
+        console.log('registaration')
+       }
+    });
+  }
+
   sliderInit() {
     this.slider = tns({
       container: '.my-slider',
       controls: false,
-      items: 4,
+      items: 1,
       slideBy: 'page',
       mode: 'carousel',
       center: true,
-      // loop: true,
+      loop: true,
       speed: 600,
       mouseDrag: true,
       controlsPosition: 'bottom',
-      // nav: false,
+      nav: true,
       fixedWidth: false,
       swipeAngle: false,
       responsive: {
+        375: {
+          items: 1,
+          fixedWidth: 320
+        },
+        500: {
+          items: 1,
+          fixedWidth: 320
+        },
         640: {
           items: 2
         },
         956: {
           items: 3,
-          fixedWidth: 230
+          // fixedWidth: 230
         },
-        1100: {
-          items: 3,
-          fixedWidth: 340
+        1400: {
+          items: 4,
         }
       },
       preventScrollOnTouch: 'force',
       startIndex: 0
     });
+
+    this.slider.play();
   }
 
   start() {
@@ -343,6 +378,8 @@ export default class Landing {
     this.navButtonClickHandler();
     this.navigationClickHandler();
     this.genearateTeam();
+    this.enterButtonClickHandler();
+    
     this.sliderInit();
   }
 }

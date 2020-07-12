@@ -55,6 +55,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    padding-bottom: 50px;
 }
 
 .about-app .about-app__btn {
@@ -101,7 +102,7 @@
     width: 35%;
     margin-bottom: auto;
     min-height: 250px;
-
+    padding-bottom: 30px;
 }
 
 .about-app__item-03,
@@ -114,6 +115,11 @@
 }
 
 @media (max-width: 1360px) {
+    .about-app {
+        background-size: 400px;
+        background-position: center 270px;
+    }
+
     .about-app__item { 
         padding-left: 30px;
         padding-right: 30px;
@@ -121,7 +127,8 @@
 
     .about-app__wrapper {
         min-height: 710px;
-        margin-top: 40px !important;
+        padding-top: 70px;
+        /* margin-top: 40px !important; */
     }
 
     .about-app__item {
@@ -134,24 +141,17 @@
     }
 }
 
-
-@media (max-width: 1023px) {
-    .about-app__item { 
-        padding-left: 40px;
-        padding-right: 40px;
+@media (max-width: 1200px) {
+    .about-app__wrapper {
+        min-height: 710px;
+        padding-top: 100px !important;
     }
 }
 
-@media (max-width: 877px) {
-    .about-app {
-        background-size: 400px;
-    }
-}
-
-@media (max-width: 767px) {
+@media (max-width: 1000px) {
     .about-app {
         background-size: 350px;
-        background-position: center 270px;
+        background-position: center 340px;
     }
 
     .about-app__item {
@@ -172,8 +172,10 @@
     }    
 
     .about-app__wrapper {
-        min-height: 660px;
-    } 
+        min-height: 710px;
+        padding-top: 30px !important;
+        min-height: 816px;
+    }
 
     .about-app {
         min-height: 800px;
@@ -187,7 +189,7 @@
 
 @media (max-width: 700px) {
     .about-app {
-        background-position: center 340px;
+        background-position: center 480px;
         background-size: 350px;
     }
 
@@ -197,14 +199,14 @@
     }
 
     .about-app__wrapper {
-        min-height: 760px;
+        min-height: 1000px;
     } 
 }
 
 @media (max-width: 425px) {
     .about-app {
-        background-position: center 300px;
         background-size: 300px;
+        background-position: center 520px;
     }
 
     .about-app__title {
@@ -217,23 +219,51 @@
         margin-bottom: 14px;
     }
 
+    .about-app {
+        min-height: 1000px;
+    }
+
     .about-app__wrapper {
-        min-height: 660px;
-    } 
+        min-height: 900px;
+    }
+    
+    .about-app__item {
+        margin: 0;
+        min-height: 700px;
+        padding: 0;
+    }
+
+    .about-app__pagination {
+        padding-top: 30px;
+    }
 }
 
-@media (max-width: 375px) {
+@media (max-width: 390px) {
     .about-app {
-        background-position: center 350px;
-    }    
-
+        background-position: center 520px;
+    } 
+    
+    .about-app__item {
+        margin: 0;
+        min-height: 900px;
+        padding: 0;
+    }
+/* 
     .about-app__wrapper {
         min-height: 710px;
-    }
+    } */
     
     .about-app__item-title {
         font-size: 18px;
         line-height: 22px;
         margin-bottom: 14px;
+    }
+}
+
+@media (max-width: 375px) {
+    .about-app__item {
+        margin: 0;
+        min-height: 700px;
+        padding: 0;
     }
 }

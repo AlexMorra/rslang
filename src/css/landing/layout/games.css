@@ -116,12 +116,33 @@
     transition: transform .25s ease-in-out,-webkit-transform .25s ease-in-out;
     position: relative;
     margin-left: auto;
+    background-size: cover;
+    background-position-x: center;
+    background-position: center;
 }
 
 .game__card-01 {
-   background-image: url("../../../assets/images/speakIt.gif"); 
-   background-size: cover;
-   background-position-x: center;
+    background-image: url("../../../assets/images/test.gif"); 
+}
+
+.game__card-02 {
+    background-image: url("../../../assets/images/speakIt.gif"); 
+}
+
+.game__card-03 {
+    background-image: url("../../../assets/images/constructor.gif"); 
+}
+
+.game__card-04 {
+    background-image: url("../../../assets/images/skinwalker.gif"); 
+}
+
+.game__card-05 {
+    background-image: url("../../../assets/images/sprint.gif"); 
+}
+
+.game__card-06 {
+    background-image: url("../../../assets/images/audiochalenge.gif"); 
 }
 
 .game__top-part {    
