@@ -416,6 +416,7 @@ export default class SkinWalkerStartGame {
       if (target.tagName === 'LI' && !target.classList.contains('skinwalker_rotate')) {
         countAll += 1;
         if (usersAppState.appSound) {
+          this.checkToSound();
           const audio = new Audio();
           audio.src = target.dataset.audio;
           audio.play();
@@ -450,10 +451,17 @@ export default class SkinWalkerStartGame {
   }
 
   checkToSound() {
+    const soundButton = this.mainArea.querySelector('.skinwalker__sound-button');
+    soundButton.style.opacity = 0.3;
     if (usersAppState.appSound) {
-      const soundButton = this.mainArea.querySelector('.skinwalker__sound-button');
       soundButton.style.opacity = 1;
     }
+    document.addEventListener('change', () => {
+      soundButton.style.opacity = 0.3;
+      if (usersAppState.appSound) {
+        soundButton.style.opacity = 1;
+      }
+    });
   }
 
   skinWalkerRepeatHandler() {
@@ -462,7 +470,7 @@ export default class SkinWalkerStartGame {
       <div class="tab-wrapper skinwalker__game">
         <div class="skinwalker__game__zone">
           <div class="skinwalker__button__game__zone">
-            <button class="skinwalker__sound-button"></button>
+            <button class="skinwalker__sound-button skinwalker-opacity"></button>
           </div>
           <ul class="skinwalker__word__list"></ul>
         </div>
@@ -479,6 +487,7 @@ export default class SkinWalkerStartGame {
       if (target.tagName === 'LI' && !target.classList.contains('skinwalker_animation')) {
         countAll += 1;
         if (usersAppState.appSound && target.dataset.audio) {
+          this.checkToSound();
           const audio = new Audio();
           audio.src = target.dataset.audio;
           audio.play();

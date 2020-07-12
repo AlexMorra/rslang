@@ -22,7 +22,6 @@ export default class GamesPage {
 
   cardClickHandler(e) {
     const game = e.target.id;
-    console.log(game);
     window.currentPage = e.target.id;
     switch (game) {
       case 'English Puzzle':
