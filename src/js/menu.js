@@ -42,6 +42,7 @@ export default class Menu extends statistics {
     if (touchedMenu && navId !== 'app-sound' && navId !== '' && navId !== 'nav-header') {
       window.currentPage = navId;
     }
+
     if (['nav-control-panel', 'nav-games', 'nav-dictionary', 'nav-account', 'nav-training', 'nav-team'].includes(navId)) {
       this.menuNav.classList.remove('open');
     }
