@@ -12,10 +12,14 @@ import Account from './js/account';
 import GamesPage from './js/games/gamesPage';
 import TrainingCards from './js/trainingCards/trainingCards';
 import Team from './js/team/team';
+import Landing from './js/landing/landing';
+import * as utils from './js/utils'
 
 // INIT
 window.currentPage = null;
-let auth = new Auth();
+export const auth = new Auth();
+const landing = new Landing();
+
 
 export let usersAppState = new State();
 
@@ -32,7 +36,9 @@ export let menu = new Menu(
 // check if user has session and load settings if has
 auth.authorized().then(authorized => {
   if (!authorized && window.currentPage !== 'auth') {
-    auth.showLoginPage();
+    // auth.showLoginPage();
+    utils.destroy();
+    landing.show();
   } else {
     auth.loginSuccess();
     setTimeout(() => {
@@ -45,7 +51,7 @@ auth.authorized().then(authorized => {
 }).finally(() => {
   // set the session check every 10 seconds
   setInterval(() => {
-    if (window.currentPage !== 'auth') {
+    if (window.currentPage !== 'auth' && window.currentPage !== 'landing') {
       auth.authorized().then(authorized => {
         if (!authorized) {
           window.logout = true;

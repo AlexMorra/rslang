@@ -1,4 +1,6 @@
 import TEAM from '../team/teamConstants';
+import { auth } from "../../app";
+import * as utils from '../utils'
 
 const BG = ['phone-1.png', 'phone-2.png', 'phone-3.png', 'phone-4.png'];
 
@@ -20,6 +22,7 @@ export default class Landing {
 
   show() {
     setTimeout(() => {
+      window.currentPage = 'landing';
       this.element = this.getElement();
       this.mainArea.append(this.element);
       this.start();
@@ -54,10 +57,10 @@ export default class Landing {
             <section id="registration" class="registration">
               <div class="registration__wrapper container">   
                 <h2 class="registration__lead">Увеличьте свой словарный запас с RSLang.</h2>
-                <!-- <p class="registration__desc"><span class="cat-text">Котик</span> <span class="cat icon"></span> говорит "Мяу!" <br>
-                    Уточка <span class="duck icon"></span> говорит "Кря!" <br>
-                    Собачка <span class="dog icon"></span> говорит "Do you speak english?"
-                </p> -->
+<!--                 <p class="registration__desc"><span class="cat-text">Котик</span> <span class="cat icon"></span> говорит "Мяу!" <br>-->
+<!--                    Уточка <span class="duck icon"></span> говорит "Кря!" <br>-->
+<!--                    Собачка <span class="dog icon"></span> говорит "Do you speak english?"-->
+<!--                </p>-->
                 <div class="registration__button-wrapper">
                   <a class="button registration__button registration__button--new" type="button">Зарегистрироваться</a>
                   <a class="button registration__button registration__button--enter" type="button">Войти</a>
@@ -318,13 +321,17 @@ export default class Landing {
 
   enterButtonClickHandler() {
     this.enterButtons.addEventListener('click', (event) => {
-      console.log('click');
+
       if (event.target.classList.contains('registration__button--enter')) {
-        console.log('enter');
+
+        utils.destroyTabWrapper();
+        auth.showLoginPage();
       }
 
       if (event.target.classList.contains('registration__button--new')) {
-        console.log('registaration');
+
+        utils.destroyTabWrapper();
+        auth.showCreatePage();
       }
     });
   }
