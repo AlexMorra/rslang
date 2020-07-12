@@ -44,9 +44,10 @@ export default class GamesPage {
     });
 
     this.cards.forEach((card) => {
-      card.addEventListener('mouseleave', (event) => {
-        const { target } = event;
-        this.resetCardOpen(this.id);
+      card.addEventListener('mouseleave', () => {
+        if (this.id) {
+          this.resetCardOpen(this.id);
+        }
       });
     });
   }
