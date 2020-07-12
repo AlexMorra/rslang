@@ -59,7 +59,10 @@ export default class Savanna {
 
       this.counterOn = true;
       this.tickPlay(this.initGame.bind(this));
-      this.startBell.play();
+
+      const audio = new Audio('./assets/sounds/start-bell.wav');
+      audio.preload = 'auto';
+      audio.play();
     }, 400);
   }
 
@@ -84,7 +87,10 @@ export default class Savanna {
 
       this.counterOn = true;
       this.tickPlay(this.initGame.bind(this));
-      this.startBell.play();
+      
+      const audio = new Audio('./assets/sounds/start-bell.wav');
+      audio.preload = 'auto';
+      audio.play();
     });
   }
 
@@ -130,16 +136,16 @@ export default class Savanna {
 
           <div class="answers">
             <div class="answer">
-              <span class="answer__word answer__word--1"></span>            
+              <span class="answer__word answer__word--1" data-index="0"></span>            
             </div>
             <div class="answer">
-              <span class="answer__word answer__word--2"></span>
+              <span class="answer__word answer__word--2" data-index="1"></span>
             </div>
             <div class="answer">
-              <span class="answer__word answer__word--3"></span>
+              <span class="answer__word answer__word--3" data-index="2"></span>
             </div>
             <div class="answer">
-              <span class="answer__word answer__word--4"></span>
+              <span class="answer__word answer__word--4" data-index="3"></span>
             </div>
           </div>
         </div>  
@@ -241,7 +247,9 @@ export default class Savanna {
 
   getSuccessAnswer() {
     if (this.soundOn) {
-      this.successSound.play();
+      const audio = new Audio('./assets/sounds/success.mp3');
+      audio.preload = 'auto';
+      audio.play();
     }
 
     this.addSuccess();
@@ -258,7 +266,9 @@ export default class Savanna {
 
   getWrongAnswer() {
     if (this.soundOn) {
-      this.errorSound.play();
+      const audio = new Audio('./assets/sounds/error.mp3');
+      audio.preload = 'auto';
+      audio.play();
     }
 
     this.addFail();
@@ -294,6 +304,7 @@ export default class Savanna {
   }
 
   checkAnswer(target) {
+    console.log(target);
     const answer = target.innerHTML;
     this.questionWrapper.classList.remove('fall');
     this.gameOn = false;
@@ -348,6 +359,28 @@ export default class Savanna {
     utils.getStatistic(this.statistics);
   }
 
+  numberKeyPressHandler() {
+    document.addEventListener('keyup', (event) => {
+      const { keyCode } = event;
+
+      if (keyCode === 49 || keyCode === 35) {
+        this.checkAnswer(this.allAnswers[0]);
+      }
+
+      if (keyCode === 50 || keyCode === 40) {
+        this.checkAnswer(this.allAnswers[1]);
+      }
+
+      if (keyCode === 51 || keyCode === 34) {
+        this.checkAnswer(this.allAnswers[2]);
+      }
+
+      if (keyCode === 52 || keyCode === 37) {
+        this.checkAnswer(this.allAnswers[3]);
+      }
+    });
+  }
+
   initHandlers() {
     this.sound.addEventListener('click', () => {
       this.toggleSoundState();
@@ -358,5 +391,7 @@ export default class Savanna {
         this.checkAnswer(e.target);
       }
     });
+
+    this.numberKeyPressHandler();
   }
 }
