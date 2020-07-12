@@ -310,14 +310,15 @@ export default class State {
       }
     })
       .then(response => {
+        let date = moment().format('MM D YYYY');
         if (response.status === 404) {
           this.userStatistics = {
             learnedWords: this.learnedWords.length,
             optional: {
-              [moment().format('MM D YYYY')]: {
+              [date]: {
                 correctAnswers: 0,
                 incorrectAnswers: 0,
-                words: []
+                trainingTimes: 0
               }
             }
           };
@@ -335,13 +336,14 @@ export default class State {
       });
   }
 
-  getStatisticsData(wordId, value) {
+  getStatisticsData(value) {
     let date = moment().format('MM D YYYY');
     if (!this.userStatistics.optional[date]) {
+      console.log(this.userStatistics);
       this.userStatistics.optional[date] = {
         correctAnswers: 0,
         incorrectAnswers: 0,
-        words: []
+        trainingTimes: 0
       };
     }
     if (value) {
@@ -349,14 +351,11 @@ export default class State {
     } else {
       this.userStatistics.optional[date].incorrectAnswers += 1;
     }
-    if (!this.userStatistics.optional[date].words.includes(wordId)) {
-      this.userStatistics.optional[date].words.push(wordId);
-    }
-    let data = {
+    this.userStatistics.optional[date].trainingTimes += 1;
+    return {
       learnedWords: this.userStatistics.learnedWords,
       optional: this.userStatistics.optional
     };
-    return data;
   }
 
   getTodayProgress() {
@@ -560,7 +559,7 @@ export default class State {
     // update bestseries here
     this.setUserSettings(this.getUserSettingsData());
     // take stats here
-    this.setUserStatistics(this.getStatisticsData(wordId, value));
+    this.setUserStatistics(this.getStatisticsData(value));
     this.wordData.optional.lastAction = moment().format('MM D YYYY HH:mm');
     return this.updateUserWord(wordId, this.wordData).then(response => {
       console.log(response, 'update progress');
