@@ -38,14 +38,15 @@ export default class Menu extends statistics {
     const touchedStats = this.userStats.contains(e.target) || navId === 'main-stats';
     if (!touchedMenu) this.menuNav.classList.remove('open');
     if (!touchedStats) this.userStats.classList.remove('open-stats');
-    if (touchedMenu && navId !== 'app-sound' && navId !== '') {
+    if (touchedMenu && navId !== 'app-sound' && navId !== '' && navId !== 'nav-header') {
       window.currentPage = navId;
     }
-    console.log(window.currentPage);
+    if (['nav-control-panel', 'nav-games', 'nav-dictionary', 'nav-account', 'nav-training', 'nav-team'].includes(navId)) {
+      this.menuNav.classList.remove('open');
+    }
 
     switch (navId) {
       case 'main-stats':
-        console.log('USER STATS OPEN');
         this.updateUserStatsData();
         this.getUserStats();
         this.userStats.classList.toggle('open-stats');
@@ -89,14 +90,12 @@ export default class Menu extends statistics {
       default:
     }
 
-    // FIXME
-
+    let root = document.querySelector(':root');
     const games = GAMES.reduce((games, obj) => [...games, obj.id], []);
-    const navMenu = document.querySelector('.nav-menu');
     if (games.includes(window.currentPage)) {
-      navMenu.style.width = '0px';
+      root.style.setProperty('--menu_width', '0px');
     } else {
-      navMenu.removeAttribute('style');
+      root.style.setProperty('--menu_width', '55px');
     }
   }
 

@@ -56,6 +56,7 @@ export default class TrainingCards {
         this.wordContainer.classList.remove('show-result');
         setTimeout(() => this.wordContainer.classList.add('show-result'));
         audio_btn.click();
+        this.answerInput.focus();
         break;
       case 'next-btn':
         if (this.trainingWords.length) {

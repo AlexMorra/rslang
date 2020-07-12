@@ -14,6 +14,12 @@ export function destroy() {
   setTimeout(() => mainArea.innerHTML = '', 400);
 }
 
+export function destroyTabWrapper() {
+  let tabWrapper = document.querySelector('.tab-wrapper');
+  tabWrapper.classList.add('destroy');
+  setTimeout(() => tabWrapper.innerHTML = '', 400);
+}
+
 export function systemMessage(text, type) {
   let messageWrapper = document.createElement('div');
   messageWrapper.classList.add('message-wrapper');

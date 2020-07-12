@@ -25,7 +25,7 @@ export default class Auth {
   showCreatePage() {
     window.currentPage = 'auth';
     let loginPage = document.querySelector('.user-login-page');
-    loginPage.remove();
+    if (loginPage) loginPage.remove();
     this.body.prepend(this.createPageTemplate.cloneNode(true));
     let passwordVisibilityBtn = document.querySelector('.show-password');
     passwordVisibilityBtn.addEventListener('click', this.passwordVisibility);
@@ -120,7 +120,11 @@ export default class Auth {
     if (userLoginPage) userLoginPage.remove();
     usersAppState.getUserWords().finally(() => {
       usersAppState.getUserStatistics().then(() => {
-        if (!window.logout) menu.show();
+        if (!window.logout) {
+          menu.show();
+          document.getElementById('nav-control-panel').click();
+          window.location.hash = '';
+        };
       });
     });
     usersAppState.getUserSettings().then(nightMode => {
