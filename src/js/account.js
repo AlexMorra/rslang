@@ -91,7 +91,7 @@ export default class Account {
         <div class="account-section"><span class="account-section-title">Аккаунт</span></div>
         <div class="account-row">
             <i class="far fa-user"></i>
-            <input type="input" class="input-name" id="username">
+            <input type="input" class="input-name" id="username" autocomplete="off">
         </div>
         <hr>
         <div class="account-row">

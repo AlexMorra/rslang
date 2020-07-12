@@ -115,12 +115,13 @@ export default class Auth {
   }
 
   loginSuccess(email = null) {
-    if (!window.logout) menu.show();
     window.currentPage = null;
     let userLoginPage = document.querySelector('.user-login-page');
     if (userLoginPage) userLoginPage.remove();
     usersAppState.getUserWords().finally(() => {
-      usersAppState.getUserStatistics();
+      usersAppState.getUserStatistics().then(() => {
+        if (!window.logout) menu.show();
+      });
     });
     usersAppState.getUserSettings().then(nightMode => {
       if (nightMode) {

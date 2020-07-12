@@ -67,12 +67,12 @@ export default class TrainingCards {
           this.wordsStatistic.forEach(el => {
             el.translate = el.wordTranslate;
             el.audioSrc = el.audio;
-            if(el.incorrect) {
-              el.isLearned = false
+            if (el.incorrect) {
+              el.isLearned = false;
             } else {
-              el.isLearned = true
+              el.isLearned = true;
             }
-          })
+          });
           utils.getStatistic(this.wordsStatistic);
         }
         break;
@@ -251,5 +251,4 @@ export default class TrainingCards {
       .reduce((acc, letter) => acc += `<span class="training-new-word-letter">${letter}</span>`, '');
     return `<span class="training-new-word">${innerLetters}</span>`;
   }
-
 }

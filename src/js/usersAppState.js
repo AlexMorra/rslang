@@ -390,37 +390,32 @@ export default class State {
 
   getTrainingWords(count = 10) {
     this.words = [];
+    const delWords = this.deletedWords.map(obj => {
+      return wordCards[obj.difficulty].find(word => word.id === obj.wordId)
+    });
 
     // return words and add from cards to the user dictionary if words not enough
     let heightPriorityWords = [...this.learningWords, ...this.difficultWords].filter(word => word.optional.forceRepeat);
-    let test = (count - heightPriorityWords.length) < 0 ? 0 : count - heightPriorityWords.length;
-    if (test) {
+    let desiredCount = (count - heightPriorityWords.length) < 0 ? 0 : count - heightPriorityWords.length;
+    if (desiredCount) {
       this.words = [...this.learningWords, ...this.difficultWords].slice()
         .filter(word => !word.optional.forceRepeat)
-        .sort(() => 0.5 - Math.random()).slice(0, test)
+        .sort(() => 0.5 - Math.random()).slice(0, desiredCount)
         .map(obj => {
           return wordCards[obj.difficulty].find(word => word.id === obj.wordId);
         });
     } else {
       heightPriorityWords = heightPriorityWords.sort(() => 0.5 - Math.random()).slice(0, count);
     }
-
     heightPriorityWords = heightPriorityWords.map(obj => {
       return wordCards[obj.difficulty].find(word => word.id === obj.wordId);
     });
-    // console.log(heightPriorityWords.length, 'PRIORITY');
-    // console.log(heightPriorityWords);
-    // console.log(words.length, 'WORDS');
-    // console.log(words);
     this.words = this.words.concat(heightPriorityWords);
-    // console.log(words.length);
-    // console.log(words);
     if (this.words.length < count) {
       Object.values(wordCards).forEach((card, index) => {
         card.forEach(word => {
-          if (!this.words.includes(word) && this.words.length < count) {
+          if (!this.words.includes(word) && !delWords.includes(word) && this.words.length < count) {
             this.words.push(word);
-            console.log(word.id);
             this.createUserWord(word.id, index + 1)
               .then(response => this.learningWords.push(response));
           }

@@ -5,7 +5,7 @@ import Sprint from './games/sprint/sprint';
 import SpeakIt from './games/speak-it/speak-it';
 import SkinWalker from './games/skinWalkers/startWindow';
 import AudioCall from './games/Audiocall/audiocall';
-import TrainingCards from './trainingCards/trainingCards'
+import TrainingCards from './trainingCards/trainingCards';
 let mainArea = document.querySelector('.main-area');
 
 export function destroy() {
