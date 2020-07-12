@@ -127,7 +127,7 @@ export default class Audiocall {
           setTimeout(() => {
             utils.destroy();
             this.handleStart();
-          }, 5000);
+          }, 600);
         }
         // ---- если слово НЕ совпало----:
         else {

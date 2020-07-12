@@ -56,7 +56,6 @@ export default class SkinWalkerStartGame {
     }, 400);
   }
 
-  // Получаем массив слов добавленных слов для изучения.
   getWordListDictionary() {
     this.usWords.forEach(obj => {
       const word = wordCards[obj.difficulty].find(item => item.id === obj.wordId);
@@ -73,7 +72,6 @@ export default class SkinWalkerStartGame {
     });
   }
 
-  // Получаем массив случайных слов this.wordAllListDictionary.
   getAllWordListDictionary() {
     wordCards[1].forEach(word => {
       this.wordAllListDictionary.push({
@@ -102,13 +100,13 @@ export default class SkinWalkerStartGame {
     template.innerHTML = `
       <li class="skinwalker__word" data-id="${word.id}" data-audio="./assets/${word.audioSrc}">
         <p class="skinwalker__word__title-front">
-          <img class="skinwalker__shirt" src="./assets/icons/shirtword.jpg">
+          <img class="skinwalker__shirt" src="./assets/icons/shirtword.png">
         </p>
         <p class="skinwalker__word__title-back">${word.word}</p>
       </li>
       <li class="skinwalker__word" data-id="${word.id}" data-audio="./assets/${word.audioSrc}">
         <p class="skinwalker__word__title-front">
-          <img class="skinwalker__shirt" src="./assets/icons/shirtword.jpg">
+          <img class="skinwalker__shirt" src="./assets/icons/shirtword.png">
         </p>
         <p class="skinwalker__word__title-back">${word.translate}</p>
       </li>`;
@@ -498,8 +496,6 @@ export default class SkinWalkerStartGame {
             this.sortDictionary[index].targetIdCountClick += 1;
             if (this.sortDictionary[index].targetIdCountClick === 2) {
               this.sortDictionary[index].isLearned = true;
-              console.log('index:', this.sortDictionary[index]);
-              console.log('targetIdFirst', targetIdFirst);
               usersAppState.updateProgressWord(targetIdFirst, true);
             }
             document.querySelectorAll('.skinwalker_animation').forEach((li) => {
