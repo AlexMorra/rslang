@@ -41,6 +41,7 @@ export default class Menu extends statistics {
     if (touchedMenu && navId !== 'app-sound' && navId !== '') {
       window.currentPage = navId;
     }
+    console.log(window.currentPage)
 
     switch (navId) {
       case 'main-stats':
