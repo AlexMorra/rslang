@@ -30,6 +30,7 @@ export default class Menu extends statistics {
     window.addEventListener('click', this.menuHandler.bind(this));
     this.statsWidth.addEventListener('click', this.statsWidthHandler.bind(this));
     this.appSoundBtn.addEventListener('change', this.appSoundHandler.bind(this));
+    this.appSoundHandler();
   }
 
   menuHandler(e) {
