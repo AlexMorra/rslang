@@ -1,6 +1,5 @@
 import wordCards from '../../wordCards';
 import { usersAppState } from '../../../app';
-import Dictionary from '../../dictionary';
 import * as utils from '../../utils';
 
 export default class SkinWalkerStartGame {
@@ -57,7 +56,6 @@ export default class SkinWalkerStartGame {
     }, 400);
   }
 
-  // Получаем массив слов добавленных слов для изучения.
   getWordListDictionary() {
     this.usWords.forEach(obj => {
       const word = wordCards[obj.difficulty].find(item => item.id === obj.wordId);
@@ -74,7 +72,6 @@ export default class SkinWalkerStartGame {
     });
   }
 
-  // Получаем массив случайных слов this.wordAllListDictionary.
   getAllWordListDictionary() {
     wordCards[1].forEach(word => {
       this.wordAllListDictionary.push({
@@ -103,13 +100,13 @@ export default class SkinWalkerStartGame {
     template.innerHTML = `
       <li class="skinwalker__word" data-id="${word.id}" data-audio="./assets/${word.audioSrc}">
         <p class="skinwalker__word__title-front">
-          <img class="skinwalker__shirt" src="./assets/icons/shirtword.jpg">
+          <img class="skinwalker__shirt" src="./assets/icons/shirtword.png">
         </p>
         <p class="skinwalker__word__title-back">${word.word}</p>
       </li>
       <li class="skinwalker__word" data-id="${word.id}" data-audio="./assets/${word.audioSrc}">
         <p class="skinwalker__word__title-front">
-          <img class="skinwalker__shirt" src="./assets/icons/shirtword.jpg">
+          <img class="skinwalker__shirt" src="./assets/icons/shirtword.png">
         </p>
         <p class="skinwalker__word__title-back">${word.translate}</p>
       </li>`;
@@ -209,7 +206,6 @@ export default class SkinWalkerStartGame {
           <div class="skinwalker__settings__window">
             <div class="skinwalker__title">
               <p>Сейчас в Вашем словаре ${this.usWords.length} слов</p>
-              <p class="skinwalker__title__link">добавить слова из словаря</p>
               <p class="skinwalker__title__choise__level"></p>
             </div>
             <p class="skinwalker__buttons__description">Выберите условия для начала игры:</p>
@@ -225,19 +221,9 @@ export default class SkinWalkerStartGame {
     `;
     setTimeout(() => {
       this.mainArea.innerHTML = buttonsBlock;
-      const skinwalkerReturnDictionary = document.querySelector('.skinwalker__title__link');
       const skinwalkerHandlerLevelCheck = document.querySelector('.skinwalker__checkbox');
-      this.skinWalkerBackToMenu(skinwalkerReturnDictionary);
       this.checkLevelButton(skinwalkerHandlerLevelCheck);
     }, 400);
-  }
-
-  skinWalkerBackToMenu(skinwalkerReturnDictionary) {
-    skinwalkerReturnDictionary.addEventListener('click', () => {
-      const Diary = new Dictionary();
-      utils.destroy();
-      Diary.show();
-    });
   }
 
   checkLevelButton(skinwalkerHandlerLevelCheck) {
@@ -282,7 +268,6 @@ export default class SkinWalkerStartGame {
           <div class="skinwalker__settings__window">
             <div class="skinwalker__title">
               <p>Сейчас в Вашем словаре ${this.usWords.length} слов</p>
-              <p class="skinwalker__title__link">добавить слова из словаря</p>
               <p class="skinwalker__title__choise__level"></p>
             </div>
             <p class="skinwalker__buttons__description">Выберите условия для начала игры:</p>
@@ -511,8 +496,6 @@ export default class SkinWalkerStartGame {
             this.sortDictionary[index].targetIdCountClick += 1;
             if (this.sortDictionary[index].targetIdCountClick === 2) {
               this.sortDictionary[index].isLearned = true;
-              console.log('index:', this.sortDictionary[index]);
-              console.log('targetIdFirst', targetIdFirst);
               usersAppState.updateProgressWord(targetIdFirst, true);
             }
             document.querySelectorAll('.skinwalker_animation').forEach((li) => {
