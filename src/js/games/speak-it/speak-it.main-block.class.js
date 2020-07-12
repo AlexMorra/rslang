@@ -154,12 +154,10 @@ export default class SpeakItMainBlock {
         speakIdentifier.style.display = 'none';
         startRecognitionBtn.style.pointerEvents = 'auto';
         currentCard.classList.remove('active');
-        console.log('end');
       };
     }
     function nextStageBtnHandler() {
       if (this.currentStage === 11) return;
-      console.log(this.userWords[this.currentStage - 1].id);
       usersAppState.updateProgressWord(this.userWords[this.currentStage - 1].id, false);
       this.changeCardStyle(false);
       this.getAudioError();

@@ -50,12 +50,12 @@ export default class TrainingCards {
     }
     switch (btn) {
       case 'dont-know-btn':
-        console.log('dont know');
         this.setIncorrect();
         const audio_btn = document.querySelector('[data-audio="play"]');
         this.wordContainer.classList.remove('show-result');
         setTimeout(() => this.wordContainer.classList.add('show-result'));
         audio_btn.click();
+        this.answerInput.focus();
         break;
       case 'next-btn':
         if (this.trainingWords.length) {
@@ -63,7 +63,6 @@ export default class TrainingCards {
           utils.destroy();
           this.initCard();
         } else {
-          console.log('END!!!!');
           this.wordsStatistic.forEach(el => {
             el.translate = el.wordTranslate;
             el.audioSrc = el.audio;
@@ -77,20 +76,17 @@ export default class TrainingCards {
         }
         break;
       case 'difficult-btn':
-        console.log('difficult');
         usersAppState.updateDifficultWord(this.currentWord.id, true);
         this.trainingCard.classList.add('difficult-word');
         setTimeout(() => this.nextBtn.click(), 400);
         break;
       case 'delete-btn':
-        console.log('delete');
         usersAppState.updateDeletedWord(this.currentWord.id, true);
         this.wordsStatistic.pop();
         this.trainingCard.classList.add('delete-word');
         setTimeout(() => this.nextBtn.click(), 400);
         break;
       case 'repeat-btn':
-        console.log('repeat');
         this.trainingWords.unshift(this.wordsStatistic.pop());
         this.trainingCard.classList.add('repeat-word');
         setTimeout(() => this.nextBtn.click(), 400);
@@ -102,7 +98,6 @@ export default class TrainingCards {
     if (e.keyCode === 13 && this.answered) {
       this.nextBtn.click();
     } else if (e.keyCode === 18) {
-      console.log('DON"T KNOW');
       this.dontKnowBtn.click();
     } else if (e.keyCode === 13 && this.answerInput.value.length) {
       // init
@@ -140,7 +135,6 @@ export default class TrainingCards {
         this.answerInput.value = '';
         this.wordContainer.classList.add('show-result');
       } else if (word === value) {
-        console.log('CORRECT');
         usersAppState.updateProgressWord(this.currentWord.id, true);
         this.answered = true;
         this.audio.src = `./assets/${this.wordContainer.dataset.src}`;

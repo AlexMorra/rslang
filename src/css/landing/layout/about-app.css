@@ -1,0 +1,269 @@
+.about-app {
+    min-height: 1000px;
+    background-color: #CCE6C1;
+    background-image: url("../../../assets/images/phone-1.png");
+    background-position: center;
+    background-size: 450px;
+    background-repeat: no-repeat;
+}
+
+.about-app__title {
+    font-size: 41px;
+    font-weight: 700;
+    margin-bottom: 80px;
+    text-align: center;
+    padding-top: 100px !important;
+}
+
+.about-app__item-title,
+.about-app__desc {
+    pointer-events: none;
+}
+
+.about-app__item-title {
+    font-size: 26px;
+    margin-bottom: 20px !important;    
+    margin-top: 0;        
+}
+
+.about-app__desc {
+    font-size: 16px;
+    line-height: 20px;
+    letter-spacing: 1px;
+}
+
+.about-app__wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    min-height: 890px;
+    padding-top: 210px;
+}
+
+.about-app__item-title {
+    padding: 0;
+    margin: 0;
+}
+
+.about-app__pagination {
+    font-size: 0;
+    line-height: 0;
+    width: 100%;
+    padding-top: 40px;
+    margin-bottom: 11px;  
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 50px;
+}
+
+.about-app .about-app__btn {
+    display: none;
+}
+
+.about-app__label {
+    cursor: pointer;
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    padding: 0;
+    margin: 0 5px;
+    border-radius: 50%;
+    background-color: #8b878450;
+    border: 0;
+    outline: none;
+}
+
+.about-app__label:last-of-type {
+    margin-right: 0;
+}
+
+.about-app__label:last-of-type {
+    margin-right: 0;
+}
+
+.about-app__btn-1:checked ~ .about-app__item-01,
+.about-app__btn-2:checked ~ .about-app__item-02,
+.about-app__btn-3:checked ~ .about-app__item-03,
+.about-app__btn-4:checked ~ .about-app__item-04 {
+    opacity: 1;
+}
+
+.about-app__btn-1:checked ~ .about-app__pagination label[for="about-app__btn-1"],
+.about-app__btn-2:checked ~ .about-app__pagination label[for="about-app__btn-2"],
+.about-app__btn-3:checked ~ .about-app__pagination label[for="about-app__btn-3"],
+.about-app__btn-4:checked ~ .about-app__pagination label[for="about-app__btn-4"] {
+    background-color: #8b8784;
+} 
+
+.about-app__item {
+    opacity: 0.3;
+    width: 35%;
+    margin-bottom: auto;
+    min-height: 250px;
+    padding-bottom: 30px;
+}
+
+.about-app__item-03,
+.about-app__item-04 {
+    margin-top: auto;
+}
+
+.about-app__item .about-app__item-03 {
+    margin-top: auto;
+}
+
+@media (max-width: 1360px) {
+    .about-app {
+        background-size: 400px;
+        background-position: center 270px;
+    }
+
+    .about-app__item { 
+        padding-left: 30px;
+        padding-right: 30px;
+    }
+
+    .about-app__wrapper {
+        min-height: 710px;
+        padding-top: 70px;
+        /* margin-top: 40px !important; */
+    }
+
+    .about-app__item {
+        margin-bottom: 0;    
+    }
+
+    .about-app__item-03,
+    .about-app__item-04 {
+        margin-top: 0;
+    }
+}
+
+@media (max-width: 1200px) {
+    .about-app__wrapper {
+        min-height: 710px;
+        padding-top: 100px !important;
+    }
+}
+
+@media (max-width: 1000px) {
+    .about-app {
+        background-size: 350px;
+        background-position: center 340px;
+    }
+
+    .about-app__item {
+        width: 100%;
+    }
+
+    .about-app__btn-1:checked ~ .about-app__item-01,
+    .about-app__btn-2:checked ~ .about-app__item-02,
+    .about-app__btn-3:checked ~ .about-app__item-03,
+    .about-app__btn-4:checked ~ .about-app__item-04 {
+        display: block;
+        opacity: 1;
+    }
+
+    .about-app__item {
+        display: none;
+        margin-bottom: 300px;
+    }    
+
+    .about-app__wrapper {
+        min-height: 710px;
+        padding-top: 30px !important;
+        min-height: 816px;
+    }
+
+    .about-app {
+        min-height: 800px;
+    }
+    
+    .about-app__pagination {
+        padding-top: 0;
+        padding-bottom: 30px;
+    }
+}
+
+@media (max-width: 700px) {
+    .about-app {
+        background-position: center 480px;
+        background-size: 350px;
+    }
+
+    .about-app__item { 
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    .about-app__wrapper {
+        min-height: 1000px;
+    } 
+}
+
+@media (max-width: 425px) {
+    .about-app {
+        background-size: 300px;
+        background-position: center 520px;
+    }
+
+    .about-app__title {
+        font-size: 32px;
+    }
+
+    .about-app__item-title {
+        font-size: 22px;
+        line-height: 26px;
+        margin-bottom: 14px;
+    }
+
+    .about-app {
+        min-height: 1000px;
+    }
+
+    .about-app__wrapper {
+        min-height: 900px;
+    }
+    
+    .about-app__item {
+        margin: 0;
+        min-height: 700px;
+        padding: 0;
+    }
+
+    .about-app__pagination {
+        padding-top: 30px;
+    }
+}
+
+@media (max-width: 390px) {
+    .about-app {
+        background-position: center 520px;
+    } 
+    
+    .about-app__item {
+        margin: 0;
+        min-height: 900px;
+        padding: 0;
+    }
+/* 
+    .about-app__wrapper {
+        min-height: 710px;
+    } */
+    
+    .about-app__item-title {
+        font-size: 18px;
+        line-height: 22px;
+        margin-bottom: 14px;
+    }
+}
+
+@media (max-width: 375px) {
+    .about-app__item {
+        margin: 0;
+        min-height: 700px;
+        padding: 0;
+    }
+}

@@ -1,9 +1,5 @@
-import wordCards from '../../wordCards';
 import { usersAppState } from '../../../app';
-import TrainingCards from '../../../js/trainingCards/trainingCards';
 import * as utils from '../../utils';
-
-console.log(usersAppState);
 
 export default class Audiocall {
   constructor() {
@@ -98,7 +94,7 @@ export default class Audiocall {
 
   checkCorrectAnswer(e) {
     if (!this.alreadyGuessed) {
-      const playableTarget = e.target.closest('.word');
+      const playableTarget = e.target.closest('.word-audio-call');
       if (playableTarget && !playableTarget.classList.contains('already-checked')) {
         // выяснить какого слова касается карточка
         // если слово совпало:
@@ -179,7 +175,7 @@ export default class Audiocall {
 
   setAudiocallWord(currentWords) {
     this.alreadyGuessed = false;
-    this.wordsWrapper.innerHTML = currentWords.map((word) => `<div class="word" data-word="${word.wordTranslate}" data-ifcorrect="${word.wordTranslate === this.currentObject.wordTranslate ? 'correct' : ''}">${word.wordTranslate}</div>`).join('');
+    this.wordsWrapper.innerHTML = currentWords.map((word) => `<div class="word-audio-call" data-word="${word.wordTranslate}" data-ifcorrect="${word.wordTranslate === this.currentObject.wordTranslate ? 'correct' : ''}">${word.wordTranslate}</div>`).join('');
     this.wordsWrapper.onclick = (e) => {
       this.checkCorrectAnswer(e);
     };
@@ -200,7 +196,6 @@ export default class Audiocall {
 
   showResults() {
     this.gameOverSound.play();
-    console.log(this.statistics);
     utils.getStatistic(this.statistics);
   }
 

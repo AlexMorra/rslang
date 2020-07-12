@@ -1,4 +1,5 @@
 @import "~normalize.css";
+@import "landing/landing.css";
 @import "auth.css";
 @import "menu.css";
 @import "account.css";
@@ -20,6 +21,7 @@
 * {
     margin: 0;
     padding: 0;
+    scroll-behavior: smooth;
 }
 
 body {

@@ -2,7 +2,7 @@ const GAMES = [
   {
     id: 'Speak It',
     icon: 'microphone.png',
-    title: 'Скажи это'
+    title: 'Говори правильно'
   },
   {
     id: 'English Puzzle',
@@ -17,7 +17,7 @@ const GAMES = [
   {
     id: 'Audio Challenge',
     icon: 'shout.png',
-    title: 'Audio Challenge'
+    title: 'Аудио вызов'
   },
   {
     id: 'Sprint',

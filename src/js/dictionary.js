@@ -85,7 +85,6 @@ export default class Dictionary {
       this.checkedWordsId = [...this.wordListWrapper.querySelectorAll('.word-checkbox-delete')]
         .filter(checkbox => checkbox.checked)
         .map(checkbox=> checkbox.getAttribute('id'));
-      console.log(this.checkedWordsId, 'CHECKED WORDS');
       if (this.checkedWordsId.length) {
         this.btnVisible();
       } else {
@@ -98,7 +97,6 @@ export default class Dictionary {
   }
 
   chooseToggle(e) {
-    console.log('choose toggle');
     this.chekedWords = [...document.querySelectorAll('.word-checkbox-delete')];
     if (e.target.checked) {
       this.chekedWords.forEach(checkbox => checkbox.checked = true);
@@ -110,7 +108,6 @@ export default class Dictionary {
   }
 
   learnAgainWords(e) {
-    console.log(this.checkedWordsId);
     this.checkedWordsId.forEach(wordId => {
       let wordRow = document.querySelector(`[data-word-id="${wordId}"]`);
       usersAppState.updateLearnedWord(wordId, false).then(() => {
@@ -124,7 +121,6 @@ export default class Dictionary {
   }
 
   deleteWords(e) {
-    console.log(this.checkedWordsId);
     this.checkedWordsId.forEach(wordId => {
       let wordRow = document.querySelector(`[data-word-id="${wordId}"]`);
       usersAppState.updateDeletedWord(wordId, true).then(() => {
@@ -138,7 +134,6 @@ export default class Dictionary {
   }
 
   returnWords(e) {
-    console.log(this.checkedWordsId);
     this.checkedWordsId.forEach(wordId => {
       let wordRow = document.querySelector(`[data-word-id="${wordId}"]`);
       usersAppState.updateDeletedWord(wordId, false).then(() => {

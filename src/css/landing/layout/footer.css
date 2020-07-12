@@ -1,0 +1,33 @@
+.footer {
+    background-color: #103482;
+}
+
+.footer__wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 140px;
+}
+
+.footer__link {
+    color: white;
+    font-size: 18px;
+    font-weight: 700;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.copy {
+    font-weight: 400;
+}
+
+.footer__link--rss {
+    height: 60px;
+    width: 100px;
+    font-size: 0;
+    display: inline-block;
+    background-image: url("../../../assets/images/rs_school.svg");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}

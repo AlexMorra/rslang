@@ -30,6 +30,7 @@ export default class Menu extends statistics {
     window.addEventListener('click', this.menuHandler.bind(this));
     this.statsWidth.addEventListener('click', this.statsWidthHandler.bind(this));
     this.appSoundBtn.addEventListener('change', this.appSoundHandler.bind(this));
+    this.appSoundHandler();
   }
 
   menuHandler(e) {
@@ -38,14 +39,16 @@ export default class Menu extends statistics {
     const touchedStats = this.userStats.contains(e.target) || navId === 'main-stats';
     if (!touchedMenu) this.menuNav.classList.remove('open');
     if (!touchedStats) this.userStats.classList.remove('open-stats');
-    if (touchedMenu && navId !== 'app-sound' && navId !== '') {
+    if (touchedMenu && navId !== 'app-sound' && navId !== '' && navId !== 'nav-header') {
       window.currentPage = navId;
     }
-    console.log(window.currentPage);
+
+    if (['nav-control-panel', 'nav-games', 'nav-dictionary', 'nav-account', 'nav-training', 'nav-team'].includes(navId)) {
+      this.menuNav.classList.remove('open');
+    }
 
     switch (navId) {
       case 'main-stats':
-        console.log('USER STATS OPEN');
         this.updateUserStatsData();
         this.getUserStats();
         this.userStats.classList.toggle('open-stats');
@@ -89,28 +92,35 @@ export default class Menu extends statistics {
       default:
     }
 
-    // FIXME
-
+    let root = document.querySelector(':root');
     const games = GAMES.reduce((games, obj) => [...games, obj.id], []);
-    const navMenu = document.querySelector('.nav-menu');
     if (games.includes(window.currentPage)) {
-      navMenu.style.width = '0px';
+      root.style.setProperty('--menu_width', '0px');
     } else {
-      navMenu.removeAttribute('style');
+      root.style.setProperty('--menu_width', '55px');
     }
   }
 
   appSoundHandler() {
+    const appSoundIcon = document.getElementById('appSoundIcon');
     usersAppState.appSound = this.appSoundBtn.checked;
     usersAppState.setUserSettings(usersAppState.getUserSettingsData());
+    if (usersAppState.appSound) {
+      appSoundIcon.classList.remove('fa-volume-mute');
+      appSoundIcon.classList.add('fa-volume-up');
+    } else {
+      appSoundIcon.classList.remove('fa-volume-up');
+      appSoundIcon.classList.add('fa-volume-mute');
+    }
   }
 
   statsWidthHandler() {
+    let width = `${this.body.offsetWidth < 600 ? this.body.offsetWidth - 70 : 600}px`;
     let root = document.querySelector(':root');
     if (this.statsWidth.classList.contains('stats-closed')) {
       this.statsWidth.classList.remove('stats-closed');
       this.statsWidth.classList.add('stats-opened');
-      root.style.setProperty('--stats_width', '600px');
+      root.style.setProperty('--stats_width', width);
     } else {
       this.statsWidth.classList.add('stats-closed');
       this.statsWidth.classList.remove('stats-opened');
@@ -141,13 +151,13 @@ export default class Menu extends statistics {
               <i class="fab fa-elementor menu-icon" title="Панель управления"></i>
               <span class="nav-name">Панель управления</span>
           </li>
-          <li id="nav-training" class="nav-training" title="УЧИ БЛЭТ">
+          <li id="nav-training" class="nav-training">
               <i class="fab fa-leanpub menu-icon"></i>
               <span class="nav-name">Учи слова</span>
           </li>         
           <li id="nav-dictionary" class="nav-dictionary">
               <i class="fas fa-book menu-icon"></i>
-              <span>Словарь</span>
+              <span class="nav-name">Словарь</span>
           </li>
           <li id="nav-games" class="nav-games">
             <i class="fas fa-chess-knight menu-icon"></i>
@@ -167,6 +177,7 @@ export default class Menu extends statistics {
           </li>
           <li class="app-sound" id="nav-app-sound">
             <label class="nav-sound">
+              <i class="fas fa-volume-up menu-icon" id="appSoundIcon"></i>
               <span>Звук</span>
               <span class="checkbox-wrapper">
                   <input type="checkbox" id="app-sound" class="checkbox">

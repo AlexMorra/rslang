@@ -30,7 +30,6 @@ export default class WordsCardList {
       this.checkedCheckboxes = [...this.wordListWrapper.querySelectorAll('.word-checkbox')]
         .filter(checkbox => checkbox.checked)
         .map(checkbox=> checkbox.getAttribute('id'));
-      console.log(this.checkedCheckboxes, 'CHECKED WORDS');
       if (this.checkedCheckboxes.length) {
         this.inputWordSearch.style.display = 'none';
         this.addToDictionaryBtn.removeAttribute('style');
@@ -70,7 +69,6 @@ export default class WordsCardList {
 
   addToDictionary(e) {
     e.preventDefault();
-    console.log(this.checkedCheckboxes);
     this.checkedCheckboxes.forEach(wordId => {
       usersAppState.createUserWord(wordId, this.difficulty).then(response => {
         usersAppState.learningWords.push(response);
@@ -139,7 +137,7 @@ export default class WordsCardList {
       <div class="word-list-row">
         ${wordCheckbox}
         <i class="fas fa-volume-up" data-audio="play" data-src="${word.audio}"></i>
-        <div class="word">
+        <div class="word-audio-call">
             ${word.word}
         </div>
         <span class="dash">—</span>

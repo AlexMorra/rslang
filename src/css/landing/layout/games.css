@@ -1,0 +1,243 @@
+.games {
+    padding-bottom: 30px;    
+    background-image: url("../../../assets/images/games-blob-1.svg");
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position-x: 140%;
+    background-position-y: -80px;
+    background-size: 700px;
+}
+
+.games__title {
+    text-align: center;
+    padding-top: 100px;
+    margin-bottom: 80px;
+    margin-top: 0;
+    font-size: 41px;
+    font-weight: 700;
+}
+
+.games__pagination {
+    font-size: 0;
+    line-height: 0;
+    width: 100%;
+    padding-top: 40px;
+    margin-bottom: 11px;  
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.games .games__btn {
+    display: none;
+}
+
+.games__label {
+    cursor: pointer;
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    padding: 0;
+    margin: 0 5px;
+    border-radius: 50%;
+    background-color: #8b878450;
+    border: 0;
+    outline: none;
+}
+
+.games__label:last-of-type {
+    margin-right: 0;
+}
+
+.games__btn-1:checked ~ .games__item-01,
+.games__btn-2:checked ~ .games__item-02,
+.games__btn-3:checked ~ .games__item-03,
+.games__btn-4:checked ~ .games__item-04,
+.games__btn-5:checked ~ .games__item-05,
+.games__btn-6:checked ~ .games__item-06 {
+    display: block;
+}
+
+.games__btn-1:checked ~ .games__pagination label[for="games__btn-1"],
+.games__btn-2:checked ~ .games__pagination label[for="games__btn-2"],
+.games__btn-3:checked ~ .games__pagination label[for="games__btn-3"],
+.games__btn-4:checked ~ .games__pagination label[for="games__btn-4"],
+.games__btn-5:checked ~ .games__pagination label[for="games__btn-5"],
+.games__btn-6:checked ~ .games__pagination label[for="games__btn-6"] {
+    background-color: #8b8784;
+} 
+
+.games__item {
+    display: none;
+}
+
+.games__item-01,
+.games__item-02,
+.games__item-03,
+.games__item-04,
+.games__item-05,
+.games__item-06 {
+    min-height: 320px;
+}
+
+.game {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+.game__title {
+    font-size: 32px;
+    margin-bottom: 20px;    
+    margin-top: 0;    
+}
+
+.game__desc,
+.game__view {
+    width: 50%;
+}
+
+.game__desc {
+    align-self: center;
+}
+
+.game__card {
+    width: 350px;
+    height: 300px;
+    background: #FFFFFF;
+    border-radius: 15px;
+    box-shadow: 0 0 10px 0 grey;  
+    -webkit-transition: -webkit-transform .25s ease-in-out;
+    transition: -webkit-transform .25s ease-in-out;
+    transition: transform .25s ease-in-out;
+    transition: transform .25s ease-in-out,-webkit-transform .25s ease-in-out;
+    position: relative;
+    margin-left: auto;
+    background-size: cover;
+    background-position-x: center;
+    background-position: center;
+}
+
+.game__card-01 {
+    background-image: url("../../../assets/images/test.gif"); 
+}
+
+.game__card-02 {
+    background-image: url("../../../assets/images/speakIt.gif"); 
+}
+
+.game__card-03 {
+    background-image: url("../../../assets/images/constructor.gif"); 
+}
+
+.game__card-04 {
+    background-image: url("../../../assets/images/skinwalker.gif"); 
+}
+
+.game__card-05 {
+    background-image: url("../../../assets/images/sprint.gif"); 
+}
+
+.game__card-06 {
+    background-image: url("../../../assets/images/audiochalenge.gif"); 
+}
+
+.game__top-part {    
+    width: 100%;
+    height: 220px;
+    background: #CCE6C1;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.game__image-wrapper {
+    width: 111px;
+    height: 111px;
+    background: #FFFFFF;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.game__image {
+    width: 73px;
+    height: 73px;
+}
+
+.game__card-title {
+    font-style: normal;
+    font-weight: bold;
+    font-size: 26px;
+    line-height: 26px;
+    color: #030303;
+    padding-left: 29px;
+    padding-top: 17px;
+    margin: 0;
+}
+
+.game__text {
+    font-size: 16px;
+    line-height: 20px;
+    letter-spacing: 1px;
+}
+
+@media (max-width: 1300px) {
+    .game__card {
+        width: 310px;
+        height: 257px;
+    } 
+    
+    .game__top-part {    
+        height: 172px;
+    }    
+    
+    .game {
+        max-width: 900px;
+        margin: 0 auto;
+    }
+}
+
+@media (max-width: 700px) {
+    .game {
+        flex-direction: column;
+    }
+    
+    .game__desc,
+    .game__view {
+        width: 100%;
+    }
+
+    .game__text {
+        margin-bottom: 40px;
+    }
+
+    .game__card {
+        margin: 0 auto;
+        font-size: 24px;
+    }
+}
+
+@media (max-width: 500px) {
+    .game__card {
+        width: 260px;
+    }    
+}
+
+@media (max-width: 425px) {
+    .games__title {
+        font-size: 32px;
+    }
+}
+
+@media (max-width: 390px) {
+    .game__card {
+        width: 240px;
+    } 
+}

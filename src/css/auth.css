@@ -71,7 +71,7 @@
 
 .auth .user-password {
     padding-right: 35px;
-    width: 220px!important;
+    width: 215px!important;
 }
 
 .auth input:focus:not([type="submit"]) {
