@@ -141,6 +141,7 @@
     transition: transform .2s ease;
     z-index: 5;
     color: #605a56;
+    text-shadow: 0 0 3px white;
 }
 
 .dictionary-learning-words {

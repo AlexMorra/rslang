@@ -29,7 +29,7 @@ export default class Statistics {
         },
         {
           label: 'Слов тренированно',
-          data: this.getData('words'),
+          data: this.getData('trainingTimes'),
           backgroundColor: 'rgba(0,255,0,0)',
           borderColor: [
             'rgba(54, 162, 235, 1)'
@@ -65,9 +65,6 @@ export default class Statistics {
       date = date.join(' ');
       let data = usersAppState.userStatistics.optional[date];
       if (data) {
-        if (value === 'words') {
-          return data[value].length;
-        }
         return data[value];
       }
       return 0;

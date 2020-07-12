@@ -153,6 +153,14 @@
     }
 }
 
+@media  (max-width : 320px) {
+    .cp-cards,
+    .cp-stats,
+    .cp-header {
+        border-radius: 0;
+    }
+}
+
 /* PROGRESS BAR */
 .cp-stats-progress {
     display: flex;

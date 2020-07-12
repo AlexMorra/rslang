@@ -41,9 +41,8 @@ export default class ControlPanel extends wordsCardList {
         .filter(obj => obj.difficulty === card).length;
       cardTemplate.innerHTML = `
              <div class="cp-card" data-card="${card}">
-                <div class="card-title">Карточка ${card}</div>
+                <div class="card-title">Коллекция слов ${card}</div>
                 <div class="card-progress"> ${userWordsInCard} из ${wordCards[card].length} </div>
-                <div class="card-control">1</div>
             </div>`;
       cardsWrapper.append(cardTemplate.content);
     });
@@ -134,7 +133,7 @@ export default class ControlPanel extends wordsCardList {
               </div>
           </div>
           <div class="cp-cards">
-              <h2>Карточки слов</h2>
+              <h2>Коллекции слов</h2>
           </div>
         </div>
     `;
