@@ -34,6 +34,7 @@ export default class Account {
       wordsPerDay: 1,
       optional: {
         username: username,
+        userEmail: usersAppState.userEmail,
         trainingGoal: goal,
         userLevel: usersAppState.userLevel,
         userExp: usersAppState.userExp,
@@ -62,6 +63,7 @@ export default class Account {
     // update options before append the template
     let trainingGoal = template.getElementById(usersAppState.trainingGoal);
     let username = template.getElementById('username');
+    let userEmail = template.getElementById('userEmail');
     let nightMode = template.getElementById('nightMode');
     let translateWord = template.getElementById('translateWord');
     let explanationExamples = template.getElementById('explanationExamples');
@@ -70,7 +72,8 @@ export default class Account {
     let picturesWords = template.getElementById('picturesWords');
     let playAudio = template.getElementById('playAudio');
     trainingGoal.checked = true;
-    username.value = usersAppState.username || ' ';
+    username.value = usersAppState.username;
+    userEmail.textContent = usersAppState.userEmail;
     nightMode.checked = usersAppState.nightMode;
     translateWord.checked = usersAppState.translateWord;
     explanationExamples.checked = usersAppState.explanationExamples;
@@ -88,12 +91,12 @@ export default class Account {
         <div class="account-section"><span class="account-section-title">Аккаунт</span></div>
         <div class="account-row">
             <i class="far fa-user"></i>
-            <input type="input" class="input-name" id="username">
+            <input type="input" class="input-name" id="username" autocomplete="off">
         </div>
         <hr>
         <div class="account-row">
             <i class="far fa-envelope"></i>
-            <span>k77.wolf@gmail.com</span>
+            <span id="userEmail"></span>
         </div>
         <hr>
         <div class="account-section"><span class="account-section-title goal">Ежедневная цель</span></div>

@@ -10,6 +10,8 @@ export default class Auth {
 
   showLoginPage() {
     window.currentPage = 'auth';
+    let createPage = document.querySelector('.user-create-page');
+    if (createPage) createPage.remove();
     this.body.classList.remove('night-mode');
     this.body.prepend(this.loginPageTemplate.cloneNode(true));
     let passwordVisibilityBtn = document.querySelector('.show-password');
@@ -26,9 +28,11 @@ export default class Auth {
     loginPage.remove();
     this.body.prepend(this.createPageTemplate.cloneNode(true));
     let passwordVisibilityBtn = document.querySelector('.show-password');
-    let createUserBtn = document.getElementById('create-user');
     passwordVisibilityBtn.addEventListener('click', this.passwordVisibility);
+    let createUserBtn = document.getElementById('create-user');
     createUserBtn.addEventListener('click', this.createHandler.bind(this));
+    let routeToLogin = document.querySelector('.route-to-user-login');
+    routeToLogin.addEventListener('click', () => this.showLoginPage());
   }
 
   loginHandler(e) {
@@ -44,7 +48,7 @@ export default class Auth {
         if (response) {
           localStorage.setItem('token', response.token);
           localStorage.setItem('user_id', response.userId);
-          this.loginSuccess();
+          this.loginSuccess(email);
         }
       });
     }
@@ -52,10 +56,8 @@ export default class Auth {
 
   createHandler(e) {
     e.preventDefault();
-    let inputUsername = document.getElementById('create-username');
     let inputEmail = document.getElementById('create-email');
     let inputPassword = document.getElementById('create-password');
-    let username = inputUsername.value;
     let email = inputEmail.value;
     let password = inputPassword.value;
     if (this.emailValidator(email) && this.passwordValidator(password)) {
@@ -112,19 +114,24 @@ export default class Auth {
     this.showLoginPage();
   }
 
-  loginSuccess() {
-    if (!window.logout) menu.show();
+  loginSuccess(email = null) {
     window.currentPage = null;
     let userLoginPage = document.querySelector('.user-login-page');
     if (userLoginPage) userLoginPage.remove();
     usersAppState.getUserWords().finally(() => {
-      usersAppState.getUserStatistics();
+      usersAppState.getUserStatistics().then(() => {
+        if (!window.logout) menu.show();
+      });
     });
     usersAppState.getUserSettings().then(nightMode => {
       if (nightMode) {
         console.log('AUTH - GET USER SETTINGS');
         let body = document.querySelector('body');
         body.classList.add('night-mode');
+      }
+      if (email && usersAppState.userEmail !== email) {
+        usersAppState.userEmail = email;
+        usersAppState.setUserSettings(usersAppState.getUserSettingsData());
       }
     });
   }
@@ -222,9 +229,9 @@ export default class Auth {
     template.innerHTML = `
         <div class="user-login-page auth">
           <form action="">
-              <div class="auth-wrapper">
+              <div class="auth-wrapper" style="height: 280px">
                   <h1 class="auth-logo">RS Lang</h1>
-                  <h3 class="auth-title" style="margin-bottom: 25px">Добро пожаловать!</h3>
+                  <h3 class="auth-title">Добро пожаловать!</h3>
                   <div class="input-container">
                       <i class="far fa-envelope"></i>
                       <input type="email" id="login-email" placeholder="Адрес электронной почты" autocomplete="on">
@@ -253,10 +260,6 @@ export default class Auth {
                   <h1 class="auth-logo">RS Lang</h1>
                   <h3 class="auth-title">Добро пожаловать!</h3>
                   <div class="input-container">
-                      <i class="far fa-user"></i>
-                      <input type="text" id="create-username" placeholder="Ваше имя">
-                  </div>
-                  <div class="input-container">
                       <i class="far fa-envelope"></i>
                       <input type="email" id="create-email" placeholder="Адрес электронной почты" autocomplete="on">
                   </div>
@@ -267,6 +270,7 @@ export default class Auth {
                   </div>
                   <ul class="error-message"></ul>
                   <input type="submit" value="Создать" class="btn user-create-btn" id="create-user">
+                  <p class="route-to-user-login">войти</p>
               </div>
           </form>
         </div>
