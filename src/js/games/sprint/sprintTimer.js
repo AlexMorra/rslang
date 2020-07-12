@@ -1,3 +1,4 @@
+import { usersAppState } from '../../../app';
 export default class SprintTimer {
   constructor(time = 5) {
     this.time = time;
@@ -28,17 +29,18 @@ export default class SprintTimer {
   startTimer() {
     const timerField = this.element.querySelector('.j-time');
     this.intervalId = setInterval(() => {
+      const audio = new Audio('./assets/sounds/sprint-timer.mp3');
       if (this.time > 1) {
         this.time--;
         timerField.innerHTML = this.time;
+        if (this.time === 5 && usersAppState.appSound === true) {
+          audio.preload = 'auto';
+          audio.play();
+          setTimeout(() => { audio.pause(); }, 5000);
+        }
       } else {
         this.destroy();
       }
-      // if (this.time === 6 && usersAppState.appSound === true) {
-      //   const audio = new Audio('./assets/sounds/sprint-timer.mp3');
-      //   audio.preload = 'auto';
-      //   audio.play();
-      // }
     }, 1000);
   }
 

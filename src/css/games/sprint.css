@@ -235,9 +235,6 @@ li {
         margin: 0 0 58px;
         padding: 0 55px;
     }
-    .sprint__card, .sprint__counter {
-        margin-left: 55px;
-    }
 }
 
 @media (min-width: 320px) and (max-width: 400px) {
