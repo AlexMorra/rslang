@@ -294,7 +294,6 @@ export default class Savanna {
   }
 
   checkAnswer(target) {
-    console.log(target);
     const answer = target.innerHTML;
     this.questionWrapper.classList.remove('fall');
     this.gameOn = false;

@@ -137,7 +137,7 @@ export default class WordsCardList {
       <div class="word-list-row">
         ${wordCheckbox}
         <i class="fas fa-volume-up" data-audio="play" data-src="${word.audio}"></i>
-        <div class="word-audio-call">
+        <div class="word">
             ${word.word}
         </div>
         <span class="dash">—</span>
