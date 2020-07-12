@@ -85,10 +85,6 @@ export default class Sprint {
         this.timer.clearInterval();
         this.card.removeKeyEventsFromCardButtons();
       }
-      const wrapper = document.querySelector('.tab-wrapper');
-      if (wrapper.innerHTML !== '') {
-        wrapper.innerHTML = '';
-      }
     });
   }
 
