@@ -55,3 +55,6 @@ auth.authorized().then(authorized => {
     }
   }, 10000);
 });
+
+// import LANDING from './js/landing/landing';
+// new LANDING().show();

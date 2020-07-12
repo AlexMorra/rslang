@@ -16,6 +16,7 @@
 @import "games/sprint.css";
 @import "statistics.css";
 @import "team.css";
+@import "landing/landing.css";
 
 * {
     margin: 0;

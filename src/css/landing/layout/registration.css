@@ -1,0 +1,109 @@
+.button {
+    cursor: pointer;
+    background: none;
+    border: none;
+    outline: none;
+    box-sizing: border-box;
+    text-align: center;
+}
+
+.registration {
+    padding: 20px 0 60px;
+}
+
+.registration__wrapper {
+    padding: 0 40px;
+    min-height: 400px;
+    display: flex;
+    align-items: center;    
+    flex-wrap: wrap;
+}
+
+.registration__lead {
+    width: 80%;
+    font-weight: 700;
+    font-size: 41px;
+    line-height: 50px;
+    -webkit-font-smoothing: antialiased;
+    letter-spacing: 2px;
+    margin: 0 auto;
+    margin-bottom: 100px;
+}
+
+.registration__desc {
+    font-weight: 400;
+    font-size: 28px;
+    line-height: 36px;
+    -webkit-font-smoothing: antialiased;
+    letter-spacing: 4px;
+    margin-bottom: 40px;
+}
+
+.icon {
+    display: inline-block;
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    width: 40px;
+    height: 40px;
+}
+
+.cat {
+    background-image: url("../../../assets/images/cat-emoji.png");
+}
+
+.duck {
+    background-image: url("../../../assets/images/duck-emoji.png");
+}
+
+.dog {
+    background-image: url("../../../assets/images/dog-emoji.png");
+}
+
+.registration__button-wrapper {
+    display: flex;
+    justify-content: center;
+    margin: 0 auto;
+}
+
+.registration__button {
+    text-decoration: none;
+    padding: 15px;
+    font-size: 16px;
+    border-radius: 15px;
+    border: 1px solid transparent;
+    border: 1px solid #103482;
+    margin-right: 10px;
+}
+
+.registration__button--new {
+    background-color: #103482;
+    color: white;
+}
+
+.registration__button:hover,
+.registration__button:active {    
+    box-shadow: 0 0 8px rgba(0,0,0,0.1);
+}
+
+@media (max-width: 700px){
+    .registration__lead  {
+        letter-spacing: 0;
+    }
+}
+
+@media (max-width: 425px) {
+    .registration__lead {
+        font-size: 28px;
+        line-height: 36px;
+        margin-bottom: 40px;
+    }
+
+    .registration {
+        padding: 40px 0 40px;        
+    }
+    
+    .registration__wrapper {
+        min-height: 200px;
+    }
+}
