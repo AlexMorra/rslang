@@ -40,7 +40,7 @@ export default class SpeakIt {
     startPage.innerHTML = `
       <div class="tab-wrapper speak-it">
         <div class="speak-it__start-page">
-          <div class="speak-it__start-page__title">Скажи это
+          <div class="speak-it__start-page__title">Говори правильно
           </div>
           <p class="speak-it__start-page__description">Нажмите на слово, чтобы услышать его произношение.
           Нажмите на кнопку и произнесите слова в микрофон.</p>

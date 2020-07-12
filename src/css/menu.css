@@ -1,6 +1,10 @@
+:root {
+    --menu_width: 55px;
+}
+
 .nav-menu {
     height: 100%;
-    width: 55px;
+    width: var(--menu_width);
     position: fixed;
     list-style: none;
     background-color: white;

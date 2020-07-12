@@ -1,16 +1,16 @@
 body {
     margin: 0;
     font-family: 'Roboto', sans-serif;
- }
- 
- /* Your game css */
- 
- .tab-wrapper.audiocall {   
-     padding: 0;
-     margin: 0;
- }
+}
 
- .audiocall__main {
+/* Your game css */
+
+.tab-wrapper.audiocall {
+    padding: 0;
+    margin: 0;
+}
+
+.audiocall__main {
     background-color: #ffffff;
     border-radius: 20px;
     max-width: 1100px;
@@ -18,95 +18,96 @@ body {
     margin: 0 auto;
     box-shadow: 0px 0px 5px 5px rgba(221, 221, 221, 1);
 }
- 
- .audiocall {
-     background-image: url("../../../assets/images/bg-04.png");
-     background-color: #078f81;
-     background-repeat: no-repeat;
-     background-position-y: 100%;
-     background-position-x: center;
-     background-size: cover;
-     transition: all 1s ease;
-     width: 100vw;
-     height: 100vh;
-     position: relative;
-     overflow: hidden;
- }
- 
- .intro {
-     width: 100%;
-     height: 100%;
-     display: flex;
-     flex-direction: column;
-     justify-content: center;
-     align-items: center;
- }
- 
- .intro__title {
-     font-size: 40px;
-     font-weight: 300;
-     line-height: 1;
-     margin-bottom: 60px;
-     color: #6cffde;
-   /* color:white;
-     color: #F9BA48; */
-     opacity: .8;
-     text-transform: uppercase;
-     -webkit-font-smoothing: antialiased;
-     letter-spacing: 13px;
- }
- 
- .intro__description,
- .word-wrapper {
-     text-align: center;
-     max-width: 565px;
-     margin: 0 auto 58px;
-     font-size: 16px;
-     line-height: 22px;
-     font-weight: 300;
-     color: #fff;
-   /* color: #CCE6C1; */
-     opacity: .8;
- }
 
- .word-wrapper {
-     display: flex;
-     width: 100%;
-     flex-direction: row;
-     justify-content: space-between;
- }
- 
- .word {
+.audiocall {
+    background-image: url("../../../assets/images/bg-04.png");
+    background-color: #078f81;
+    background-repeat: no-repeat;
+    background-position-y: 100%;
+    background-position-x: center;
+    background-size: cover;
+    transition: all 1s ease;
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+    overflow: hidden;
+}
+
+.intro {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.intro__title {
+    font-size: 40px;
+    font-weight: 300;
+    line-height: 1;
+    margin-bottom: 60px;
+    color: #6cffde;
+    /* color:white;
+      color: #F9BA48; */
+    opacity: .8;
+    text-transform: uppercase;
+    -webkit-font-smoothing: antialiased;
+    letter-spacing: 13px;
+}
+
+.intro__description,
+.word-wrapper {
+    text-align: center;
+    max-width: 700px;
+    margin: 0 auto 58px;
+    font-size: 16px;
+    line-height: 22px;
+    font-weight: 300;
+    color: #fff;
+    /* color: #CCE6C1; */
+    opacity: .8;
+}
+
+.word-wrapper {
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.word-audio-call {
     position: relative;
     cursor: pointer;
- }
+    padding: 5px 10px;
+}
 
- .word:hover {
+.word-audio-call:hover {
     background: #fff4;
     border-radius: 4px;
-    }
+}
 
- .correct {
+.correct {
     position: absolute;
-    top: 1px;
+    top: 6px;
     left: -23px;
     width: 20px;
     height: 20px;
     background: url(../../../assets/icons/tick.svg) no-repeat center 50%;
     background-size: cover;
- }
+}
 
- .wrong {
+.wrong {
     position: absolute;
-    top: 1px;
+    top: 6px;
     left: -23px;
     width: 20px;
     height: 20px;
     background: url(../../../assets/icons/cross.svg) no-repeat center 50%;
     background-size: cover;
- }
+}
 
- .sound {
+.sound {
     cursor: pointer;
     background: none;
     border: none;
@@ -126,13 +127,13 @@ body {
 }
 
 .sound.off {
-  background: url("../../../assets/images/sound-off-white.svg");
-  background-position: center;
-  background-repeat: no-repeat;
+    background: url("../../../assets/images/sound-off-white.svg");
+    background-position: center;
+    background-repeat: no-repeat;
 }
 
 
- .into__button {
+.into__button {
     margin: 0 auto;
     display: inline-block;
     cursor: pointer;
@@ -153,13 +154,13 @@ body {
     border-radius: 4px;
     transition: all .15s ease;
     box-sizing: border-box;
- }
- 
- .into__button:hover {
-     opacity: .9;
- }
+}
 
- @media (max-width: 700px) {
+.into__button:hover {
+    opacity: .9;
+}
+
+@media (max-width: 700px) {
     .word-wrapper {
         display: flex;
         flex-direction: column;
@@ -167,11 +168,10 @@ body {
     }
 
     .wrong {
-        left: initial;
+        top: 6px;
     }
 
     .correct {
-        left: initial;
+        top: 6px;
     }
- }
- 
+}

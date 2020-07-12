@@ -142,7 +142,7 @@ export default class Landing {
                 <section class="games__item games__item-02">
                   <div class="game">
                     <div class="game__desc">
-                      <h3 class="game__title">Скажи это</h3>
+                      <h3 class="game__title">Говори правильно</h3>
                       <p class="game__text">Нажмите на слово, чтобы услышать его произношение.<br>
                         Нажмите на кнопку и произнесите слова в микрофон.</p>
                     </div>          

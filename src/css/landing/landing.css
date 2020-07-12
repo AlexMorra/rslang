@@ -8,11 +8,8 @@
 @import "layout/footer.css";
 @import "layout/tiny-slider.css";
 
-*, ::after, ::before {
-    box-sizing: border-box;
-}
-
-.tab-wrapper.landing {   
+.tab-wrapper.landing,
+::after, ::before {
     padding: 0;
     margin: 0;
 }
@@ -22,6 +19,7 @@ body .landing {
     font-weight: 400;
     color: #1a3b71;
     background-color: #ffffff;
+    box-sizing: border-box;
 }
 
 .container {
