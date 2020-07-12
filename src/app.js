@@ -30,31 +30,30 @@ export let menu = new Menu(
 );
 
 // check if user has session and load settings if has
-// auth.authorized().then(authorized => {
-//   if (!authorized && window.currentPage !== 'auth') {
-//     auth.showLoginPage();
-//   } else {
-//     auth.loginSuccess();
-//     setTimeout(() => {
-//       // uncomment if you want to delete all words. And refresh page :D
-//       // usersAppState.getAllWords().forEach(word => {
-//       //   usersAppState.deleteUserWord(word.wordId).then(() => console.log('------------------'));
-//       // });
-//     }, 2000);
-//   }
-// }).finally(() => {
-//   // set the session check every 10 seconds
-//   setInterval(() => {
-//     if (window.currentPage !== 'auth') {
-//       auth.authorized().then(authorized => {
-//         if (!authorized) {
-//           window.logout = true;
-//           auth.showLoginPage();
-//         }
-//       });
-//     }
-//   }, 10000);
-// });
+auth.authorized().then(authorized => {
+  if (!authorized && window.currentPage !== 'auth') {
+    auth.showLoginPage();
+  } else {
+    auth.loginSuccess();
+    setTimeout(() => {
+      // uncomment if you want to delete all words. And refresh page :D
+      // usersAppState.getAllWords().forEach(word => {
+      //   usersAppState.deleteUserWord(word.wordId).then(() => console.log('------------------'));
+      // });
+    }, 2000);
+  }
+}).finally(() => {
+  // set the session check every 10 seconds
+  setInterval(() => {
+    if (window.currentPage !== 'auth') {
+      auth.authorized().then(authorized => {
+        if (!authorized) {
+          window.logout = true;
+          auth.showLoginPage();
+        }
+      });
+    }
+  }, 10000);
+});
 
-import LANDING from './js/landing/landing';
-new LANDING().show();
+
