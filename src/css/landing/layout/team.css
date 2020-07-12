@@ -39,7 +39,6 @@
     position: relative;
     margin: 90px 15px 40px;
     width: 230px; 
-    outline: 1px solid red;
 } 
 
 .landing .person__desc {
@@ -49,8 +48,6 @@
     align-items: center;
     background-color: #fff;
     border-radius: 15px;
-    padding: 20px;
-    padding-top: 86px;
     padding: 67px 14px 20px;
     position: absolute;
     top: 120px;

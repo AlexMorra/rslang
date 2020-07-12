@@ -318,14 +318,14 @@ export default class Landing {
 
   enterButtonClickHandler() {
     this.enterButtons.addEventListener('click', (event) => {
-      console.log('click')
-       if (event.target.classList.contains('registration__button--enter')) {
-         console.log('enter')
-       }
+      console.log('click');
+      if (event.target.classList.contains('registration__button--enter')) {
+        console.log('enter');
+      }
 
-       if (event.target.classList.contains('registration__button--new')) {
-        console.log('registaration')
-       }
+      if (event.target.classList.contains('registration__button--new')) {
+        console.log('registaration');
+      }
     });
   }
 
@@ -357,11 +357,11 @@ export default class Landing {
           items: 2
         },
         956: {
-          items: 3,
+          items: 3
           // fixedWidth: 230
         },
         1400: {
-          items: 4,
+          items: 4
         }
       },
       preventScrollOnTouch: 'force',
@@ -379,7 +379,7 @@ export default class Landing {
     this.navigationClickHandler();
     this.genearateTeam();
     this.enterButtonClickHandler();
-    
+
     this.sliderInit();
   }
 }
