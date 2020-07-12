@@ -177,7 +177,6 @@ function addEventHandlerInStatistic() {
       case 'nav-training':
         new TrainingCards().show();
         break;
-
     }
   });
 }

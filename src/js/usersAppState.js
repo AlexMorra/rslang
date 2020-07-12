@@ -391,7 +391,7 @@ export default class State {
   getTrainingWords(count = 10) {
     this.words = [];
     const delWords = this.deletedWords.map(obj => {
-      return wordCards[obj.difficulty].find(word => word.id === obj.wordId)
+      return wordCards[obj.difficulty].find(word => word.id === obj.wordId);
     });
 
     // return words and add from cards to the user dictionary if words not enough
