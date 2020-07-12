@@ -161,7 +161,7 @@ export default class TrainingCards {
                                                        <i class="fas fa-volume-up" data-audio="play-meaning" data-src="${word.audioMeaning}"></i> 
                                                        <p>Значение:</p>
                                                        <p class="word-meaning">${word.textMeaning}</p>
-                                                       <p class="word-meaning-translate">${word.textExampleTranslate}</p>
+                                                       <p class="word-meaning-translate">${word.textMeaningTranslate}</p>
                                                     </div> ` : '';
     let wordExample = usersAppState.explanationExamples ? `<div class="word-example-container">
                                                               <i class="fas fa-volume-up" data-audio="play-example" data-src="${word.audioExample}"></i> 

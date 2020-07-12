@@ -510,7 +510,7 @@ export default class State {
 
   // update optional.forceRepeat
   updateForceRepeatWord(wordId, value) {
-    this.userWord = [...this.learningWords, this.difficultWords]
+    this.userWord = [...this.learningWords, ...this.difficultWords]
       .find(word => word.wordId === wordId);
     this.wordData = {
       difficulty: this.userWord.difficulty,
