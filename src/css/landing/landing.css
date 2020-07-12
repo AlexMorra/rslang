@@ -6,7 +6,6 @@
 @import "layout/slider.css";
 @import "layout/games.css";
 @import "layout/footer.css";
-@import "layout/tiny-slider.css";
 
 .tab-wrapper.landing,
 ::after, ::before {
