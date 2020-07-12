@@ -19,6 +19,7 @@ export default class TrainingCards {
     this.wordsStatistic = [];
     this.incorrect = 0;
     this.answered = false;
+    this.newWordsStatistic = [];
   }
 
   show() {
@@ -63,10 +64,16 @@ export default class TrainingCards {
           this.initCard();
         } else {
           console.log('END!!!!');
-          utils.destroy();
-          setTimeout(() => {
-            this.mainArea.append(this.getTrainingStatistic(10));
-          }, 400);
+          this.wordsStatistic.forEach(el => {
+            el.translate = el.wordTranslate;
+            el.audioSrc = el.audio;
+            if(el.incorrect) {
+              el.isLearned = false
+            } else {
+              el.isLearned = true
+            }
+          })
+          utils.getStatistic(this.wordsStatistic);
         }
         break;
       case 'difficult-btn':
@@ -245,48 +252,4 @@ export default class TrainingCards {
     return `<span class="training-new-word">${innerLetters}</span>`;
   }
 
-  createWordStats(word) {
-    let tr = document.createElement('tr');
-    tr.classList.add('stats-row');
-    if (word.incorrect) {
-      tr.style.backgroundColor = '#ff00001a';
-    } else {
-      tr.style.backgroundColor = '#0080001a';
-    }
-    tr.innerHTML = `
-       <td>${word.word}</td>
-       <td>${word.wordTranslate}</td>
-       <td>${word.incorrect ? word.incorrect : ''}</td>
-    `;
-
-    return tr;
-  }
-
-  getTrainingStatistic() {
-    let template = document.createElement('template');
-    template.innerHTML = `
-    <div class="tab-wrapper training-card-statistic">
-        <div class="statistic-header">
-            <i class="fas fa-times"></i>
-        </div>
-        <table>
-            <tr>
-                <th>Слово</th>
-                <th>Перевод</th>
-                <th>Попыток</th>
-            </tr>
-        </table>
-    </div>
-    `;
-    this.wordsStatistic.forEach(word => {
-      template.content.querySelector('table').append(this.createWordStats(word));
-    });
-    const closeBtn = template.content.querySelector('.statistic-header i');
-    closeBtn.addEventListener('click', this.closeStatistic);
-    return template.content;
-  }
-
-  closeStatistic() {
-    document.getElementById('nav-control-panel').click();
-  }
 }
