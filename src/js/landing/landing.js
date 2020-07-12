@@ -57,10 +57,7 @@ export default class Landing {
             <section id="registration" class="registration">
               <div class="registration__wrapper container">   
                 <h2 class="registration__lead">Увеличьте свой словарный запас с RSLang.</h2>
-<!--                 <p class="registration__desc"><span class="cat-text">Котик</span> <span class="cat icon"></span> говорит "Мяу!" <br>-->
-<!--                    Уточка <span class="duck icon"></span> говорит "Кря!" <br>-->
-<!--                    Собачка <span class="dog icon"></span> говорит "Do you speak english?"-->
-<!--                </p>-->
+              
                 <div class="registration__button-wrapper">
                   <a class="button registration__button registration__button--new" type="button">Зарегистрироваться</a>
                   <a class="button registration__button registration__button--enter" type="button">Войти</a>
@@ -386,7 +383,17 @@ export default class Landing {
     this.navigationClickHandler();
     this.genearateTeam();
     this.enterButtonClickHandler();
-
-    this.sliderInit();
   }
 }
+
+
+  // <div class="registration__desc">
+                //   <p class="registration__desc-text">
+                //     <span class="cat-text">Котик</span> 
+                //     <span class="cat icon"></span> говорит "Мяу!" <br>
+                //     <span class="duck-text">Уточка</span>
+                //     <span class="duck icon"></span> говорит "Кря!" <br>
+                //     <span class="duck-text">Собачка</span>
+                //     <span class="dog icon"></span> говорит "Do you speak english?"
+                //   </p>
+                // </div> 

@@ -21,7 +21,10 @@ const TEAM = [
     fullname: 'Дмитрий Доброгост',
     github: 'DzmitryDabrahost',
     telegram: 'dzmitryDabrahost',
-    features: ['игра "Найди пару"']
+    features: [
+      'игра "Найди пару"',
+      'презентация проекта'
+    ]
   },
   {
     image: 'unit-2.jpg',
