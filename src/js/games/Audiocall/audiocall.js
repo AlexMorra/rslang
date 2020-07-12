@@ -127,7 +127,7 @@ export default class Audiocall {
           setTimeout(() => {
             utils.destroy();
             this.handleStart();
-          }, 600);
+          }, 5000);
         }
         // ---- если слово НЕ совпало----:
         else {
@@ -156,7 +156,7 @@ export default class Audiocall {
         <h1 class="intro__title">Аудиовызов</h1>
         <div class="word-wrapper">
         </div>
-        <button class="into__button">Не знаю</button>
+        <button class="into__button">Повторить слово</button>
       </div>
     </div>
     `;
