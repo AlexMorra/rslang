@@ -7,6 +7,7 @@ export default class State {
     this.trainingGoal = 2;
     this.wordsPerDay = 1;
     this.username = 'User';
+    this.userEmail = '@email';
     this.examplesUsing = true;
     this.explanationExamples = true;
     this.nightMode = false;
@@ -240,6 +241,7 @@ export default class State {
       optional: {
         trainingGoal: this.trainingGoal,
         username: this.username,
+        userEmail: this.userEmail,
         examplesUsing: this.examplesUsing,
         explanationExamples: this.explanationExamples,
         nightMode: this.nightMode,
@@ -262,6 +264,7 @@ export default class State {
     if (options) {
       this.trainingGoal = options.trainingGoal === undefined ? 2 : options.trainingGoal;
       this.username = options.username === undefined ? 'User' : options.username;
+      this.userEmail = options.userEmail === undefined ? '@email' : options.userEmail;
       this.nightMode = options.nightMode === undefined ? false : options.nightMode;
       this.translateWord = options.translateWord === undefined ? true : options.translateWord;
       this.explanationExamples = options.explanationExamples === undefined ? true : options.explanationExamples;

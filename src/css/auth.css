@@ -69,9 +69,9 @@
     color: inherit;
 }
 
-.auth #create-password {
+.auth .user-password {
     padding-right: 35px;
-    width: 220px;
+    width: 220px!important;
 }
 
 .auth input:focus:not([type="submit"]) {
@@ -94,7 +94,7 @@
 
 .user-create-btn {
     position: absolute;
-    bottom: 10px;
+    bottom: 25px;
 }
 
 .user-login-btn {
@@ -106,7 +106,8 @@
     box-shadow: 0 0 5px 0 gray;
 }
 
-.route-to-user-create {
+.route-to-user-create,
+.route-to-user-login {
     position: absolute;
     bottom: 5px;
     font-size: 0.9em;
@@ -114,7 +115,8 @@
     font-weight: 300;
 }
 
-.route-to-user-create:hover {
+.route-to-user-create:hover,
+.route-to-user-login:hover {
     font-weight: 500;
 }
 
