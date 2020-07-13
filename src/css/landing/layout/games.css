@@ -296,4 +296,8 @@
     .game__text {
         margin-bottom: 40px;
     }
+
+    .game__title {
+        font-size: 24px;
+    }
 }
