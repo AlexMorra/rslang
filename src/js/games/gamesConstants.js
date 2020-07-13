@@ -26,7 +26,7 @@ const GAMES = [
   },
   {
     id: 'Skin Walker',
-    icon: 'translation.png',
+    icon: 'walker.png',
     title: 'Найди пару'
   }
 ];
