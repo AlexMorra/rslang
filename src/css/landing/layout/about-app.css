@@ -179,7 +179,7 @@
 
     .about-app__item {
         display: none;
-        margin-bottom: 300px;
+        height: 460px;
     }    
 
     .about-app__wrapper {
@@ -195,6 +195,13 @@
     .about-app__pagination {
         padding-top: 0;
         padding-bottom: 30px;
+    }
+}
+
+@media(max-width: 800px) {
+    .about-app {
+        background-size: 350px;
+        background-position: center 360px;
     }
 }
 
@@ -220,10 +227,17 @@
     } 
 }
 
-@media (max-width: 425px) {
+@media (max-width: 460px) {
     .about-app {
         background-size: 300px;
         background-position: center 520px;
+    }
+}
+
+@media (max-width: 425px) {
+    .about-app {
+        background-size: 300px;
+        background-position: center 460px;
     }
 
     .about-app__title {
@@ -246,7 +260,7 @@
     
     .about-app__item {
         margin: 0;
-        min-height: 700px;
+        min-height: 560px;
         padding: 0 20px;
     }
 
