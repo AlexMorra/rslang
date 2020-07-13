@@ -41,39 +41,6 @@
     margin-bottom: 40px;
 }
 
-.registration__desc {
-    font-weight: 400;
-    font-size: 28px;
-    line-height: 36px;
-    -webkit-font-smoothing: antialiased;
-    letter-spacing: 4px;
-    margin: 0 auto;
-    margin-bottom: 60px;
-    width: 80%;
-    display: flex;
-}
-
-.icon {
-    display: inline-block;
-    background-size: contain;
-    background-position: center;
-    background-repeat: no-repeat;
-    width: 40px;
-    height: 40px;
-}
-
-.cat {
-    background-image: url("../../../assets/images/cat-emoji.png");
-}
-
-.duck {
-    background-image: url("../../../assets/images/duck-emoji.png");
-}
-
-.dog {
-    background-image: url("../../../assets/images/dog-emoji.png");
-}
-
 .registration__button-wrapper {
     display: flex;
     justify-content: flex-start;
@@ -115,7 +82,7 @@
     color: white;
 }
 
-@media (max-width: 1000px) {
+@media (max-width: 1090px) {
     .registration {
         background-position: 70% 150px;
         background-size: 380px;
@@ -136,16 +103,32 @@
     }
 }
 
-@media (max-width: 700px) {
+@media (max-width: 760px) {
     .registration {
-        background-position: 110% 300px;
+        background-position: 100% 150px;
         background-size: 380px;
     }
+}
 
-    .registration__lead  {
+@media (max-width: 700px) {
+    .registration__wrapper {
+        min-height: 200px;
+        align-items: start; 
+    }
+
+    .registration {
+        background-size: 380px;
+        background-position-x: center;
+        background-position-y: 240px;
+        padding-bottom: 285px;
+    }
+    
+    .registration__lead {
+        width: 100%;
+        font-size: 32px;
+        line-height: 38px;
+        margin-bottom: 40px;
         letter-spacing: 0;
-        margin-bottom: 0;
-        margin-top: 20px;
     }
 
     .registration__desc {
@@ -156,12 +139,8 @@
         letter-spacing: 2px;
     }   
     
-    .registration__wrapper {
-        min-height: 500px;
-    }
-
     .registration__button-wrapper {
-        width: 80%;
+        width: 100%;
         margin-right: auto;
         margin: 0;
     }
@@ -177,12 +156,7 @@
         margin: 0; 
         display: flex;
         justify-content: center;
-    }
-
-    .registration__wrapper {
-        min-height: 200px;
-        align-items: start; 
-    }
+    }    
 
     .registration {
         background-position-x: center;
@@ -205,16 +179,4 @@
         line-height: 26px;
         margin-bottom: 40px;
     } 
-}
-
-@media (max-width: 320px) {
-    .registration__button-wrapper {
-        padding-bottom: 40px;
-    } 
-
-    .registration {
-        background-position-y: 280px;
-        background-size: 380px;
-        padding-bottom: 236px;
-    }
 }

@@ -103,6 +103,7 @@
     margin-bottom: auto;
     min-height: 250px;
     padding-bottom: 30px;
+    cursor: pointer;
 }
 
 .about-app__item-03,
@@ -117,7 +118,7 @@
 @media (max-width: 1360px) {
     .about-app {
         background-size: 400px;
-        background-position: center 270px;
+        background-position: center 215px;
     }
 
     .about-app__item { 
@@ -146,6 +147,13 @@
         min-height: 710px;
         padding-top: 100px !important;
     }
+
+    
+    .about-app__item { 
+        padding-left: 30px;
+        padding-right: 50px;
+        width: 30%;
+    }
 }
 
 @media (max-width: 1000px) {
@@ -156,6 +164,9 @@
 
     .about-app__item {
         width: 100%;
+        padding-left: 50px;
+        padding-right: 50px;
+        margin-top: 20px;
     }
 
     .about-app__btn-1:checked ~ .about-app__item-01,
@@ -187,6 +198,13 @@
     }
 }
 
+@media(max-width: 768px) {
+    .about-app {
+        background-size: 350px;
+        background-position: center 360px;
+    }
+}
+
 @media (max-width: 700px) {
     .about-app {
         background-position: center 480px;
@@ -194,8 +212,7 @@
     }
 
     .about-app__item { 
-        padding-left: 0;
-        padding-right: 0;
+        padding: 0 40px;
     }
 
     .about-app__wrapper {
@@ -230,7 +247,7 @@
     .about-app__item {
         margin: 0;
         min-height: 700px;
-        padding: 0;
+        padding: 0 20px;
     }
 
     .about-app__pagination {
@@ -248,10 +265,6 @@
         min-height: 900px;
         padding: 0;
     }
-/* 
-    .about-app__wrapper {
-        min-height: 710px;
-    } */
     
     .about-app__item-title {
         font-size: 18px;
@@ -266,4 +279,8 @@
         min-height: 700px;
         padding: 0;
     }
+
+    .about-app {
+        background-position: center 490px;
+    } 
 }
