@@ -7,8 +7,19 @@
     text-align: center;
 }
 
+.landing {
+    background-image: url("../../../assets/images/main-phone.svg");
+    background-position: 80% -150px;
+    background-size: 600px;
+    background-repeat: no-repeat;
+}
+
 .registration {
     padding: 20px 0 60px;
+    background-image: url("../../../assets/images/main-phone.png");
+    background-position: 60% 150px;
+    background-size: 380px;
+    background-repeat: no-repeat;
 }
 
 .registration__wrapper {
@@ -27,7 +38,7 @@
     -webkit-font-smoothing: antialiased;
     letter-spacing: 2px;
     margin: 0 auto;
-    margin-bottom: 100px;
+    margin-bottom: 40px;
 }
 
 .registration__desc {
@@ -36,7 +47,10 @@
     line-height: 36px;
     -webkit-font-smoothing: antialiased;
     letter-spacing: 4px;
-    margin-bottom: 40px;
+    margin: 0 auto;
+    margin-bottom: 60px;
+    width: 80%;
+    display: flex;
 }
 
 .icon {
@@ -62,7 +76,8 @@
 
 .registration__button-wrapper {
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
+    width: 80%;
     margin: 0 auto;
 }
 
@@ -74,6 +89,8 @@
     border: 1px solid transparent;
     border: 1px solid #103482;
     margin-right: 10px;
+    margin-top: auto;
+    transition: all .15s ease;
 }
 
 .registration__button--new {
@@ -86,24 +103,118 @@
     box-shadow: 0 0 8px rgba(0,0,0,0.1);
 }
 
-@media (max-width: 700px){
-    .registration__lead  {
-        letter-spacing: 0;
+.registration__button--new:hover,
+.registration__button--new:active   {
+    background-color: white;
+    color: #103482;
+}
+
+.registration__button--enter:hover, 
+.registration__button:active {
+    background-color: #103482;
+    color: white;
+}
+
+@media (max-width: 1000px) {
+    .registration {
+        background-position: 70% 150px;
+        background-size: 380px;
     }
 }
 
-@media (max-width: 425px) {
+@media (max-width: 930px) {
+    .registration {
+        background-position: 80% 150px;
+        background-size: 380px;
+    }
+}
+
+@media (max-width: 830px) {
+    .registration {
+        background-position: 90% 150px;
+        background-size: 380px;
+    }
+}
+
+@media (max-width: 700px) {
+    .registration {
+        background-position: 110% 300px;
+        background-size: 380px;
+    }
+
+    .registration__lead  {
+        letter-spacing: 0;
+        margin-bottom: 0;
+        margin-top: 20px;
+    }
+
+    .registration__desc {
+        font-weight: 400;
+        font-size: 24px;
+        line-height: 30px;
+        margin-bottom: 20px;
+        letter-spacing: 2px;
+    }   
+    
+    .registration__wrapper {
+        min-height: 500px;
+    }
+
+    .registration__button-wrapper {
+        width: 80%;
+        margin-right: auto;
+        margin: 0;
+    }
+
+    .registration__button--enter {
+        background-color: #ffffff;
+    }
+}
+
+@media (max-width: 600px) {
+    .registration__button-wrapper {
+        width: 100%;
+        margin: 0; 
+        display: flex;
+        justify-content: center;
+    }
+
+    .registration__wrapper {
+        min-height: 200px;
+        align-items: start; 
+    }
+
+    .registration {
+        background-position-x: center;
+        background-position-y: 240px;
+        background-size: 380px;
+        padding-bottom: 275px;
+    }
+
     .registration__lead {
         font-size: 28px;
         line-height: 36px;
         margin-bottom: 40px;
     }
+}
+
+@media (max-width: 425px) {
+    .registration__desc {
+        font-weight: 400;
+        font-size: 22px;
+        line-height: 26px;
+        margin-bottom: 40px;
+    } 
+}
+
+@media (max-width: 320px) {
+    .registration__button-wrapper {
+        padding-bottom: 40px;
+    } 
 
     .registration {
-        padding: 40px 0 40px;        
-    }
-    
-    .registration__wrapper {
-        min-height: 200px;
+        background-position-y: 280px;
+        background-size: 380px;
+        padding-bottom: 236px;
     }
 }

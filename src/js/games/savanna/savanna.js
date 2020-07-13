@@ -84,7 +84,9 @@ export default class Savanna {
 
       this.counterOn = true;
       this.tickPlay(this.initGame.bind(this));
+      
       this.playStartBellSound();
+
     }, 400);
   }
 
@@ -109,7 +111,9 @@ export default class Savanna {
 
       this.counterOn = true;
       this.tickPlay(this.initGame.bind(this));
+
       this.playStartBellSound();
+
     });
   }
 
