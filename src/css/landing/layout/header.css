@@ -139,7 +139,7 @@
 
     .header__navigation.header__navigation--open {
         display: block;
-        height: calc(100vh - 78px);
         padding-top: 100px;
+        height: calc(100vh - 100px);
     }
 }    

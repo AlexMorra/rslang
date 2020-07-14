@@ -23,7 +23,8 @@ const TEAM = [
     telegram: 'dzmitryDabrahost',
     features: [
       'игра "Найди пару"',
-      'презентация проекта'
+      'презентация проекта',
+      'gif-мастер'
     ]
   },
   {

@@ -1,6 +1,7 @@
 import * as utils from '../../utils';
 import { usersAppState } from '../../../app';
 import SavannaIntro from './savannaIntro';
+import KEY_CODES from './keyCodesContants';
 
 export default class Savanna {
   constructor() {
@@ -384,19 +385,19 @@ export default class Savanna {
   numberKeyPressHandler() {
     document.addEventListener('keyup', ({ keyCode } = event) => {
       if (this.gameOn) {
-        if (keyCode === 49 || keyCode === 35) {
+        if (KEY_CODES.NUM_ONE.includes(keyCode)) {
           this.checkAnswer(this.allAnswers[0]);
         }
-  
-        if (keyCode === 50 || keyCode === 40) {
+
+        if (KEY_CODES.NUM_TWO.includes(keyCode)) {
           this.checkAnswer(this.allAnswers[1]);
         }
-  
-        if (keyCode === 51 || keyCode === 34) {
+
+        if (KEY_CODES.NUM_THREE.includes(keyCode)) {
           this.checkAnswer(this.allAnswers[2]);
         }
-  
-        if (keyCode === 52 || keyCode === 37) {
+
+        if (KEY_CODES.NUM_FOUR.includes(keyCode)) {
           this.checkAnswer(this.allAnswers[3]);
         }
       }      

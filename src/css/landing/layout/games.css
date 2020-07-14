@@ -27,6 +27,9 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    align-self: center;
+    box-sizing: border-box;
+    text-align: center;
 }
 
 .games .games__btn {
@@ -164,6 +167,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    box-sizing: border-box;
 }
 
 .game__image {
@@ -205,8 +209,17 @@
 }
 
 @media (max-width: 700px) {
+    .games {
+        min-height: 730px;
+    }
+
+    .games__title {
+        margin-bottom: 30px;
+    }
+
     .game {
         flex-direction: column;
+        padding-bottom: 80px;
     }
     
     .game__desc,
@@ -216,11 +229,27 @@
 
     .game__text {
         margin-bottom: 40px;
+        height: 100px;
     }
 
     .game__card {
         margin: 0 auto;
         font-size: 24px;
+    }
+
+    .games__wrapper {
+        position: relative;
+    }
+
+    .games__pagination {
+        position: absolute;
+        margin: 0 !important;
+        bottom: 20px;
+        left: 0;
+    }
+    
+    .games__wrapper {
+        justify-content: center;
     }
 }
 
@@ -236,8 +265,39 @@
     }
 }
 
-@media (max-width: 390px) {
+@media (max-width: 398px) {
     .game__card {
         width: 240px;
     } 
+
+    .game__title {
+        font-size: 30px;
+        margin-bottom: 20px;
+        margin-top: 0;
+    }
+
+    .game__text {
+        height: 134px;
+    }
+}
+
+
+@media (max-width: 375px) {
+    .game__title {
+        font-size: 26px;
+    }
+
+    .game__text {
+        margin-bottom: 10px;
+    }
+}
+
+@media (max-width: 320px) {
+    .game__text {
+        margin-bottom: 40px;
+    }
+
+    .game__title {
+        font-size: 24px;
+    }
 }
