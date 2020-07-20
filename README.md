@@ -31,4 +31,6 @@ Moment.js - это библиотека для работы с датами в J
 работает как в бразуерах, так и в Node.js;
 простой JS API.
 
+<a href="https://rslang-team68-alexmorra.netlify.app"># Рабочая версия приложения</a>
+
 
